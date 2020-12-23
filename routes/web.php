@@ -20,3 +20,6 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->middleware('verified');
+Route::get('/training/dashboard', 'TraningController@dashboard');
+Route::get('/training/recommendation', 'TraningController@recommendation');
+Route::resource('training', 'TraningController');

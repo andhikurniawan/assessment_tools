@@ -1,10 +1,6 @@
-@extends('layouts.app')
-
+@extends('main')
+@section('title', 'Dashboard')
+@section('dashboard', 'active')
 @section('content')
-<div class="container">
-    <div class="row">
 
-
-    </div>
-</div>
 @endsection
