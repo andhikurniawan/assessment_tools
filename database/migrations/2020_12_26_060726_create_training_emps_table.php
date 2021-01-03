@@ -18,6 +18,9 @@ class CreateTrainingEmpsTable extends Migration
             $table->integer('user_id');
             $table->unsignedBigInteger('id_training');
             $table->string('status', 100);
+            $table->string('type', 100);
+            $table->string('recommended_by', 100);
+            $table->string('reason', 100);
             $table->softDeletes();
             $table->timestamps();
         });

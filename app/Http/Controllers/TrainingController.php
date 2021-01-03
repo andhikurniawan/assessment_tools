@@ -26,10 +26,9 @@ class TrainingController extends Controller
      */
     public function create()
     {
-        $training = DB::table('user')->leftJoin('training_emps', 'training_emps.user_id', '=', 'user.id')
-            ->join('user_role', 'user_role.user_id', '=', 'user.id')->where('training_emps.id_training', '=', null)->where('user_role.role_id', '=', 'User')->get();
-
-        return view('training.create', compact('training'));
+        $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session','assessment_competency_result.session_id', '=', 'assessment_session.id')->distinct()->get();
+        $employee = DB::table('user')->get();
+        return view('training.create')->with('assessment_result', $assessment_result)->with('employee', $employee);
     }
 
     /**
