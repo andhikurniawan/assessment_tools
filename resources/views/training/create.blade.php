@@ -5,9 +5,15 @@
 @section('TrainingRecommendation', 'active')
 
 @section('content')
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Pilih Karyawan</h1>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="text-left">
+        <a href="{{ url('training/recommendation') }}" class="d-sm-inline text-decoration-none text-muted">
+            <i class="fas fa-chevron-left fa-lg" style="width: 20px"></i>
+        </a>
+        <h1 class="d-inline h3 text-gray-800">Tambah Data Pelatihan</h1>
     </div>
+
+</div>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">

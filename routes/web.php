@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +20,11 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->middleware('verified');
-Route::get('/training/dashboard', 'TraningController@dashboard');
-Route::get('/training/recommendation', 'TraningController@recommendation');
-Route::resource('training', 'TraningController');
+Route::get('/logout', 'HomeController@logout')->middleware('verified');
+Route::get('/training/dashboard', 'TrainingController@dashboard');
+Route::get('/training/recommendation', 'TrainingController@recommendation');
+Route::get('/training/master', 'TrainingController@master');
+Route::get('/training/master/create', 'TrainingController@master_create');
+Route::post('/training/master/competency', 'TrainingController@insert_competency');
+Route::delete('/training/master/competency/{id}', 'TrainingController@delete_competency');
+Route::resource('training', 'TrainingController');

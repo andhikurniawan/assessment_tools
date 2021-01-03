@@ -9,8 +9,6 @@ class Training extends Model
 {
     use SoftDeletes;
     protected $table = 'training';
-    public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
+    protected $guarded = []; // yang tidak bisa di isi (kebalikan diatas)
+
 }
