@@ -15,8 +15,13 @@
         </div>
 
     </div>
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
 
-    <!-- DataTales Example -->
+    <!-- Training Recommendation -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Daftar Karyawan</h6>
@@ -28,26 +33,31 @@
                         <tr>
                             <th>Nama Karyawan</th>
                             <th>Rekomendasi Pelatihan</th>
-                            <th>Tanggal Pelatihan</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>Pelaksana</th>
+                            <th>Durasi Pelatihan</th>
+                            <th>Tanggal Mulai</th>
+                            <th>Tanggal Selesai</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($training as $item)
+                        @foreach ($training_emp as $item)
                             <tr>
-                                <td rowspan="2" class="align-middle">{{ $item->user->name }}</td>
-                                <td>{{ $item->training_name }}</td>
-                                <td>{{ $item->start_date }}</td>
-                                <td rowspan="2" class="align-middle">{{ $item->training_status }} </td>
-                                <td rowspan="2" class="align-middle"> Action button here </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">{{ $item->training_host }}</td>
-                                <td>{{ $item->end_date }}</td>
+                                <td>{{ $item->user->name }}</td>
+                                <td>{{ $item->training->name }}</td>
+                                <td>{{ $item->training->host }}</td>
+                                <td>{{ $item->training->duration }} hari</td>
+                                <td>{{ $item->training->start_date }}</td>
+                                <td>{{ $item->training->end_date }}</td>
+                                <td>
+                                    <div class="status">{{ $item->status }}</div>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-primary">Detail</a>
+                                    </td>
                             </tr>
                         @endforeach
-
                     </tbody>
                 </table>
             </div>
@@ -56,7 +66,31 @@
 @endsection
 
 @section('script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var $status = $('.status').html();
+            switch ($status) {
+                case "Setuju":
+                    $('.status').addClass("setuju");
+                    break;
+                case "Menunggu Respon":
+                    $('.status').addClass("menunggu");
+                    break;
+                case "Ditolak":
+                    $('.status').addClass("ditolak");
+                    break;
+                case "Selesai":
+                    $('.status').addClass("selesai");
+                    break;
+                case "Sedang Berjalan":
+                    $('.status').addClass("sedang_berjalan");
+                    break;
+                default:
+                    break;
+            }
+        });
 
+    </script>
     <!-- Page level plugins -->
     <script src="{{ asset('style/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('style/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>

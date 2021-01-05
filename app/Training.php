@@ -10,5 +10,9 @@ class Training extends Model
     use SoftDeletes;
     protected $table = 'training';
     protected $guarded = []; // yang tidak bisa di isi (kebalikan diatas)
-
+   
+    public function training_emps()
+    {
+        return $this->hasMany(Training_emp::class);
+    }
 }

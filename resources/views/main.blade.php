@@ -19,6 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('style/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('style/css/training.css') }}" rel="stylesheet">
     <link href="{{asset('style/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 
 </head>

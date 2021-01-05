@@ -28,7 +28,8 @@ class TrainingController extends Controller
     {
         $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session','assessment_competency_result.session_id', '=', 'assessment_session.id')->distinct()->get();
         $employee = DB::table('user')->get();
-        return view('training.create')->with('assessment_result', $assessment_result)->with('employee', $employee);
+        $training = Training::all();
+        return view('training.create')->with('assessment_result', $assessment_result)->with('employee', $employee)->with('training', $training);
     }
 
     /**
@@ -168,12 +169,14 @@ class TrainingController extends Controller
 
     public function dashboard()
     {
+        
         return view('training.index');
     }
     public function recommendation()
     {
-        $training = Training_emp::with('user')->get();
-        return view('training.recommendation', compact('training'));
+        $training_emp = Training_emp::all();
+        // dd($training_emp);
+        return view('training.recommendation')->with('training_emp',$training_emp);
     }
 
     public function master()
@@ -208,5 +211,31 @@ class TrainingController extends Controller
         }
         return redirect('training/'.$id.'/edit')->with('status', 'Kompetensi berhasil ditambahkan!');
 
+    }
+
+    public function getTrainingDetails($id)
+    {
+        $data = Training::find($id);
+        return response()->json(['success'=>true,'data' => $data]);
+    }
+
+    public function addRecommendation(Request $request)
+    {
+        $reason = "";
+        if ($request->reason == null){
+            $reason = "Tidak ada";
+        } else {
+            $reason = $request->reason;
+        }
+        Training_emp::create([
+            'user_id' => $request->userId,
+            'id_training' => $request->trainingDropdown,
+            'status' => 'Menunggu Respon',
+            'type' => $request->trainingType,
+            'recommended_by' => $request->recommendedBy,
+            'reason' => $reason
+        ]);
+        
+        return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan!');
     }
 }

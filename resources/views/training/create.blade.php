@@ -15,7 +15,6 @@
 
     </div>
 
-    <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Daftar Karyawan dari Hasil Assessment</h6>
@@ -38,7 +37,7 @@
                                 <td>{{ $item->user_name }}</td>
                                 <td>{{ $item->assessment_name }}</td>
                                 <td class="text-center"><a href="#" class="btn btn-primary">Lihat Detail</a></td>
-                                <td class="text-center"><a href="#" data-toggle="modal"
+                                <td class="text-center"><a href="#" data-toggle="modal" data-target-id = "{{ $item->id }}" data-target-type= "assessment"
                                         data-target="#addTrainingAssessmentModal" class="btn btn-success">Ajukan Rekomendasi
                                         Pelatihan</a></td>
                         @endforeach
@@ -67,7 +66,7 @@
 
                             <tr>
                                 <td>{{ $item->name }}</td>
-                                <td class="text-center"><a href="#" data-toggle="modal" data-target="#addTrainingAdminModal"
+                                <td class="text-center"><a href="#" data-toggle="modal" data-target-id = "{{ $item->id }}" data-target="#addTrainingAssessmentModal" data-target-type= "admin"
                                         class="btn btn-success">Ajukan Rekomendasi Pelatihan</a></td>
                         @endforeach
 
@@ -77,61 +76,9 @@
         </div>
     </div>
 
-    <!-- Tambahkan Training Modal-->
-    <div class="modal fade" id="addTrainingAssessmentModal" tabindex="-1" role="dialog" aria-labelledby="addTrainingAssessmentModalLabel"
-        aria-hidden="true" data-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambahkan Rekomendasi Pelatihan Dari Hasil Assessment</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <form action="" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col">
-                                <h4>Nama Pelatihan</h4>
-                                <input type="text" name="training_name" class="form-control"
-                                    placeholder="Tuliskan Nama Pelatihan..">
-                                <br>
-                                <h4>Link Pelatihan</h4>
-                                <input type="text" name="training_link" class="form-control"
-                                    placeholder="Tuliskan Link Pelatihan..">
-                            </div>
-                            <div class="col">
-                                <h4>Pelaksana Pelatihan</h4>
-                                <input type="text" name="training_host" class="form-control"
-                                    placeholder="Tuliskan Pelaksana Pelatihan..">
-                                <br>
-                                <div class="row">
-                                    <div class="col">
-                                        <h6>Tanggal Mulai</h6>
-                                        <input type="text" name="start_date" class="date form-control"
-                                            placeholder="YYYY-MM-DD">
-                                    </div>
-                                    <div class="col">
-                                        <h6>Tanggal Berakhir</h6>
-                                        <input type="text" name="end_date" class="date form-control"
-                                            placeholder="YYYY-MM-DD">
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                        <a class="btn btn-primary swal" href="#">Ajukan dan Kirim Email Kepada Karyawan</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- Tambahkan Training Modal-->
-    <div class="modal fade" id="addTrainingAdminModal" tabindex="-1" role="dialog" aria-labelledby="addTrainingAdminModalLabel"
+    <!-- Tambahkan Training Modal dari hasil assessment-->
+    <!-- tabindex = "-1" dihilangkan untuk select2 -->
+    <div class="modal fade modalTraining" id="addTrainingAssessmentModal" role="dialog" aria-labelledby="addTrainingAssessmentModalLabel"
         aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -141,48 +88,88 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="" method="post">
+                <form action="{{ url('training/recommendation/add') }}" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
+                            <div class="col text-center">
+                                <h4>Pilih Data Pelatihan</h4>
+                                <select class="js-example-basic-single" name="trainingDropdown" id="trainingDropdown">
+                                    <option></option>
+                                    @foreach ($training as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
+                                  </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
                             <div class="col">
                                 <h4>Nama Pelatihan</h4>
-                                <input type="text" name="training_name" class="form-control"
-                                    placeholder="Tuliskan Nama Pelatihan..">
+                                <input type="text" name="training_name" class="form-control training_name" id="training_name"
+                                    placeholder="Kolom terisi otomatis" disabled>
                                 <br>
                                 <h4>Link Pelatihan</h4>
-                                <input type="text" name="training_link" class="form-control"
-                                    placeholder="Tuliskan Link Pelatihan..">
+                                <input type="text" name="training_link" class="form-control training_link"
+                                placeholder="Kolom terisi otomatis" disabled>
+                                <br>
+                                <h4>Sifat Pelatihan</h4>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="trainingType" id="optionalOption" value="Optional" checked>
+                                    <label class="form-check-label" for="optionalOption">
+                                      Optional
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="trainingType" id="requiredOption" value="Wajib">
+                                    <label class="form-check-label" for="requiredOption">
+                                      Wajib
+                                    </label>
+                                  </div>
+                                  <br>
+                                  <input type="text" name="userId" id="userId" class="d-none">
                             </div>
+
                             <div class="col">
                                 <h4>Pelaksana Pelatihan</h4>
-                                <input type="text" name="training_host" class="form-control"
-                                    placeholder="Tuliskan Pelaksana Pelatihan..">
+                                <input type="text" name="training_host" class="form-control training_host"
+                                placeholder="Kolom terisi otomatis" disabled>
                                 <br>
                                 <div class="row">
                                     <div class="col">
                                         <h6>Tanggal Mulai</h6>
-                                        <input type="text" name="start_date" class="date form-control"
-                                            placeholder="YYYY-MM-DD">
+                                        <input type="text" name="start_date" class="date form-control training_start"
+                                        placeholder="Kolom terisi otomatis" disabled>
                                     </div>
                                     <div class="col">
                                         <h6>Tanggal Berakhir</h6>
-                                        <input type="text" name="end_date" class="date form-control"
-                                            placeholder="YYYY-MM-DD">
-
+                                        <input type="text" name="end_date" class="date form-control training_end"
+                                        placeholder="Kolom terisi otomatis" disabled>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row" id="reasonDiv">
+                            <div class="col">
+                                <h4>Alasan Rekomendasi</h4>
+                                <div class="form-group">
+                                    <textarea name="reason" class="form-control" rows="5"
+                                        placeholder="Masukkan Alasan Anda Dalam Merekomendasikan Pelatihan Kepada Karyawan Ini.."></textarea>
+                                </div>
+                                <input type="text" name="recommendedBy" id="recommendedBy" class="d-none">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                        <a class="btn btn-primary swal" href="#">Ajukan dan Kirim Email Kepada Karyawan</a>
+                        <button type="submit" class="btn btn-primary">Ajukan Kepada Karyawan</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+
 @endsection
 
 @section('script')
@@ -202,7 +189,35 @@
         });
 
     </script>
+        <script>
+            (function($) {
+        $.fn.invisible = function() {
+            return this.each(function() {
+                $(this).css("visibility", "none");
+            });
+        };
+        $.fn.visible = function() {
+            return this.each(function() {
+                $(this).css("visibility", "visible");
+            });
+        };
+    }(jQuery));
+        </script>
+    <script>
+$('.modalTraining').on('show.bs.modal', function(e) {
+        userId = $(e.relatedTarget).data("target-id");
+        type = $(e.relatedTarget).data("target-type");
+    $("#userId").val(userId);
+    if(type == "admin"){
+        $("#reasonDiv").removeClass("d-none");
+        $("#recommendedBy").val("Admin")
+    } else {
+        $("#reasonDiv").addClass("d-none");
+        $("#recommendedBy").val("Hasil Assessment");
+    }
 
+});
+    </script>
     <!-- Datepicker -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css"
         rel="stylesheet">
@@ -228,9 +243,54 @@
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
             })
-            $('#addTrainingModal').modal('toggle');
+            $('.modalTraining').modal('toggle');
 
         })
 
+    </script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2({
+            placeholder: "Pilih Pelatihan",
+            allowClear: true
+            // dropdownParent: $('#addTrainingAssessmentModal');
+        });
+    });    
+    </script>
+    
+    <script>
+        $('#trainingDropdown').change(function() {
+            if ($(this).val() == ''){
+                $('.training_name').val(null);
+                        $('.training_host').val(null);
+                        $('.training_link').val(null);
+                        $('.training_start').val(null);
+                        $('.training_end').val(null);
+            } else {
+            var id = $(this).val();
+            var url = '{{ route("getTrainingDetails", ":id") }}';
+            url = url.replace(':id', id);
+            $.ajax({
+                url: url,
+                type: 'get',
+                data: {},
+                success: function(data) {
+                    if (data.success == true) {
+                        $('.training_name').val(data.data.name);
+                        $('.training_host').val(data.data.host);
+                        $('.training_link').val(data.data.link);
+                        $('.training_start').val(data.data.start_date);
+                        $('.training_end').val(data.data.end_date);
+                    } else {
+                        alert('Data kosong');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {}
+            });
+            }
+        });
     </script>
 @endsection
