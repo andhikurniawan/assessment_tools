@@ -51,11 +51,33 @@
                                 <td>{{ $item->training->start_date }}</td>
                                 <td>{{ $item->training->end_date }}</td>
                                 <td>
-                                    <div class="status">{{ $item->status }}</div>
+                                    @switch($item->status)
+                                        @case("Setuju")
+                                        <div class="setuju">{{ $item->status }}</div>
+                                        @break
+                                        @case("Menunggu Respon")
+                                        <div class="menunggu">{{ $item->status }}</div>
+                                        @break
+                                        @case("Ditolak")
+                                        <div class="ditolak">{{ $item->status }}</div>
+                                        @break
+                                        @case("Sedang Berjalan")
+                                        <div class="sedang_berjalan">{{ $item->status }}</div>
+                                        @break
+                                        @case("Selesai")
+                                        <div class="selesai">{{ $item->status }}</div>
+                                        @break
+                                        @default
+                                        <div class="selesai">{{ $item->status }}</div>
+                                    @endswitch
                                 </td>
-                                <td>
-                                    <a href="#" class="btn btn-primary">Detail</a>
-                                    </td>
+                                <td class="text-center">
+                                    <a href="{{ url('training/recommendation/details/'. $item->id)}}" class="btn btn-primary">Detail</a>
+                                    @if ($item->status == "Menunggu Respon" || $item->status == "Wajib")
+                                    <a href="{{ url('training/recommendation/edit/'. $item->id)}}" class="btn btn-warning">Edit</a>                                        
+                                    @endif
+
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -66,7 +88,7 @@
 @endsection
 
 @section('script')
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         $(document).ready(function() {
             var $status = $('.status').html();
             switch ($status) {
@@ -85,12 +107,18 @@
                 case "Sedang Berjalan":
                     $('.status').addClass("sedang_berjalan");
                     break;
+                case "Dibatalkan":
+                    $('.status').addClass("ditolak");
+                    break;
+                case "Wajib":
+                    $('.status').addClass("ditolak");
+                    break;
                 default:
                     break;
             }
         });
 
-    </script>
+    </script> --}}
     <!-- Page level plugins -->
     <script src="{{ asset('style/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('style/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>

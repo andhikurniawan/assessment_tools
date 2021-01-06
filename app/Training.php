@@ -15,4 +15,9 @@ class Training extends Model
     {
         return $this->hasMany(Training_emp::class);
     }
+
+    public function training_competencies()
+    {
+        return $this->hasMany(Training_competencies::class, 'id_training');
+    }
 }

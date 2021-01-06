@@ -115,9 +115,9 @@
                                 <br>
                                 <h4>Sifat Pelatihan</h4>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="trainingType" id="optionalOption" value="Optional" checked>
+                                    <input class="form-check-input" type="radio" name="trainingType" id="optionalOption" value="Opsional" checked>
                                     <label class="form-check-label" for="optionalOption">
-                                      Optional
+                                      Opsional
                                     </label>
                                   </div>
                                   <div class="form-check">

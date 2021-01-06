@@ -227,15 +227,57 @@ class TrainingController extends Controller
         } else {
             $reason = $request->reason;
         }
+        $status = "";
+        if ($request->trainingType == "Opsional"){
+            $status = "Menunggu Respon";
+        } else {
+            $status = "Wajib";
+        }
+
         Training_emp::create([
             'user_id' => $request->userId,
             'id_training' => $request->trainingDropdown,
-            'status' => 'Menunggu Respon',
+            'status' => $status,
             'type' => $request->trainingType,
             'recommended_by' => $request->recommendedBy,
             'reason' => $reason
         ]);
         
         return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan!');
+    }
+
+    public function detailRecommendation($id)
+    {
+        $training_emp = Training_emp::all()->where('id', $id);
+        // dd($training_emp);
+        return view('training.details_recommendation')->with('training_emp', $training_emp);
+    }
+
+    public function editRecommedation($id)
+    {
+        $training_emp = Training_emp::all()->where('id', $id);
+        // dd($training_emp);
+        return view('training.edit_recommendation')->with('training_emp', $training_emp);
+    }
+
+    public function editRecommendationProcess(Request $request)
+    {
+        $status = "";
+        if ($request->trainingType == "Wajib"){
+            $status = "Wajib";
+        } else if ($request->trainingType == "Opsional"){
+            $status = "Menunggu Respon";
+        }
+         if ($request->cancelTraining == "Ya"){
+            $status = "Dibatalkan";
+        }
+        Training_emp::where('id', $request->id_training_emp)->update([
+            'status' => $status,
+            'type' => $request->trainingType,
+            'reason' => $request->reason
+        ]);
+
+        return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Ubah!');
+
     }
 }

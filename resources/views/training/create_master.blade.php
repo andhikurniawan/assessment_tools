@@ -39,7 +39,7 @@
                 <div class="form-group">
                     <label for="duration">Durasi Pelatihan</label>
                     <div class="row">
-                        <div class="col-sm-1">
+                        <div class="col-sm-2">
                             <input type="number" min="1" max="366" name="duration" id="duration"
                                 class="form-control @error('duration') is-invalid @enderror" value="{{ old('duration') }}"
                                 placeholder="">
