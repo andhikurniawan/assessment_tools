@@ -175,7 +175,7 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item @yield('TrackRecord')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ url('track-record')}}">
                     <i class="fas fa-tasks"></i>
                     <span>Track Record</span></a>
             </li>

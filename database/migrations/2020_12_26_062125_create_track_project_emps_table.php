@@ -18,7 +18,7 @@ class CreateTrackProjectEmpsTable extends Migration
             $table->integer('user_id');
             $table->string('name', 100);
             $table->string('platform', 100);
-            $table->integer('position');
+            $table->string('position');
             $table->string('status');
             $table->date('start_date');
             $table->date('end_date');

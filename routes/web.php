@@ -33,3 +33,10 @@ Route::post('/training/master/competency', 'TrainingController@insert_competency
 Route::get('/training/details/{id}', 'TrainingController@getTrainingDetails')->name('getTrainingDetails');
 Route::delete('/training/master/competency/{id}', 'TrainingController@delete_competency');
 Route::resource('training', 'TrainingController');
+
+Route::get('/track-record', 'TrackRecordController@index');
+Route::put('/track-record/training-verification/{id}', 'TrackRecordController@trainingVerification');
+Route::get('/track-record/employee/{id}', 'TrackRecordController@employeeDetail');
+Route::get('/track-record/training/{id}', 'TrackRecordController@trackTrainingDetail');
+Route::get('/track-record/project/{id}', 'TrackRecordController@trackProjectDetail');
+Route::post('/track-record/updatePeriod', 'TrackRecordController@updatePeriod');

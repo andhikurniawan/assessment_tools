@@ -22,6 +22,7 @@ class CreateTrackTrainingEmpsTable extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->longText('description');
+            $table->longText('reason_associated_work');
             $table->string('certificate');
             $table->string('link');
             $table->string('status');
