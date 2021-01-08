@@ -27,6 +27,7 @@ Route::post('/training/recommendation/add', 'TrainingController@addRecommendatio
 Route::get('/training/recommendation/details/{id}', 'TrainingController@detailRecommendation');
 Route::get('/training/recommendation/edit/{id}', 'TrainingController@editRecommedation');
 Route::put('/training/recommendation/editProcess', 'TrainingController@editRecommendationProcess');
+Route::put('/training/recommendation/recommendation-verification/{id}', 'TrainingController@recommendationVerification');
 Route::get('/training/master', 'TrainingController@master');
 Route::get('/training/master/create', 'TrainingController@master_create');
 Route::post('/training/master/competency', 'TrainingController@insert_competency');
@@ -40,3 +41,5 @@ Route::get('/track-record/employee/{id}', 'TrackRecordController@employeeDetail'
 Route::get('/track-record/training/{id}', 'TrackRecordController@trackTrainingDetail');
 Route::get('/track-record/project/{id}', 'TrackRecordController@trackProjectDetail');
 Route::post('/track-record/updatePeriod', 'TrackRecordController@updatePeriod');
+
+Route::get('/employee', 'UserController@index');

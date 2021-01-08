@@ -4,6 +4,10 @@
 
 @section('TrainingRecommendation', 'active')
 
+@if (session('permission') == "user")
+    @section('user', 'hidden')
+@endif
+
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="text-left">
@@ -18,9 +22,11 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-body">
-            <form action="" method="post">
-                <div class="form-group">
-                    @foreach ($training_emp as $training_emp)
+            @foreach ($training_emp as $training_emp)
+            <form action="{{ url('/training/recommendation/recommendation-verification/'.$training_emp->id)}}" method="post">
+                @method("PUT")
+                @csrf
+                <div class="form-group" {{session('permission') == "user" ? "hidden" : null}}>
                         
                     <label for="name">Nama Karyawan</label>
                     <input type="text" name="name" id="name" class="form-control"
@@ -83,7 +89,12 @@
                     <label for="reason">Alasan Rekomendasi</label>
                     <textarea name="reason" class="form-control" rows="5" disabled
                         >{{ $training_emp->reason }}</textarea>
-                </div>  
+                </div>
+                @if (session('permission') == "user" && $training_emp->status == "Menunggu Respon")
+                <input type="hidden" name="id_training_emp" value="{{$training_emp->id}}">
+                <button type="submit" class="btn btn-success" name="option" value="Terima">Terima</button>
+                <button type="submit" class="btn btn-danger" name="option" value="Tolak">Tolak</button>  
+                @endif
             </form>
         </div>
     </div>

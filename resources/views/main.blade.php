@@ -54,6 +54,8 @@
             <hr class="sidebar-divider">
 
             <!-- Heading -->
+            <div @yield('user')>
+
             <div class="sidebar-heading">
                 Master
             </div>
@@ -113,7 +115,7 @@
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider">
-
+            </div>
             <!-- Heading -->
             <div class="sidebar-heading">
                 Appraisal
@@ -125,6 +127,8 @@
                     <i class="fas fa-tasks"></i>
                     <span>Sesi Assessment</span></a>
             </li>
+
+            <div @yield('user')>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item @yield('TemplateAssessment')">
@@ -145,6 +149,8 @@
                     <i class="fas fa-tasks"></i>
                     <span>Model Kompetensi</span></a>
             </li>
+        </div>
+
             <!-- Nav Item - Tables -->
             <li class="nav-item @yield('ReportAssessment')">
                 <a class="nav-link" href="#">
@@ -160,7 +166,7 @@
             </div>
 
             <!-- Nav Item  -->
-            <li class="nav-item @yield('TrainingDasboard')">
+            <li class="nav-item @yield('TrainingDasboard')" @yield('user')>
                 <a class="nav-link" href="{{ url('training/dashboard') }}">
                     <i class="fas fa-tasks"></i>
                     <span>Dashboard</span></a>

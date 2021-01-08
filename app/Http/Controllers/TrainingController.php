@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Training;
 use App\Training_emp;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TrainingController extends Controller
@@ -174,9 +175,15 @@ class TrainingController extends Controller
     }
     public function recommendation()
     {
-        $training_emp = Training_emp::all();
-        // dd($training_emp);
+        if(session('permission') == "admin"){
+            $training_emp = Training_emp::all();
         return view('training.recommendation')->with('training_emp',$training_emp);
+        } else {
+            $training_emp = Training_emp::all()->where('user_id', Auth::id());
+        return view('user.training-recommendation.index')->with('training_emp',$training_emp);
+
+        }
+        // dd($training_emp);
     }
 
     public function master()
@@ -279,5 +286,20 @@ class TrainingController extends Controller
 
         return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Ubah!');
 
+    }
+
+    public function recommendationVerification($id, Request $request)
+    {
+        $status = "";
+        if ($request->option == "Terima"){
+            $status = "Disetujui";
+        } else if ($request->option == "Tolak"){
+            $status = "Ditolak";
+        }
+
+        Training_emp::where('id', $request->id_training_emp)->update([
+            'status' => $status
+        ]);
+        return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil '.$status);
     }
 }
