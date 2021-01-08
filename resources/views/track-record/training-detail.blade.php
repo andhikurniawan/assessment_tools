@@ -86,17 +86,20 @@
                     <label for="reason_associated_work">Keterkaitan Dengan Pekerjaan</label>
                     <textarea name="reason_associated_work" class="form-control" rows="5" disabled
                         >{{ $track_training->reason_associated_work }}</textarea>
-                </div>  
+                </div> 
+                @if (session('permission') != "user")
+                    
                 <input type="hidden" name="user_id" value="{{$track_training->user_id}}">
                 <button type="submit" class="btn btn-primary" name="option" value="Verifikasi">Verifikasi</button>
                 <button type="submit" class="btn btn-danger" name="option" value="Tolak">Tolak</button>
+                @endif 
 
             </form>
         </div>
     </div>
       <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Sertifikat Pelatihan Karyawan</h5>
@@ -105,7 +108,7 @@
           </button>
         </div>
         <div class="modal-body">
-            <img src="" alt="Sertifikat Karyawan">
+            <img src="{{url('/uploaded_file/'.$track_training->certificate)}}" class="img-fluid" alt="Sertifikat Karyawan">
       </div>
     </div>
   </div>

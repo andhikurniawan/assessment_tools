@@ -39,7 +39,12 @@ Route::get('/track-record', 'TrackRecordController@index');
 Route::put('/track-record/training-verification/{id}', 'TrackRecordController@trainingVerification');
 Route::get('/track-record/employee/{id}', 'TrackRecordController@employeeDetail');
 Route::get('/track-record/training/{id}', 'TrackRecordController@trackTrainingDetail');
+Route::get('/track-record/training/edit/{id}', 'TrackRecordController@trackTrainingEdit');
+Route::delete('/track-record/training/delete/{id}', 'TrackRecordController@trackTrainingDelete');
+Route::put('/track-record/training/editProcess/{id}', 'TrackRecordController@trackTrainingEditProcess');
 Route::get('/track-record/project/{id}', 'TrackRecordController@trackProjectDetail');
 Route::post('/track-record/updatePeriod', 'TrackRecordController@updatePeriod');
+Route::get('/track-record/insertTraining', 'TrackRecordController@insertTraining');
+Route::post('/track-record/insertTrainingProcess', 'TrackRecordController@insertTrainingProcess');
 
 Route::get('/employee', 'UserController@index');
