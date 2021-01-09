@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Track_project_emp;
+use App\Track_training_emp;
 use App\Training;
 use App\Training_emp;
 use Illuminate\Http\Request;
@@ -170,8 +172,19 @@ class TrainingController extends Controller
 
     public function dashboard()
     {
-        
-        return view('training.index');
+        $assessment_session_count = DB::table('assessment_session')->select('status')->where('status', '=', 'finished')->count();
+        $training_recommnedation_count = Training_emp::all()->count();
+        $track_record_count = Track_training_emp::where('status', '=', 'Menunggu')->count();
+        $success_count = Track_project_emp::where('status', '=', 'Selesai')->count();
+        $failed_count = Track_project_emp::where('status', '=', 'Gagal')->count();
+
+        return view('training.index')->with([
+            'assessment_count' => $assessment_session_count,
+            'training_count' => $training_recommnedation_count,
+        'track_count' => $track_record_count,
+        'success_count' => $success_count,
+        'failed_count' => $failed_count,
+        ]);
     }
     public function recommendation()
     {

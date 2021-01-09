@@ -21,9 +21,9 @@
         </div>
         <div class="card-body">
             <h4>Tanggal Mulai</h4>
-            <p>{{$period->start_date}}</p>
+            <p><b id="startDate">{{$period->start_date}}</b></p>
             <h4>Tanggal Selesai</h4>
-            <p>{{$period->end_date}}</p>
+            <p><b id="endDate">{{$period->end_date}}</b></p>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
         Ubah
@@ -83,11 +83,11 @@
           <div class="row">
               <div class="col">
                   <h5>Tanggal Mulai</h5>
-                  <input type="text" name="start_date">
+                  <input type="text" name="start_date" value="{{$period->start_date}}">
               </div>
               <div class="col">
                   <h5>Tanggal Berakhir</h5>
-                  <input type="text" name="end_date">
+                  <input type="text" name="end_date" value="{{$period->end_date}}">
               </div>
           </div>
         </div>
@@ -129,5 +129,26 @@
       });
     });
     
+    </script>
+    <script>
+         jQuery(document).ready(function() {
+                    var start_date = "{{ $period->start_date }}";
+                    var end_date = "{{ $period->end_date }}";
+                    var options = {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    };
+                    if (start_date != "Belum ditentukan" && end_date != "Belum ditentukan") {
+                        var dateStart = new Date(start_date);
+                        var dateEnd = new Date(end_date);
+                        var longStartDate = dateStart.toLocaleDateString("id-ID", options);
+                        var longEndDate = dateEnd.toLocaleDateString("id-ID", options);
+                        $('#startDate').text(longStartDate);
+                        $('#endDate').text(longEndDate);
+
+                    }
+                });
     </script>
     @endsection

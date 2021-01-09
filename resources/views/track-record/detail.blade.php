@@ -67,14 +67,15 @@
                         <div class="card shadow mb-4">
                             <div class="card-body">
                                 <h5>Waktu Periode Pengisian Track Record</h5>
-                                <h6>Tanggal Mulai : <p class="d-inline"><b>{{ $period->start_date }}</b></p>
+                                <h6>Tanggal Mulai : <p class="d-inline"><b id="startDate">{{ $period->start_date }}</b></p>
                                 </h6>
-                                <h6>Tanggal Selesai : <p class="d-inline"><b>{{ $period->end_date }}</b></p>
+                                <h6>Tanggal Selesai : <p class="d-inline"><b id="endDate">{{ $period->end_date }}</b></p>
                                 </h6>
 
-                                <a class="btn btn-primary d-block" href="{{ url('track-record/insertTraining') }}"
+                                <a class="btn btn-primary d-block inputPeriod" href="{{ url('track-record/insertTraining') }}"
                                     style="margin-bottom: 2%"><b>Tambahkan Data Pelatihan</b></a>
-                                <a class="btn btn-success d-block" href="{{ url('track-record/insertProject')}}"><b>Tambah Data Project</b></a>
+                                <a class="btn btn-success d-block inputPeriod"
+                                    href="{{ url('track-record/insertProject') }}"><b>Tambah Data Project</b></a>
                             </div>
                         </div>
                     </div>
@@ -185,7 +186,7 @@
                                         </td>
                                         <td class="text-center"><a href="{{ url('track-record/project/' . $item->id) }}"
                                                 class="btn btn-primary">Detail</a>
-                                                @if (session('permission') == 'user')
+                                            @if (session('permission') == 'user')
                                                 @if ($item->status == 'Sedang Berlangsung')
                                                     <a href="{{ url('track-record/project/edit/' . $item->id) }}"
                                                         class="btn btn-warning">Edit</a>
@@ -198,7 +199,7 @@
                                                     </form>
                                                 @endif
                                             @endif
-                                            </td>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -258,6 +259,37 @@
                     // var data = table;
                     // var table = $('#dataTable').DataTable();
                     // var data = table.column(0).data().sort().reverse();
+                });
+
+            </script>
+
+            <script>
+                jQuery(document).ready(function() {
+                    var start_date = "{{ $period->start_date }}";
+                    var end_date = "{{ $period->end_date }}";
+                    var options = {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    };
+                    if (start_date != "Belum ditentukan" && end_date != "Belum ditentukan") {
+                        var start_millis = Date.parse(start_date + " 00:00:00");
+                        var end_millis = Date.parse(end_date + " 23:59:59");
+                        var now_millis = Date.now();
+                        var dateStart = new Date(start_date);
+                        var dateEnd = new Date(end_date);
+                        var longStartDate = dateStart.toLocaleDateString("id-ID", options);
+                        var longEndDate = dateEnd.toLocaleDateString("id-ID", options);
+                        $('#startDate').text(longStartDate);
+                        $('#endDate').text(longEndDate);
+                        if (now_millis >= start_millis && now_millis <= end_millis) {
+                            $('.inputPeriod').removeClass("disabled");
+                        } else {
+                            $('.inputPeriod').addClass("disabled");
+                        }
+
+                    }
                 });
 
             </script>
