@@ -47,10 +47,12 @@
                                             <h1 style="color: black">{{ $employee->name }}</h1>
                                             <p style="color: black"><span class="iconify" data-inline="false"
                                                     data-icon="ic:baseline-email" style="font-size: 40px;"></span>
-                                                {{ $employee->email }}</p>
+                                                {{ $employee->email }}
+                                            </p>
                                             <p style="color: black"><span class="iconify" data-inline="false"
                                                     data-icon="bx:bxs-id-card" style="font-size: 40px;"></span>
-                                                {{ $employee->employee_id }}</p>
+                                                {{ $employee->employee_id }}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -72,7 +74,7 @@
 
                                 <a class="btn btn-primary d-block" href="{{ url('track-record/insertTraining') }}"
                                     style="margin-bottom: 2%"><b>Tambahkan Data Pelatihan</b></a>
-                                <a class="btn btn-success d-block" href="#"><b>Tambah Data Project</b></a>
+                                <a class="btn btn-success d-block" href="{{ url('track-record/insertProject')}}"><b>Tambah Data Project</b></a>
                             </div>
                         </div>
                     </div>
@@ -117,25 +119,20 @@
                                         </td>
                                         <td class="text-center"><a href="{{ url('track-record/training/' . $item->id) }}"
                                                 class="btn btn-primary">Lihat</a>
-                                            @if (session('permission') == "user")
-                                            @if ($item->status == "Menunggu")
-                                            <a href="{{ url('track-record/training/edit/' . $item->id) }}"
-                                                class="btn btn-warning">Edit</a>
-                                                <form action="{{ url('track-record/training/delete/'. $item->id)}}" method="post"
-                                                    class="d-inline"
-                                                    onsubmit="return confirm('Apakah Anda yakin untuk menghapus data ini?')"
-                                                    >
-                                                    @method('delete')
-                                                    @csrf
-                                                    <button class="btn btn-danger">Hapus</button>
-                                                
-                                                </form>    
+                                            @if (session('permission') == 'user')
+                                                @if ($item->status == 'Menunggu')
+                                                    <a href="{{ url('track-record/training/edit/' . $item->id) }}"
+                                                        class="btn btn-warning">Edit</a>
+                                                    <form action="{{ url('track-record/training/delete/' . $item->id) }}"
+                                                        method="post" class="d-inline"
+                                                        onsubmit="return confirm('Apakah Anda yakin untuk menghapus data ini?')">
+                                                        @method('delete')
+                                                        @csrf
+                                                        <button class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                @endif
                                             @endif
-                
-                                            @endif
-                                            
-                                            </td>
-
+                                        </td>
                                     </tr>
                                 @endforeach
 
@@ -186,8 +183,22 @@
                                                 <div class="selesai">{{ $item->status }}</div>
                                             @endswitch
                                         </td>
-                                        <td><a href="{{ url('track-record/project/' . $item->id) }}"
-                                                class="btn btn-primary">Detail</a></td>
+                                        <td class="text-center"><a href="{{ url('track-record/project/' . $item->id) }}"
+                                                class="btn btn-primary">Detail</a>
+                                                @if (session('permission') == 'user')
+                                                @if ($item->status == 'Sedang Berlangsung')
+                                                    <a href="{{ url('track-record/project/edit/' . $item->id) }}"
+                                                        class="btn btn-warning">Edit</a>
+                                                    <form action="{{ url('track-record/project/delete/' . $item->id) }}"
+                                                        method="post" class="d-inline"
+                                                        onsubmit="return confirm('Apakah Anda yakin untuk menghapus data ini?')">
+                                                        @method('delete')
+                                                        @csrf
+                                                        <button class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                @endif
+                                            @endif
+                                            </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -220,7 +231,7 @@
                                         <td>{{ $item->assessment_name }}</td>
                                         <td>{{ $item->start_date }}</td>
                                         <td>{{ $item->end_date }}</td>
-                                        <td><a href="#" class="btn btn-primary">Detail</a></td>
+                                        <td class="text-center"><a href="#" class="btn btn-primary">Detail</a></td>
                                     </tr>
                                 @endforeach
 
@@ -235,7 +246,6 @@
 
         @section('script')
             <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-            <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
 
             <!-- Page level plugins -->
             <script src="{{ asset('style/vendor/datatables/jquery.dataTables.min.js') }}"></script>

@@ -3,7 +3,9 @@
 @section('title', 'Detail Project Karyawan')
 
 @section('TrackRecord', 'active')
-
+@if (session('permission') == 'user')
+@section('user', 'hidden')
+@endif
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="text-left">

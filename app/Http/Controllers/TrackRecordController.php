@@ -228,4 +228,153 @@ class TrackRecordController extends Controller
             return redirect('track-record')->with('status', 'Maaf data pelatihan tersebut tidak bisa di hapus, karena status sudah berubah');
         }
     }
+
+    public function insertProject()
+    {
+        return view('user.track-record.insert-project');
+    }
+
+    public function insertProjectProcess(Request $request)
+    {
+        $end_date = null;
+        $time_perf = "";
+        $cost_perf = "";
+        $quality_perf = "";
+        $reason_failed = "";
+
+        $request->validate([
+            'project_name' => 'required|min:3',
+            'platform' => 'required|min:3',
+            'position' => 'required|min:3',
+            'start_date' => 'required',
+            'description' => 'required|min:3'
+
+        ], [
+            'project_name.required' => 'Nama project tidak boleh kosong dan minimal 3 huruf',
+            'platform.required' => 'Nama platform output project tidak boleh kosong dan minimal 3 huruf',
+            'position.required' => 'Posisi dalam project tidak boleh kosong dan minimal 3 huruf',
+            'start_date.required' => 'Tanggal mulai project tidak boleh kosong',
+            'description.required' => 'Deskripsi project tidak boleh kosong dan minimal 3 huruf',
+        ]);
+        if($request->status == "Selesai"){
+            $request->validate([
+                'end_date' => 'required'
+            ],[
+                'end_date.required' => 'Tnaggal selesai project tidak boleh kosong'
+            ]);
+            $end_date = $request->end_date;
+            $time_perf = $request->time_performance;
+            $cost_perf = $request->cost_performance;
+            $quality_perf = $request->quality_performance;
+        }
+        if($request->status == "Gagal"){
+            $request->validate([
+                'reason_failed' => 'required|min:3',
+                'end_date' => 'required'
+            ], [
+                'end_date.required' => 'Tnaggal selesai project tidak boleh kosong',
+                'reason_failed.required' => 'Alasan gagal tidak boleh kosong dan minimal 3 huruf'
+            ]);
+            $end_date = $request->end_date;
+            $reason_failed = $request->reason_failed;
+        }
+
+        Track_project_emp::create([
+            'user_id' => Auth::id(),
+            'name' => $request->project_name,
+            'platform' => $request->platform,
+            'position' => $request->position,
+            'status' => $request->status,
+            'start_date' => $request->start_date,
+            'end_date' => $end_date,
+            'description' => $request->description,
+            'time_performance' => $time_perf,
+            'cost_performance' => $cost_perf,
+            'quality_performance' => $quality_perf,
+            'reason_failed' => $reason_failed
+        ]);
+
+        return redirect('track-record')->with('status', 'Data project berhasil ditambah!');
+    }
+
+    public function trackProjectEdit($id)
+    {
+        $track_project = Track_project_emp::where('id', $id)->get()->first();
+        return view('user.track-record.edit-project', compact('track_project'));
+    }
+
+    public function trackProjectEditProcess($id, Request $request)
+    {
+        $end_date = null;
+        $time_perf = "";
+        $cost_perf = "";
+        $quality_perf = "";
+        $reason_failed = "";
+
+        $request->validate([
+            'project_name' => 'required|min:3',
+            'platform' => 'required|min:3',
+            'position' => 'required|min:3',
+            'start_date' => 'required',
+            'description' => 'required|min:3'
+
+        ], [
+            'project_name.required' => 'Nama project tidak boleh kosong dan minimal 3 huruf',
+            'platform.required' => 'Nama platform output project tidak boleh kosong dan minimal 3 huruf',
+            'position.required' => 'Posisi dalam project tidak boleh kosong dan minimal 3 huruf',
+            'start_date.required' => 'Tanggal mulai project tidak boleh kosong',
+            'description.required' => 'Deskripsi project tidak boleh kosong dan minimal 3 huruf',
+        ]);
+        if($request->status == "Selesai"){
+            $request->validate([
+                'end_date' => 'required'
+            ],[
+                'end_date.required' => 'Tnaggal selesai project tidak boleh kosong'
+            ]);
+            $end_date = $request->end_date;
+            $time_perf = $request->time_performance;
+            $cost_perf = $request->cost_performance;
+            $quality_perf = $request->quality_performance;
+        }
+        if($request->status == "Gagal"){
+            $request->validate([
+                'reason_failed' => 'required|min:3',
+                'end_date' => 'required'
+            ], [
+                'end_date.required' => 'Tnaggal selesai project tidak boleh kosong',
+                'reason_failed.required' => 'Alasan gagal tidak boleh kosong dan minimal 3 huruf'
+            ]);
+            $end_date = $request->end_date;
+            $reason_failed = $request->reason_failed;
+        }
+
+        Track_project_emp::where('id', $id)
+        ->update([
+            'name' => $request->project_name,
+            'platform' => $request->platform,
+            'position' => $request->position,
+            'status' => $request->status,
+            'start_date' => $request->start_date,
+            'end_date' => $end_date,
+            'description' => $request->description,
+            'time_performance' => $time_perf,
+            'cost_performance' => $cost_perf,
+            'quality_performance' => $quality_perf,
+            'reason_failed' => $reason_failed
+        ]);
+
+        return redirect('track-record')->with('status', 'Data project berhasil di ubah!');
+    }
+
+    public function trackProjectDelete($id)
+    {
+        $track_project = Track_project_emp::where('id', $id)->get()->first();
+        // dd($track_training->status);
+        if ($track_project->status == "Sedang Berlangsung") {
+            $track_project->delete();
+            return redirect('track-record')->with('status', 'Data project berhasil di hapus!');
+        } else {
+            return redirect('track-record')->with('status', 'Maaf data project tersebut tidak bisa di hapus, karena status sudah berubah');
+        }
+    }
 }

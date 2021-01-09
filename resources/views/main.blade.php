@@ -168,21 +168,21 @@
             <!-- Nav Item  -->
             <li class="nav-item @yield('TrainingDasboard')" @yield('user')>
                 <a class="nav-link" href="{{ url('training/dashboard') }}">
-                    <i class="fas fa-tasks"></i>
+                    <span class="iconify" data-icon="bx:bxs-dashboard" data-inline="false"></span>
                     <span>Dashboard</span></a>
             </li>
 
             <!-- Nav Item  -->
             <li class="nav-item @yield('TrainingRecommendation')">
                 <a class="nav-link" href="{{ url('training/recommendation') }}">
-                    <i class="fas fa-tasks"></i>
+                    <span class="iconify" data-icon="fluent:text-bullet-list-square-24-filled" data-inline="false"></span>
                     <span>Training Recommendation</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item @yield('TrackRecord')">
                 <a class="nav-link" href="{{ url('track-record')}}">
-                    <i class="fas fa-tasks"></i>
+                    <span class="iconify" data-icon="clarity:file-group-solid" data-inline="false"></span>
                     <span>Track Record</span></a>
             </li>
 
@@ -297,6 +297,7 @@
             </div>
         </div>
     </div>
+    <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('style/vendor/jquery/jquery.min.js') }}"></script>

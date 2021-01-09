@@ -21,6 +21,7 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->middleware('verified');
 Route::get('/logout', 'HomeController@logout')->middleware('verified');
+
 Route::get('/training/dashboard', 'TrainingController@dashboard');
 Route::get('/training/recommendation', 'TrainingController@recommendation');
 Route::post('/training/recommendation/add', 'TrainingController@addRecommendation');
@@ -43,8 +44,13 @@ Route::get('/track-record/training/edit/{id}', 'TrackRecordController@trackTrain
 Route::delete('/track-record/training/delete/{id}', 'TrackRecordController@trackTrainingDelete');
 Route::put('/track-record/training/editProcess/{id}', 'TrackRecordController@trackTrainingEditProcess');
 Route::get('/track-record/project/{id}', 'TrackRecordController@trackProjectDetail');
+Route::get('/track-record/project/edit/{id}', 'TrackRecordController@trackProjectEdit');
+Route::put('/track-record/project/editProcess/{id}', 'TrackRecordController@trackProjectEditProcess');
+Route::delete('/track-record/project/delete/{id}', 'TrackRecordController@trackProjectDelete');
 Route::post('/track-record/updatePeriod', 'TrackRecordController@updatePeriod');
 Route::get('/track-record/insertTraining', 'TrackRecordController@insertTraining');
+Route::get('/track-record/insertProject', 'TrackRecordController@insertProject');
 Route::post('/track-record/insertTrainingProcess', 'TrackRecordController@insertTrainingProcess');
+Route::post('/track-record/insertProjectProcess', 'TrackRecordController@insertProjectProcess');
 
 Route::get('/employee', 'UserController@index');
