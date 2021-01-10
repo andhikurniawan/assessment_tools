@@ -4,7 +4,10 @@
 
 @section('TrackRecord', 'active')
 
+@if (session('permission') == "user")
 @section('user', 'hidden')
+    
+@endif
 
 
 @section('content')

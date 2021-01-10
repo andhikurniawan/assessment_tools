@@ -121,7 +121,7 @@
                                         <td class="text-center"><a href="{{ url('track-record/training/' . $item->id) }}"
                                                 class="btn btn-primary">Lihat</a>
                                             @if (session('permission') == 'user')
-                                                @if ($item->status == 'Menunggu')
+                                                @if ($item->status == 'Menunggu' || $item->status == "Ditolak")
                                                     <a href="{{ url('track-record/training/edit/' . $item->id) }}"
                                                         class="btn btn-warning">Edit</a>
                                                     <form action="{{ url('track-record/training/delete/' . $item->id) }}"

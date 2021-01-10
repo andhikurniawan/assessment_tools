@@ -60,8 +60,20 @@ class TrackRecordController extends Controller
         $track_training = Track_training_emp::where('user_id', $id)->get();
         $track_project = Track_project_emp::where('user_id', $id)->get();
         $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id', 'assessment_session.start_date as start_date', 'assessment_session.end_date as end_date')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->where('user.id', $id)->distinct('assessment_name')->get();
+        $period = DB::table('track_input_period')->get()->first();
+        if ($period == null) {
+            $period = (object) [
+                'start_date' => 'Belum ditentukan',
+                'end_date' => 'Belum ditentukan',
 
-        return view('track-record.detail', compact('employee'))->with('track_training', $track_training)->with('track_project', $track_project)->with('assessment_result', $assessment_result);
+            ];
+        }
+        return view('track-record.detail', compact('employee'))->with([
+            'track_training' => $track_training,
+            'track_project' => $track_project,
+            'assessment_result' => $assessment_result,
+            'period' => $period
+        ]);
     }
 
     public function trackTrainingDetail($id)
@@ -151,7 +163,7 @@ class TrackRecordController extends Controller
     {
         $track_training = Track_training_emp::where('id', $id)->get()->first();
         // dd($track_training->status);
-        if ($track_training->status == "Menunggu") {
+        if ($track_training->status == "Menunggu" || $track_training->status == "Ditolak") {
             return view('user.track-record.edit-training', compact('track_training'));
         } else {
             return redirect('track-record')->with('status', 'Maaf data pelatihan tersebut tidak bisa di edit, karena status sudah berubah');
@@ -194,7 +206,8 @@ class TrackRecordController extends Controller
                     'end_date' => $request->end_date,
                     'description' => $request->description,
                     'reason_associated_work' => $request->reason_associated_work,
-                    'link' => $link
+                    'link' => $link,
+                    'status' => "Menunggu"
                 ]);
         } else {
             $image = $request->file('certificate');
@@ -211,7 +224,8 @@ class TrackRecordController extends Controller
                     'description' => $request->description,
                     'reason_associated_work' => $request->reason_associated_work,
                     'certificate' => $fileName,
-                    'link' => $link
+                    'link' => $link,
+                    'status' => "Menunggu"
                 ]);
         }
         return redirect('track-record')->with('status', 'Data pelatihan/sertifikasi berhasil diubah!');
@@ -221,7 +235,7 @@ class TrackRecordController extends Controller
     {
         $track_training = Track_training_emp::where('id', $id)->get()->first();
         // dd($track_training->status);
-        if ($track_training->status == "Menunggu") {
+        if ($track_training->status == "Menunggu"  || $track_training->status == "Ditolak") {
             Track_training_emp::where('id', $id)->delete();
             return redirect('track-record')->with('status', 'Data pelatihan/sertifikasi berhasil di hapus!');
         } else {
