@@ -27,7 +27,7 @@ class HomeController extends Controller
     {
         $id = Auth::id();
         $role = DB::table('user_role')->where('user_id', $id)->select('role_id')->first();
-        if($role->role_id == "superadmin" || $role->role_id == "admin"){
+        if ($role->role_id == "superadmin" || $role->role_id == "admin") {
             session(['permission' => 'admin']);
             return view('home');
         } else {
@@ -37,13 +37,18 @@ class HomeController extends Controller
     }
 
     public function logout(Request $request)
-{
-    Auth::logout();
+    {
+        Auth::logout();
 
-    $request->session()->invalidate();
+        $request->session()->invalidate();
 
-    $request->session()->regenerateToken();
+        $request->session()->regenerateToken();
 
-    return redirect('/');
-}
+        return redirect('/');
+    }
+
+    public function email()
+    {
+        return view('layouts.email');
+    }
 }

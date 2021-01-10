@@ -54,3 +54,5 @@ Route::post('/track-record/insertTrainingProcess', 'TrackRecordController@insert
 Route::post('/track-record/insertProjectProcess', 'TrackRecordController@insertProjectProcess');
 
 Route::get('/employee', 'UserController@index');
+//for testing
+Route::get('/email', 'HomeController@email');

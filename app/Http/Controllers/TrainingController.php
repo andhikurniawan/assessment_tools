@@ -6,9 +6,11 @@ use App\Track_project_emp;
 use App\Track_training_emp;
 use App\Training;
 use App\Training_emp;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class TrainingController extends Controller
 {
@@ -187,7 +189,10 @@ class TrainingController extends Controller
         ]);
     }
     public function recommendation()
-    {
+    {   
+        if(Auth::check() == null ){
+            return redirect('home')->with('alert', 'Anda harus login terlebih dahulu!');
+        }
         if(session('permission') == "admin"){
             $training_emp = Training_emp::all();
         return view('training.recommendation')->with('training_emp',$training_emp);
@@ -247,11 +252,15 @@ class TrainingController extends Controller
         } else {
             $reason = $request->reason;
         }
+
         $status = "";
+        $trainingStatus = "";
         if ($request->trainingType == "Opsional"){
             $status = "Menunggu Respon";
+            $trainingStatus = "Opsional";
         } else {
             $status = "Wajib";
+            $trainingStatus = "Wajib";
         }
 
         Training_emp::create([
@@ -262,8 +271,34 @@ class TrainingController extends Controller
             'recommended_by' => $request->recommendedBy,
             'reason' => $reason
         ]);
+
+        //  email data
+        $user = User::where('id', $request->userId)->get()->first();
+        $training = Training::where('id', $request->trainingDropdown)->get()->first();
+        $email = $user->email;
+        $data = array(
+            'name' => $user->name,
+            'training_name' => $training->name,
+            'training_host' => $training->host,
+            'start_date' => $training->start_date,
+            'end_date' => $training->end_date,
+            'status' => $trainingStatus
+        );
+
+        // send email
+        Mail::send('layouts.email', $data, function ($mail) use ($email, $data) {
+            $mail->from('web.assessment.bubat@gmail.com', 'Admin HR Bubat Web Assessment');
+            $mail->to($email, $data['name'])->subject('Rekomendasi Pelatihan dari Bubat Web Assessment');
+            
+        });
+
+        // check if email fail
+        if(Mail::failures()){
+            return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan tetapi Gagal untuk dikirim via Email');
+        }
+
         
-        return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan!');
+        return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan dan Dikirim ke E-Mail Karyawan!');
     }
 
     public function detailRecommendation($id)
