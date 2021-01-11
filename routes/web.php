@@ -1,7 +1,10 @@
 <?php
 
+use App\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +17,12 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $company = DB::table('company')->count('name');
+        $employee = User::count('name');
+        return view('welcome')->with([
+            'company' => $company,
+            'employee' => $employee
+        ]);
 });
 
 Auth::routes(['verify' => true]);
