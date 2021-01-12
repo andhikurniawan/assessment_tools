@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\Models\JobTargets;
+use App\Models\JobRequirement;
 
 class JobRequirementController extends AppBaseController
 {
@@ -29,10 +31,19 @@ class JobRequirementController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $jobRequirements = $this->jobRequirementRepository->all();
 
-        return view('job_requirements.index')
-            ->with('jobRequirements', $jobRequirements);
+        $job_target_id = $request->get('job_target_id');
+        if(!empty($job_target_id))
+        {
+            $jobTarget = JobTargets::find($job_target_id);
+            $jobRequirements = JobRequirement::where('job_target_id',$job_target_id)->get();
+
+            return view('job_requirements.index', compact('jobRequirements','jobTarget'));
+        }
+        else
+        {
+            abort(404);
+        }
     }
 
     /**
@@ -40,9 +51,12 @@ class JobRequirementController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('job_requirements.create');
+        $job_target_id = $request->get('job_target_id');
+        $jobTarget = JobTargets::find($job_target_id);
+
+        return view('job_requirements.create', compact('job_target_id'));
     }
 
     /**
@@ -60,7 +74,7 @@ class JobRequirementController extends AppBaseController
 
         Flash::success('Job Requirement saved successfully.');
 
-        return redirect(route('jobRequirements.index'));
+        return redirect(route('jobRequirements.index',['job_target_id'=>$jobRequirement->job_target_id]));
     }
 
     /**
@@ -100,7 +114,7 @@ class JobRequirementController extends AppBaseController
             return redirect(route('jobRequirements.index'));
         }
 
-        return view('job_requirements.edit')->with('jobRequirement', $jobRequirement);
+        return view('job_requirements.edit', compact('jobRequirement'));
     }
 
     /**
@@ -125,7 +139,7 @@ class JobRequirementController extends AppBaseController
 
         Flash::success('Job Requirement updated successfully.');
 
-        return redirect(route('jobRequirements.index'));
+        return redirect(route('jobRequirements.index',['job_target_id'=>$jobRequirement->job_target_id]));
     }
 
     /**

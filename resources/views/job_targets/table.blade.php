@@ -26,7 +26,7 @@
                             <td>
                                 {!! Form::open(['route' => ['jobTargets.destroy', $jobTarget->id], 'method' => 'delete']) !!}
                                 <div class='btn-group'>
-                                    <a class='btn btn-info btn-xs'>Requirement</a>
+                                    <a href="{!! route('jobRequirements.index', ['job_target_id'=>$jobTarget->id]) !!}" class='btn btn-info btn-xs'>Requirement</a>
                                     <a class='btn btn-success btn-xs'><span class="iconify" data-icon="ant-design:copy-outlined" data-inline="false"></span></a>
                                     <a href="{!! route('jobTargets.show', [$jobTarget->id]) !!}" class='btn btn-success btn-xs'><span class="iconify" data-icon="bx:bx-show" data-inline="false"></span></a>
                                     <a href="{!! route('jobTargets.edit', [$jobTarget->id]) !!}" class='btn btn-secondary btn-xs'><span class="iconify" data-icon="ant-design:edit-outlined" data-inline="false"></span></i></a>

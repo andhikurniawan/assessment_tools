@@ -87,4 +87,9 @@ class JobTargets extends Model
     {
         return $this->hasMany(\App\Models\JobRequirement::class, 'job_target_id');
     }
+
+    public function jobTargets()
+    {
+        return $this->hasMany(\App\Models\JobRequirement::class, 'job_target_id');
+    }
 }

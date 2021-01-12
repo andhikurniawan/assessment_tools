@@ -5,20 +5,12 @@
 @section('JobTargets', 'active')
 
 @section('content')
-    <!-- <section class="content-header">
-        <h1 class="pull-left" style="margin-top: 20px;margin-bottom: 10px">Job Targets</h1>
-        <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: 20px;margin-bottom: 10px" href="{{ route('jobTargets.create') }}">Add New</a>
-        </h1>
-    </section> -->
-    
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Job Targets</h1>
         <div class="text-right">
             <a href="{{ url('jobTargets/create') }}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                     class="fas fa-plus fa-sm text-white-50"></i> Buat Job Target</a>
         </div>
-
     </div>
 
     <div class="content">
@@ -33,7 +25,6 @@
             </div>
         </div>
         <div class="text-center">
-        
         </div>
     </div>
 @endsection

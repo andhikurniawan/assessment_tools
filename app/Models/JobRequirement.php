@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model as Model;
-
+use App\Models\JobTargets;
 /**
  * Class JobRequirement
  * @package App\Models
@@ -53,5 +53,8 @@ class JobRequirement extends Model
         'skill_level' => 'required|integer'
     ];
 
-    
+    public function jobTarget()
+    {
+        return $this->belongsTo(JobTargets::class, 'job_target_id');
+    }
 }

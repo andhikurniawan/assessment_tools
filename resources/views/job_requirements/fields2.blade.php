@@ -1,6 +1,3 @@
-<!-- Job Target Id Field -->
-{!! Form::hidden('job_target_id', $job_target_id, ['class' => 'form-control']) !!}
-
 <!-- Competency Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('competency_id', 'Competency Id:') !!}
@@ -16,5 +13,5 @@
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{!! route('jobRequirements.index', ['job_target_id'=>$job_target_id]) !!}" class="btn btn-default">Cancel</a>
+    <a href="{!! route('jobRequirements.index', ['job_target_id'=>$jobRequirement->job_target_id]) !!}" class="btn btn-default">Cancel</a>
 </div>

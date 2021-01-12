@@ -1,26 +1,60 @@
-@extends('layouts.app')
+@extends('main')
+
+@section('title', 'Job Requirements')
+
+@section('JobRequirement', 'active')
 
 @section('content')
-    <section class="content-header">
-        <h1 class="pull-left">Job Requirements</h1>
-        <h1 class="pull-right">
-           <a class="btn btn-primary pull-right" style="margin-top: -10px;margin-bottom: 5px" href="{{ route('jobRequirements.create') }}">Add New</a>
-        </h1>
-    </section>
-    <div class="content">
-        <div class="clearfix"></div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Job Requirement for {{ $jobTarget->job_name }}</h1>
+        <!-- <div class="text-right">
+            <a href="{{ url('jobTargets/create') }}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                    class="fas fa-plus fa-sm text-white-50"></i> Buat Job Target</a>
+        </div> -->
+    </div>
 
-        @include('flash::message')
+    <div class="block">
+        <div class="block-content">
+            <table class="table table-striped">
+                <tr>
+                    <th>Company</th>
+                    <td>Company Name</td>
+                </tr>
+                <tr>
+                    <th>Assessment Session</th>
+                    <td>Assessment Session Name</td>
+                </tr>
+                <tr>
+                    <th>Job Target</th>
+                    <td>{{ $jobTarget->job_name }}</td>
+                </tr>
+            </table>
 
-        <div class="clearfix"></div>
-        <div class="box box-primary">
-            <div class="box-body">
-                    @include('job_requirements.table')
+            <div class="block-option">
+                <a class="btn btn-rounded btn-primary min-width-125 mb-10 float-right" style="margin-bottom: 20px" href="{!! route('jobRequirements.create', ['job_target_id' => $jobTarget->id]) !!}">New Requirement</a>
             </div>
-        </div>
-        <div class="text-center">
-        
+            <div class="clearfix"></div>
+
+            @include('flash::message')
+
+            <div class="clearfix"></div>
+            
+            @include('job_requirements.table')
+            <div class="text-center">
+            
+            </div>
+            <div class="row" style="padding-left: 20px">
+                <a href="{!! route('jobTargets.index') !!}" class="btn btn-primary">Back</a>
+            </div>
         </div>
     </div>
 @endsection
 
+@section('script')
+    <!-- Page level plugins -->
+    <script src="{{ asset('style/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('style/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('style/js/demo/datatables-demo.js') }}"></script>
+@endsection
