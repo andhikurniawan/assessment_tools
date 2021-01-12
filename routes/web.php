@@ -20,3 +20,7 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->middleware('verified');
+
+Route::resource('jobTargets', 'JobTargetsController');
+
+Route::resource('roles', 'rolesController');
