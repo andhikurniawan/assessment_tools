@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
+use DB;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $id = Auth::user()->id;
+
+        $role = DB::table("user_role")
+                ->where("user_id", $id)
+                ->select("role_id")
+                ->first();
+
+        if($role->role_id == "superadmin" || $role->role_id == "admin")
+        {
+            return view('home');
+        }
+        else if($role->role_id == "user")
+        {
+            return redirect("assessmentUser");
+        }      
     }
 }

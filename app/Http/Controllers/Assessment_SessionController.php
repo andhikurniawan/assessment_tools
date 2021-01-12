@@ -14,6 +14,7 @@ use DB;
 use Session;
 use App\Models\Company;
 use App\Models\Assessment_Session;
+use Auth;
 
 class Assessment_SessionController extends AppBaseController
 {
@@ -34,10 +35,24 @@ class Assessment_SessionController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $assessmentSessions = $this->assessmentSessionRepository->paginate(5);
+        $id = Auth::user()->id;
+
+        $role = DB::table("user_role")
+                ->where("user_id", $id)
+                ->select("role_id")
+                ->first();
+
+        if($role->role_id == "superadmin" || $role->role_id == "admin")
+        {
+        $assessmentSessions = $this->assessmentSessionRepository->all();
 
         return view('assessment__sessions.index')
             ->with('assessmentSessions', $assessmentSessions);
+        }
+        else if($role->role_id == "user")
+        {
+            return redirect("assessmentUser");
+        }
     }
 
     public function search(Request $request){

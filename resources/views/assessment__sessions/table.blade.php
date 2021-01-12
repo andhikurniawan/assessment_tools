@@ -1,5 +1,5 @@
-<div class="table-responsive">
-    <table class="table" id="assessmentSessions-table">
+<div class="table-responsive" style="margin-top:10px">
+    <table class="table table-striped" id="table_id">
         <thead>
             <tr>
                 <th>Name</th>
@@ -9,7 +9,7 @@
         <th>Start Date</th>
         <th>End Date</th>
         <th>Company Id</th>
-                <th colspan="3">Action</th>
+        <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -36,3 +36,18 @@
         </tbody>
     </table>
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+    $('#table_id').DataTable({
+        
+    });
+
+
+
+});
+
+</script>

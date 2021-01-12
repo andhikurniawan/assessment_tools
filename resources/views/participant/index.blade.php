@@ -23,7 +23,7 @@
                     <label>1. Download Excel Template</label>
                 </div>
                 <br>
-                <a href="/file/template_participants.xlsx" download="template_participants.xlsx" id="download" style="text-decoration: none;">
+                <a href="/file/template_participants_fix.xlsx" download="template_participants.xlsx" id="download" style="text-decoration: none;">
                     <div class="row" style="width: 200px; height: 250px; border: 1px dashed black; margin: 0 auto;">
                         <label style="margin-top: 50%; font-size: 18px; color: black;">Download Template</label>
                         <label style="font-size: 10px; color: black;">Click here to download template</label>

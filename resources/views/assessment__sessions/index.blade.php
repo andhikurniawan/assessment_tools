@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('templates.template')
 
 @section('content')
     <section class="content-header" >
@@ -66,9 +66,9 @@
 <div class="row" style="margin-bottom: 20px; margin-left:-25px; margin-top: 20px;" >
  <br>
     <div class="col-sm-3">
-     <label style="margin-top:5px;">All Session</label>
+     <h4 style="margin-bottom:-5px;">All Session</h4>
     </div>
-    <div class="col-sm-8" style="margin-left:-190px" >
+    <!-- <div class="col-sm-8" style="margin-left:-190px" >
        <form action="/search" method="get" class="form-inline">
        <div class="form-group">     
        <div class="input-group">
@@ -77,9 +77,9 @@
        </div>
        <button type="submit" class="btn btn-primary">Search</button>
        </form>
-    </div>
+    </div> -->
 
-    <div class="col-sm-2"  style="margin-left:60px">
+    <div class="col-sm-2"  style="margin-left:665px">
         <a href="{{ route('assessmentSessions.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add Session</a>                  
     </div>
            
@@ -93,9 +93,7 @@
             </div>
            
         </div>
-        <div class="text-center">
-        {{$assessmentSessions->links()}}
-        </div>
+        
     </div>
 @endsection
 

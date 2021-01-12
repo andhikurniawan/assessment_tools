@@ -42,3 +42,11 @@ Route::post("finalize/save", "FinalizeController@save")->name("finalize.save");
 Route::get("finalize/finalize", "FinalizeController@finalize")->name("finalize.finalize");
 
 Route::get("finalize", "FinalizeController@index")->name("finalize");
+
+Route::get("assessmentUser", "assessmentUserController@index")->name("assessmentUser");
+
+Route::post("session", "sessionController@index")->name("session");
+
+Route::post("session/simpan", "sessionController@simpan")->name("session.simpan");
+
+Route::post("assessmentUser/detail", "assessmentUserController@detail")->name("assessmentUser.detail");

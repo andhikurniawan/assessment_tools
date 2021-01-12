@@ -5,7 +5,7 @@
     <title>{{ config('app.name') }}</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @yield('css_before')
+ 
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,400i,600,700">
 
@@ -32,7 +32,9 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
 
-    @yield('css_after')
+    <link rel="stylesheet" type="text/css" href="/css/DataTables/datatables.min.css"/>
+
+    @yield('css')
 </head>
 
 <body class="skin-blue sidebar-mini">
@@ -171,6 +173,7 @@
 
     
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.22/datatables.min.js"></script>
     @stack('scripts')
 </body>
 </html>
