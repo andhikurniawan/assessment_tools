@@ -2,7 +2,7 @@
 
 @section('title', 'Dashboard Training and Development')
 
-@section('TrainingDashboard', 'active')
+@section('TrainingDasboard', 'active')
 
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">

@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('title', 'Tambah Data Pegawai')
+@section('title', 'Tambah Data Admin')
 
 @section('DaftarPegawai', 'active')
 
@@ -10,7 +10,7 @@
             <a href="{{ url()->previous() }}" class="d-sm-inline text-decoration-none text-muted">
                 <i class="fas fa-chevron-left fa-lg" style="width: 20px"></i>
             </a>
-            <h1 class="d-inline h3 text-gray-800">Tambah Data Pegawai</h1>
+            <h1 class="d-inline h3 text-gray-800">Tambah Data Admin</h1>
         </div>
 
     </div>
@@ -32,7 +32,7 @@
                     <label for="employee_id">Employee ID</label>
                     <input type="text" name="employee_id" id="employee_id"
                         class="form-control @error('employee_id') is-invalid @enderror" value="{{ old('employee_id') }}"
-                        placeholder="NIP / ID Pegawai">
+                        placeholder="NIP / ID Admin">
                     @error('employee_id')
                         <div class="invalid-feedback"> {{ $message }}</div>
                     @enderror
@@ -41,31 +41,31 @@
                     <label for="role">Role</label>
                     <select class="form-control" id="role" name="role">
                         @foreach ($role as $item)
-                        <option value="{{ $item->id }}" {{$item->id == "user" ? "selected" : null}}>{{ $item->name }}</option>
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email Pegawai</label>
+                    <label for="email">Email Admin</label>
                     <input type="email" name="email" id="email" class="form-control @error('email') is-invalid @enderror"
-                        value="{{ old('email') }}" placeholder="Email untuk Pegawai">
+                        value="{{ old('email') }}" placeholder="Email untuk Admin">
                     @error('email')
                         <div class="invalid-feedback"> {{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="name">Nama Pegawai</label>
+                    <label for="name">Nama Admin</label>
                     <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
-                        value="{{ old('name') }}" placeholder="Nama Pegawai">
+                        value="{{ old('name') }}" placeholder="Nama Admin">
                     @error('name')
                         <div class="invalid-feedback"> {{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="username">Username Pegawai</label>
+                    <label for="username">Username Admin</label>
                     <input type="text" name="username" id="username"
                         class="form-control @error('username') is-invalid @enderror" autocomplete="new-password"
-                        value="{{ old('username') }}" placeholder="Username Pegawai">
+                        value="{{ old('username') }}" placeholder="Username Admin">
                     @error('username')
                         <div class="invalid-feedback"> {{ $message }}</div>
                     @enderror
@@ -78,7 +78,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password Pegawai</label>
+                    <label for="password">Password Admin</label>
                     <input type="password" name="password" id="password"
                         class="form-control @error('password') is-invalid @enderror" value="{{ old('password') }}"
                         placeholder="Password Pegawai">

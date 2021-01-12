@@ -62,6 +62,7 @@ Route::post('/track-record/insertTrainingProcess', 'TrackRecordController@insert
 Route::post('/track-record/insertProjectProcess', 'TrackRecordController@insertProjectProcess');
 
 Route::get('employee/company/{id}', 'UserController@empCompany');
+Route::get('employee/create-admin', 'UserController@createAdmin');
 Route::resource('employee', 'UserController');
 //for testing
 Route::get('/email', 'HomeController@email');
