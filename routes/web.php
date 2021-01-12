@@ -61,6 +61,10 @@ Route::get('/track-record/insertProject', 'TrackRecordController@insertProject')
 Route::post('/track-record/insertTrainingProcess', 'TrackRecordController@insertTrainingProcess');
 Route::post('/track-record/insertProjectProcess', 'TrackRecordController@insertProjectProcess');
 
-Route::get('/employee', 'UserController@index');
+Route::get('employee/company/{id}', 'UserController@empCompany');
+Route::resource('employee', 'UserController');
 //for testing
 Route::get('/email', 'HomeController@email');
+
+Route::resource('company', 'CompanyController');
+Route::resource('role', 'RoleController');

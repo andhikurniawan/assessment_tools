@@ -62,13 +62,21 @@
 
             <!-- Nav Item  -->
             <li class="nav-item @yield('DataPerusahaan')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{url('company')}}">
                     <i class="fas fa-database"></i>
                     <span>Data Perusahaan</span></a>
             </li>
+
+            <!-- Nav Item  -->
+            <li class="nav-item @yield('Roles')">
+                <a class="nav-link" href="{{url('role')}}">
+                    <span class="iconify" data-icon="ic:round-admin-panel-settings" data-inline="false"></span>
+                    <span>Role</span></a>
+            </li>
+
             <!-- Nav Item  -->
             <li class="nav-item @yield('DataPegawai')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ url('employee')}}">
                     <i class="fas fa-database"></i>
                     <span>Data Pegawai</span></a>
             </li>

@@ -33,7 +33,7 @@
 
             <!-- Employee Profile -->
             <div class="row">
-                <div class="col">
+            <div class="col">
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="row align-items-center">

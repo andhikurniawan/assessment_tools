@@ -81,7 +81,7 @@
                 <div class="form-group">
                     <label for="link">Link Pelatihan</label>
                     <input type="url" name="link" id="link" class="form-control @error('link') is-invalid @enderror"
-                        value="{{ old('linnk') }}" placeholder="Masukan Link Pelatihan..">
+                        value="{{ old('link') }}" placeholder="Masukan Link Pelatihan..">
                     @error('link')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
