@@ -17,6 +17,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->middleware('verified');
+
+Route::resource('users', 'UserController');
+Route::resource('grupkompetensis', 'grupkompetensiController');
+Route::resource('kompetensis', 'kompetensiController');
+Route::resource('modelkompetensis', 'modelkompetensiController');
+Route::resource('behaviors', 'behaviorController');
+
+Route::resource('perusahaans', 'perusahaanController');
+
+Route::resource('relasikompetensis', 'relasikompetensiController');
+
+Route::resource('competencyGroups', 'Competency_GroupController');
+
+Route::resource('competencies', 'CompetencyController');
+
+Route::resource('keyBehaviours', 'Key_BehaviourController');
+
+Route::resource('competencyModels', 'Competency_ModelController');
