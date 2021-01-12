@@ -69,3 +69,6 @@ Route::post('/track-record/insertProjectProcess', 'TrackRecordController@insertP
 Route::get('/employee', 'UserController@index');
 //for testing
 Route::get('/email', 'HomeController@email');
+
+
+Route::resource('jobRequirements', 'JobRequirementController');
