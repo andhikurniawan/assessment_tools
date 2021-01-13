@@ -81,7 +81,7 @@
                     <label for="password">Password Admin</label>
                     <input type="password" name="password" id="password"
                         class="form-control @error('password') is-invalid @enderror" value="{{ old('password') }}"
-                        placeholder="Password Pegawai">
+                        placeholder="Password Admin">
                     @error('password')
                         <div class="invalid-feedback"> {{ $message }}</div>
                     @enderror

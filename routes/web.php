@@ -60,6 +60,8 @@ Route::get('/track-record/insertTraining', 'TrackRecordController@insertTraining
 Route::get('/track-record/insertProject', 'TrackRecordController@insertProject');
 Route::post('/track-record/insertTrainingProcess', 'TrackRecordController@insertTrainingProcess');
 Route::post('/track-record/insertProjectProcess', 'TrackRecordController@insertProjectProcess');
+Route::get('/track-record/company/{id}', 'TrackRecordController@getPeriodCompany')->name('getPeriodCompany');
+
 
 Route::get('employee/company/{id}', 'UserController@empCompany');
 Route::get('employee/create-admin', 'UserController@createAdmin');

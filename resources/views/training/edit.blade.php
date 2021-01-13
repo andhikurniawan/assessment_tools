@@ -22,6 +22,14 @@
                 @method('PUT')
                 @csrf
                 <div class="form-group">
+                    <label for="company_id">Perusahaan</label>
+                    <select class="form-control" id="company_id" name="company_id">
+                        @foreach ($company as $item)
+                            <option value="{{ $item->id }}" {{$item->id == $training->company_id ? "selected" : null}}>{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="name">Nama Pelatihan</label>
                     <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
                         value="{{ old('name', $training->name) }}" autofocus placeholder="Masukan Nama Pelatihan..">

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\Competency;
 use App\Track_project_emp;
 use App\Track_training_emp;
 use App\Training;
@@ -31,9 +33,18 @@ class TrainingController extends Controller
      */
     public function create()
     {
-        $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session','assessment_competency_result.session_id', '=', 'assessment_session.id')->distinct()->get();
-        $employee = DB::table('user')->join('user_role', 'user.id', '=', 'user_role.user_id','inner')->where('user_role.role_id', '=', 'user')->get();
-        $training = Training::all();
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->distinct()->get();
+        $employee = DB::table('user')->join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->where('user_role.role_id', '=', 'user')->get();
+            $training = Training::all();
+        } else {
+            $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->where('user.company_id',$user_company)->distinct()->get();
+        $employee = DB::table('user')->join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->where('user_role.role_id', '=', 'user')->where('user.company_id',$user_company)->get();
+            $training = Training::where('company_id',$user_company)->get()
+            ;
+        }
+        
         return view('training.create')->with('assessment_result', $assessment_result)->with('employee', $employee)->with('training', $training);
     }
 
@@ -74,7 +85,8 @@ class TrainingController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'description' => $request->description,
-            'link' => $link
+            'link' => $link,
+            'company_id' => $request->company_id
         ]);
 
         $id = DB::getPdo()->lastInsertId();
@@ -96,8 +108,10 @@ class TrainingController extends Controller
      */
     public function show(Training $training)
     {
-        $training_competency = DB::table('training_competencies')->select('training_competencies.id','id_competency', 'competency.name')->join('training', 'training.id', '=', 'training_competencies.id_training', 'inner')->join('competency', 'competency.id', '=', 'training_competencies.id_competency', 'inner')->where('training.id', '=', $training->id)->get();
-        return view('training/show')->with('training', $training)->with('training_competency', $training_competency);
+        $training_competency = DB::table('training_competencies')->select('training_competencies.id', 'id_competency', 'competency.name')->join('training', 'training.id', '=', 'training_competencies.id_training', 'inner')->join('competency', 'competency.id', '=', 'training_competencies.id_competency', 'inner')->where('training.id', '=', $training->id)->get();
+        $company = Company::where('id', $training->id)->get()->first();
+
+        return view('training/show')->with('training', $training)->with('training_competency', $training_competency)->with('company', $company);
     }
 
     /**
@@ -108,10 +122,17 @@ class TrainingController extends Controller
      */
     public function edit(Training $training)
     {
-        $training_competency = DB::table('training_competencies')->select('training_competencies.id','id_competency', 'competency.name')->join('training', 'training.id', '=', 'training_competencies.id_training', 'inner')->join('competency', 'competency.id', '=', 'training_competencies.id_competency', 'inner')->where('training.id', '=', $training->id)->get();
+        $training_competency = DB::table('training_competencies')->select('training_competencies.id', 'id_competency', 'competency.name')->join('training', 'training.id', '=', 'training_competencies.id_training', 'inner')->join('competency', 'competency.id', '=', 'training_competencies.id_competency', 'inner')->where('training.id', '=', $training->id)->get();
         // dd($training_competency);
-        $competency = DB::table('competency')->get();
-        return view('training/edit')->with('training', $training)->with('training_competency', $training_competency)->with('competency', $competency);
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $company = Company::all();
+            $competency = Competency::all();
+        } else {
+            $company = Company::where('id', $user_company)->get();
+            $competency = Competency::join('competency_group', 'competency.competency_group_id', '=', 'competency_group.id')->where('competency_group.company_id', $user_company)->select('competency.*')->get();
+        }
+        return view('training/edit')->with('training', $training)->with('training_competency', $training_competency)->with('competency', $competency)->with('company', $company);
     }
 
     /**
@@ -153,7 +174,8 @@ class TrainingController extends Controller
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
                 'description' => $request->description,
-                'link' => $link
+                'link' => $link,
+                'company_id' => $request->company_id
             ]);
 
         return redirect('training/master')->with('status', 'Data pelatihan berhasil diubah!');
@@ -183,23 +205,22 @@ class TrainingController extends Controller
         return view('training.index')->with([
             'assessment_count' => $assessment_session_count,
             'training_count' => $training_recommnedation_count,
-        'track_count' => $track_record_count,
-        'success_count' => $success_count,
-        'failed_count' => $failed_count,
+            'track_count' => $track_record_count,
+            'success_count' => $success_count,
+            'failed_count' => $failed_count,
         ]);
     }
     public function recommendation()
-    {   
-        if(Auth::check() == null ){
+    {
+        if (Auth::check() == null) {
             return redirect('home')->with('alert', 'Anda harus login terlebih dahulu!');
         }
-        if(session('permission') == "admin"){
+        if (session('permission') == "admin") {
             $training_emp = Training_emp::all();
-        return view('training.recommendation')->with('training_emp',$training_emp);
+            return view('training.recommendation')->with('training_emp', $training_emp);
         } else {
             $training_emp = Training_emp::all()->where('user_id', Auth::id());
-        return view('user.training-recommendation.index')->with('training_emp',$training_emp);
-
+            return view('user.training-recommendation.index')->with('training_emp', $training_emp);
         }
         // dd($training_emp);
     }
@@ -212,21 +233,27 @@ class TrainingController extends Controller
 
     public function master_create()
     {
-        $competency = DB::table('competency')->get();
-        // dd($competency);
-        return view('training.create_master')->with('competency', $competency);
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $company = Company::all();
+            $competency = Competency::all();
+        } else {
+            $company = Company::where('id', $user_company)->get();
+            $competency = Competency::join('competency_group', 'competency.competency_group_id', '=', 'competency_group.id')->where('competency_group.company_id', $user_company)->select('competency.*')->get();
+        }
+        return view('training.create_master', compact('competency', 'company'));
     }
 
     public function delete_competency($id, Request $request)
     {
         $id_training = $request->id_training;
         DB::table('training_competencies')->where('id', $id)->delete();
-        return redirect('training/'.$id_training.'/edit')->with('status', 'Kompetensi berhasil dihapus!');
+        return redirect('training/' . $id_training . '/edit')->with('status', 'Kompetensi berhasil dihapus!');
     }
 
     public function insert_competency(Request $request)
     {
-                
+
         $id = $request->id_training;
         $size = count(collect($request)->get('competency'));
         for ($i = 0; $i < $size; $i++) {
@@ -234,20 +261,19 @@ class TrainingController extends Controller
                 ['id_training' => $id, 'id_competency' => $request->get('competency')[$i]]
             );
         }
-        return redirect('training/'.$id.'/edit')->with('status', 'Kompetensi berhasil ditambahkan!');
-
+        return redirect('training/' . $id . '/edit')->with('status', 'Kompetensi berhasil ditambahkan!');
     }
 
     public function getTrainingDetails($id)
     {
         $data = Training::find($id);
-        return response()->json(['success'=>true,'data' => $data]);
+        return response()->json(['success' => true, 'data' => $data]);
     }
 
     public function addRecommendation(Request $request)
     {
         $reason = "";
-        if ($request->reason == null){
+        if ($request->reason == null) {
             $reason = "Tidak ada";
         } else {
             $reason = $request->reason;
@@ -255,7 +281,7 @@ class TrainingController extends Controller
 
         $status = "";
         $trainingStatus = "";
-        if ($request->trainingType == "Opsional"){
+        if ($request->trainingType == "Opsional") {
             $status = "Menunggu Respon";
             $trainingStatus = "Opsional";
         } else {
@@ -289,15 +315,14 @@ class TrainingController extends Controller
         Mail::send('layouts.email', $data, function ($mail) use ($email, $data) {
             $mail->from('web.assessment.bubat@gmail.com', 'Admin HR Bubat Web Assessment');
             $mail->to($email, $data['name'])->subject('Rekomendasi Pelatihan dari Bubat Web Assessment');
-            
         });
 
         // check if email fail
-        if(Mail::failures()){
+        if (Mail::failures()) {
             return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan tetapi Gagal untuk dikirim via Email');
         }
 
-        
+
         return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan dan Dikirim ke E-Mail Karyawan!');
     }
 
@@ -318,12 +343,12 @@ class TrainingController extends Controller
     public function editRecommendationProcess(Request $request)
     {
         $status = "";
-        if ($request->trainingType == "Wajib"){
+        if ($request->trainingType == "Wajib") {
             $status = "Wajib";
-        } else if ($request->trainingType == "Opsional"){
+        } else if ($request->trainingType == "Opsional") {
             $status = "Menunggu Respon";
         }
-         if ($request->cancelTraining == "Ya"){
+        if ($request->cancelTraining == "Ya") {
             $status = "Dibatalkan";
         }
         Training_emp::where('id', $request->id_training_emp)->update([
@@ -333,21 +358,20 @@ class TrainingController extends Controller
         ]);
 
         return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Ubah!');
-
     }
 
     public function recommendationVerification($id, Request $request)
     {
         $status = "";
-        if ($request->option == "Terima"){
+        if ($request->option == "Terima") {
             $status = "Disetujui";
-        } else if ($request->option == "Tolak"){
+        } else if ($request->option == "Tolak") {
             $status = "Ditolak";
         }
 
         Training_emp::where('id', $request->id_training_emp)->update([
             'status' => $status
         ]);
-        return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil '.$status);
+        return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil ' . $status);
     }
 }

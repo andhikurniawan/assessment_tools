@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Track_project_emp;
 use App\Track_training_emp;
 use App\User;
@@ -14,7 +15,8 @@ class TrackRecordController extends Controller
     public function index()
     {
         $id = Auth::id();
-        $period = DB::table('track_input_period')->get()->first();
+        $company_id = Auth::user()->company_id;
+        $period = DB::table('track_input_period')->where('company_id', $company_id)->get()->first();
         if ($period == null) {
             $period = (object) [
                 'start_date' => 'Belum ditentukan',
@@ -31,21 +33,22 @@ class TrackRecordController extends Controller
             return view('track-record.detail', compact('employee'))->with('track_training', $track_training)->with('track_project', $track_project)->with('assessment_result', $assessment_result)->with('period', $period);
         } else {
             $employee = User::join('user_role', 'user_role.user_id', '=', 'user.id', 'inner')->where('user_role.role_id', '=', 'user')->get();
-            return view('track-record.index', compact('employee'))->with('period', $period);
+            $company = Company::all();
+            return view('track-record.index', compact('employee'))->with('period', $period)->with('company', $company);
         }
     }
 
     public function updatePeriod(Request $request)
     {
-        $period = DB::table('track_input_period')->get()->first();
+        $period = DB::table('track_input_period')->where('company_id',$request->company_modal)->get()->first();
         if ($period == null) {
             DB::table('track_input_period')->insert([
-                'id' => 1,
                 'start_date' => $request->start_date,
-                'end_date' => $request->end_date
+                'end_date' => $request->end_date,
+                'company_id' => $request->company_modal
             ]);
         } else {
-            DB::table('track_input_period')->where('id', 1)
+            DB::table('track_input_period')->where('company_id', $request->company_modal)
                 ->update([
                     'start_date' => $request->start_date,
                     'end_date' => $request->end_date
@@ -390,5 +393,11 @@ class TrackRecordController extends Controller
         } else {
             return redirect('track-record')->with('status', 'Maaf data project tersebut tidak bisa di hapus, karena status sudah berubah');
         }
+    }
+
+    public function getPeriodCompany($id)
+    {
+        $data = DB::table('track_input_period')->where('company_id', $id)->get()->first();
+        return response()->json(['success' => true, 'data' =>$data]);
     }
 }

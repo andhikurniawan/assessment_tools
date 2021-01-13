@@ -20,10 +20,18 @@
             <h6 class="m-0 font-weight-bold text-primary">Waktu Periode Pengisian Track Record</h6>
         </div>
         <div class="card-body">
+            <h1 class=" h4 text-gray-800">Perusahaan</h1>
+            <select name="company" id="company" class="form-control">
+                <option value="">Pilih Perusahaan</option>
+            @foreach ($company as $item)
+                <option value="{{$item->id}}">{{ $item->name }}</option>
+            @endforeach
+        </select>
+        <br>
             <h4>Tanggal Mulai</h4>
-            <p><b id="startDate">{{$period->start_date}}</b></p>
+            <p><b id="startDate">Pilih Perusahaan</b></p>
             <h4>Tanggal Selesai</h4>
-            <p><b id="endDate">{{$period->end_date}}</b></p>
+            <p><b id="endDate">Pilih Perusahaan</b></p>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
         Ubah
@@ -83,12 +91,13 @@
           <div class="row">
               <div class="col">
                   <h5>Tanggal Mulai</h5>
-                  <input type="text" name="start_date" value="{{$period->start_date}}">
+                  <input type="text" name="start_date" id="startDateModal">
               </div>
               <div class="col">
                   <h5>Tanggal Berakhir</h5>
-                  <input type="text" name="end_date" value="{{$period->end_date}}">
+                  <input type="text" name="end_date" id="endDateModal">
               </div>
+              <input type="text" name="company_modal" id="companyModal" hidden>
           </div>
         </div>
         <div class="modal-footer">
@@ -130,25 +139,45 @@
     });
     
     </script>
-    <script>
-         jQuery(document).ready(function() {
-                    var start_date = "{{ $period->start_date }}";
-                    var end_date = "{{ $period->end_date }}";
-                    var options = {
+       <script>
+        $('#company').change(function() {
+            if ($(this).val() == ''){
+                $('#startDate').val("Belum Ditentukan");
+                        $('#endDate').val("Belum Ditentukan");
+            } else {
+            var id = $(this).val();
+            var options = {
                         weekday: 'long',
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric'
                     };
-                    if (start_date != "Belum ditentukan" && end_date != "Belum ditentukan") {
-                        var dateStart = new Date(start_date);
-                        var dateEnd = new Date(end_date);
+            var url = '{{ route("getPeriodCompany", ":id") }}';
+            url = url.replace(':id', id);
+            $.ajax({
+                url: url,
+                type: 'get',
+                data: {},
+                success: function(data) {
+                    if (data.data != null) {
+                        var dateStart = new Date(data.data.start_date);
+                        var dateEnd = new Date(data.data.end_date);
                         var longStartDate = dateStart.toLocaleDateString("id-ID", options);
                         var longEndDate = dateEnd.toLocaleDateString("id-ID", options);
                         $('#startDate').text(longStartDate);
+                        $('#startDateModal').val(data.data.start_date);
                         $('#endDate').text(longEndDate);
-
+                        $('#endDateModal').val(data.data.end_date);
+                        $('#companyModal').val($('#company').val());
+                    } else {
+                        $('#startDate').text("Belum Ditentukan");
+                        $('#endDate').text("Belum Ditentukan");
+                        $('#companyModal').val($('#company').val());
                     }
-                });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {}
+            });
+            }
+        });
     </script>
     @endsection

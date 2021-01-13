@@ -21,6 +21,14 @@
             <form action="{{ url('training') }}" method="post">
                 @csrf
                 <div class="form-group">
+                    <label for="company_id">Perusahaan</label>
+                    <select class="form-control" id="company_id" name="company_id">
+                        @foreach ($company as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="name">Nama Pelatihan</label>
                     <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
                         value="{{ old('name') }}" autofocus placeholder="Masukan Nama Pelatihan..">
@@ -42,7 +50,7 @@
                         <div class="col-sm-2">
                             <input type="number" min="1" max="366" name="duration" id="duration"
                                 class="form-control @error('duration') is-invalid @enderror" value="{{ old('duration') }}"
-                                placeholder="">
+                                placeholder="Durasi Pelatihan">
                             @error('duration')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
