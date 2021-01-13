@@ -1,28 +1,32 @@
-@extends('layouts.app')
+@extends('main')
 
+@section('title', 'Assessment Session')
+
+@section('SesiAssessment', 'active')
+@if (session('permission') == 'user')
+        @section('user', 'hidden')
+        @endif
 @section('content')
-<section class="content-header" >
-        <h1 class="pull-left" style="margin-top: 10px; margin-bottom: 35px; margin-left:10px;">Welcome, {{ Auth::user()->name }} !</h1>
-    </section>
-<div class="content">
-    <div class="container-fluid">
-
- <div class="row" style="margin-bottom: 10px; margin-left:0px; margin-top: 50px;" >
-    <div class="col-lg">
-     <h4>All Session</h4>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-4 text-gray-800">Halo, {{ Auth::user()->name }}</h1>
     </div>
-</div>
-        
 
-        
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h4 mb-0 text-gray-800">Assessment Session</h1>
+
+        </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Session</h6>
+        </div>
+        <div class="card-body">
+
         <form method="post" action="{{ route('assessmentUser.detail') }}" id="formsubmit">
         <input type="hidden" value="" id="session_id" name="id">
         <input type="hidden" name="_token" value="{!! csrf_token() !!}">
        
-        <div class="box box-primary">
-            <div class="box-body">
-            <div class="table-responsive" style="margin-top:10px">
-        <table class="table text-center table-striped" id="table_id">
+        <table class="table text-center table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>NAME</th>
@@ -52,10 +56,7 @@
                      </div>
                  </div>
            
-           </div>
-
-        </div>
-    </div>
+          
 
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
@@ -79,5 +80,12 @@ $(document).ready(function(){
 });
 
 </script>
+@endsection
+@section('script')
+    <!-- Page level plugins -->
+    <script src="{{ asset('style/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('style/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('style/js/demo/datatables-demo.js') }}"></script>
 @endsection

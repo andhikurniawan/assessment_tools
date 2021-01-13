@@ -15,6 +15,7 @@ use Session;
 use App\Models\Company;
 use App\Models\Assessment_Session;
 use Auth;
+use stdClass;
 
 class Assessment_SessionController extends AppBaseController
 {
@@ -114,16 +115,69 @@ class Assessment_SessionController extends AppBaseController
      */
     public function show($id)
     {
-        $assessmentSession = $this->assessmentSessionRepository->find($id);
+        $session = $this->assessmentSessionRepository->find($id);
 
-        if (empty($assessmentSession)) {
-            Flash::error('Assessment  Session not found');
+        $models = DB::table("assessment_relation")
+                    ->join("competency_models", "competency_models.id", "=", "assessment_relation.competency_models_id")
+                    ->where("assessment_relation.assessment_session_id", $id)
+                    ->get();
+        
+        $participant = DB::table("assessor_map")
+                        ->where("session_id", $id)
+                        ->get();
+        
+        $assesse = [];
+
+        for($i = 0; $i < count($participant); $i++)
+        {
+            array_push($assesse, $participant[$i]->userid_assessee);
+        }
+
+        $assesse = array_unique($assesse);
+        $assesse = array_values($assesse);
+
+        $participants = [];
+
+        for($i = 0; $i < count($assesse); $i++)
+        {   
+            $detail = new stdClass();
+            $detail->id = $assesse[$i];
+
+            $assese = DB::table("user")->where("id", $assesse[$i])->first();
+
+            $detail->name = $assese->name;
+            $detail->email = $assese->email;
+
+            $detail->assessor = [];
+            
+            for($j = 0; $j < count($participant); $j++)
+            {
+                if($participant[$j]->userid_assessee == $assesse[$i])
+                {   
+                    $assessor = new stdClass();
+                    $assessor->id = $participant[$j]->userid_assessor;
+                    
+                    $assesor = DB::table("user")->where("id", $participant[$j]->userid_assessor)->first();
+
+                    $assessor->name = $assesor->name;
+                    $assessor->email = $assesor->email;
+                    $assessor->status = $participant[$j]->status;
+                    $assessor->relation = $participant[$j]->relation;
+
+                    array_push($detail->assessor, $assessor);
+                }
+            }
+
+            array_push($participants, $detail);
+        }
+
+        if (empty($session)) {
+            Flash::error('Assessment Session not found');
 
             return redirect(route('assessmentSessions.index'));
         }
-        $items = CompetencyModel::pluck('name','id');
-        $assignmentHeaders = $assessmentSession->assignmentHeaders;
-        return view('assessment__sessions.show', compact('assessmentSession', 'items', 'assignmentHeaders'));
+
+        return view('assessment__sessions.show', compact("session", "models", "participants"));
     }
 
     /**
@@ -135,15 +189,144 @@ class Assessment_SessionController extends AppBaseController
      */
     public function edit($id)
     {
-        $assessmentSession = $this->assessmentSessionRepository->find($id);
+       $assessmentSession = DB::table("assessment_session")
+                            ->where("id", $id)
+                            ->first();
 
-        if (empty($assessmentSession)) {
-            Flash::error('Assessment  Session not found');
+        $assessmentId = $id;
 
-            return redirect(route('assessmentSessions.index'));
+        $models = DB::table("assessment_relation")
+                    ->join("competency_models", "competency_models.id", "=", "assessment_relation.competency_models_id")
+                    ->where("assessment_session_id", $id)
+                    ->get();
+
+        $participant = DB::table("assessor_map")
+                    ->where("session_id", $id)
+                    ->get();
+    
+        $assesse = [];
+
+        for($i = 0; $i < count($participant); $i++)
+        {
+            array_push($assesse, $participant[$i]->userid_assessee);
         }
 
-        return view('assessment__sessions.edit')->with('assessmentSession', $assessmentSession);
+        $assesse = array_unique($assesse);
+
+        $assesse = array_values($assesse);
+
+        $participants = [];
+
+        for($i = 0; $i < count($assesse); $i++)
+        {   
+            $detail = new stdClass();
+            $detail->id = $assesse[$i];
+
+            $assese = DB::table("user")->where("id", $assesse[$i])->first();
+            $detail->name = $assese->name;
+            $detail->email = $assese->email;
+
+            $detail->assessor = [];
+            
+            for($j = 0; $j < count($participant); $j++)
+            {
+                if($participant[$j]->userid_assessee == $assesse[$i])
+                {   
+                    $assessor = new stdClass();
+                    $assessor->id = $participant[$j]->userid_assessor;
+                    
+                    $assesor = DB::table("user")->where("id", $participant[$j]->userid_assessor)->first();
+
+                    $assessor->name = $assesor->name;
+                    $assessor->email = $assesor->email;
+                    $assessor->status = $participant[$j]->status;
+                    $assessor->relation = $participant[$j]->relation;
+                    $assessor->assessor_map = $participant[$j]->id;
+
+                    array_push($detail->assessor, $assessor);
+                }
+            }
+
+            array_push($participants, $detail);
+        }
+        
+        $modelss = competencyModels::All();
+
+        $id = DB::table('user')->select("employee_id")->get();
+
+        return view('assessment__sessions.edit', compact("assessmentSession", "models", "participants", "modelss", "id", "assessmentId"));
+    }
+
+    
+    public function editAssessment(Request $request)
+    { 
+        $id = $request->id;
+        $assessment = $request->assessment;
+
+        $update = DB::table("assessment_session")
+            ->where("id", $id)
+            ->update(["name" => $assessment["name"], "category" => $assessment["category"], 
+                        "status" => $assessment["status"], "expired" => $assessment["expired"], 
+                        "start_date" => date("Y-m-d", strtotime($assessment["start_date"])), 
+                        "end_date" => date("Y-m-d", strtotime($assessment["end_date"]))]);
+            
+        return response()->json("0");
+    }
+
+    public function deleteModel(Request $request)
+    {
+        $deleted_models = $request->deleted_models;
+        $id = $request->id;
+        
+        for($i = 0; $i < count($deleted_models); $i++)
+        {
+            DB::table("assessment_relation")
+                ->where("assessment_session_id", $id)
+                ->where("competency_models_id", $deleted_models[$i])
+                ->delete();
+        }
+
+        return response()->json("0");
+    }
+
+    public function insertModel(Request $request)
+    {
+        $add_models = $request->add_models;
+        $id = $request->id;
+        
+        for($i = 0; $i < count($add_models); $i++)
+        {
+            DB::table("assessment_relation")->insert(["assessment_session_id"=>$id, "competency_models_id" => $add_models[$i]]);
+        }
+
+        return response()->json("0");
+    }
+
+    public function deleteParticipant(Request $request)
+    {
+        $deleted_participants = $request->deleted_participants;
+        $id = $request->id;
+        
+        for($i = 0; $i < count($deleted_participants); $i++)
+        {
+            DB::table("assessor_map")
+                ->where("id", $deleted_participants[$i])
+                ->delete();
+        }
+
+        return response()->json("0");
+    }
+
+    public function insertParticipant(Request $request)
+    {
+        $add_participants = $request->add_participants;
+        $id = $request->id;
+        $ids = $request->ids;
+        $idss = $request->idss;
+
+        $insert = DB::table("assessor_map")->insert(["session_id" => $id, "userid_assessor" => $ids, "userid_assessee" => $idss, "status" => $add_participants["status"], "relation" => $add_participants["relation"]]);
+
+        return response()->json("0");
     }
 
     /**
@@ -185,14 +368,19 @@ class Assessment_SessionController extends AppBaseController
         $assessmentSession = $this->assessmentSessionRepository->find($id);
 
         if (empty($assessmentSession)) {
-            Flash::error('Assessment  Session not found');
+            Flash::error('Assessment Session not found');
 
             return redirect(route('assessmentSessions.index'));
         }
 
+        DB::table("assessment_relation")->where("assessment_session_id", $id)->delete();
+        DB::table("assessor_map")->where("session_id", $id)->delete();
+
         $this->assessmentSessionRepository->delete($id);
 
-        Flash::success('Assessment  Session deleted successfully.');
+        Flash::success('Assessment Session deleted successfully.');
+
+        DB::table("assessment_session")->where("id", $id)->delete();
 
         return redirect(route('assessmentSessions.index'));
     }

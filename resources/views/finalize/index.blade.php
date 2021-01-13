@@ -1,19 +1,23 @@
-@extends('layouts.app')
+@extends('main')
 
+@section('title', 'Finalize Assessment')
+
+@section('SesiAssessment', 'active')
 @section('content')
-<section class="content-header" >
-        <h1 style="margin-top:20px">
-           Finalize Create Assessment Session
-        </h1>
-    </section>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div class="text-left">
+            <h1 class="d-inline h3 text-gray-800">Finalize</h1>
+        </div>
+    </div>
+
 
 <!-- Assessment Session  -->
-    <div class="content">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row">
-        <div class="container">
-            <table class="table" style="width:93%; margin-left:5px;">
+<div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Assessment Session</h6>
+        </div>
+        <div class="card-body">
+            <table class="table">
                 <tbody >
                     <tr class="success">
                         <td style="font-weight: bold;">Name</td>
@@ -43,19 +47,15 @@
             </table>
         </div>
             </div>
-        </div>
-    </div>
-</div>
+    
       
 <!-- Competency Model  -->
-<div class="content" style="margin-top:-10px">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row">
-       <div class="container" style="margin-left:10px">
-            <h4>Competency Model</h4>
-            <br>
-            <table class="table text-center" id="tableModel" style="width:92%;">
+<div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Competency Model</h6>
+        </div>
+        <div class="card-body">
+            <table class="table text-center" id="tableModel">
                 <thead>
                     <tr class="success">    
                         <th>#</th>
@@ -73,9 +73,8 @@
                     @endforeach
                 </tbody>
             </table>
-            <h4 class="display 3" >Add Competency Model</h4>
-            <br>
-            <label>Competency Model</label>
+            
+            <label>Add Competency Model</label>
             <select id ="model" class="form-control" style="height: 40px; width: 300px; margin-top: 10px;">
                 @foreach($models as $model)
                     <option value="{{ $model->id }}">{{ $model->name }}</option>
@@ -85,28 +84,25 @@
             <button id="addModel" class="btn btn-primary btn-sm" style="width: 70px; height: 35px; font-size: 16px; border-radius: 5px; margin-bottom:10px">Add</button>
                      </div>
                  </div>
-             </div>
-          </div>
-       </div>
+           
        
 <!-- Mapping Participant  -->
-<div class="content" style="margin-top:-10px">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row">
-       <div class="container" style="margin-left:10px">
-            <h4>Mapping Participants</h4>
+<div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Mapping Participants</h6>
+        </div>
+        <div class="card-body">
             <div class="row">
                 <br>
-                <div class="col-sm-4">
-                    <label style="margin-bottom: 40px;">Assesse</label>
+                <div class="col">
+                    <h5 style="margin-bottom: 40px;margin-top:10px">Assesse</h5>
                 </div>
-                <div class="col-sm-7" >
+                <div class="col" >
                     <a href="{{ route('participant.index') }}"><button style="float: right; margin-left: 20px; " class="btn btn-primary"><i class="fa fa-undo"></i> Re-upload</button></a>
                     <button style="float: right;" id="add" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Assesse</button>                    
                 </div>
             </div>
-            <table class="table text-center" id="tableParticipant" style="width:91%">
+            <table class="table text-center" id="tableParticipant">
                 <thead>
                     <tr class="success">
                         <th>Nama</th>
@@ -121,14 +117,14 @@
                         <tr id="rowAssesse{{ $key }}" class="rowAssesse">
                             <td>{{ $participant["assesse"]["name"] }}</td>
                             <td>{{ $participant["assesse"]["email"] }}</td>
-                            <td><span class='badge' style="background-color: #4fd6a2;">{{ count($participant["assessor"]) }}</span></td>
+                            <td><span class='badge' style="background-color: #4fd6a2;color:#ffffff">{{ count($participant["assessor"]) }}</span></td>
                             <td><a href="#" class="deleteAssesse" id="0"><i class="fa fa-minus-circle" style="color: red; font-size: 20px;"></i></a></td>
                             <td><a data-toggle="collapse" href="#collapse{{ $key }}"><i class="fa fa-angle-double-down" style="font-size: 20px;"></i></a></td>
                         </tr>
                         <tr>
                             <td colspan="3" style="padding: 0;">
                             <div id="collapse{{ $key }}" class="panel-collapse collapse">
-                                <h3><span class='badge' >Assessor List</span><button id="{{ $key }}" class='btn addAssessor' style=" float: right;"><span class='badge' style="background-color: #4fd6a2;">Add Assessor</span></button></h3>
+                                <h3><span class='badge' style="margin-top:30px">Assessor List</span><button id="{{ $key }}" class='btn addAssessor' style=" float: right;"><span class='badge' style="background-color: #4fd6a2;color:#ffffff; margin-top:30px">Add Assessor</span></button></h3>
                                 <table class="table" style="margin-bottom: 30px;">
                                         <thead>
                                             <tr class="warning">
@@ -157,21 +153,16 @@
                     @endforeach
                 </tbody>
             </table>
-                 </div>
-            </div>
-        </div>
-    </div>
- </div>
-
+               
 <!-- Button Save Or Close -->
         <br>
-        <div class="container">
+        <div class="container" style="margin-top:30px">
             <div class="row" style="margin-left: 40%;">
-                <div class="col-sm-1" style="margin-right: 10px;">
+                <div class="col-sm-1" style="margin-right: 30px;">
                     <button class="btn btn-primary" id="saveAll" style="margin-bottom: 20px;">Save</button>
                 </div>
                 <div class="col-sm-1">
-                    <button class="btn btn-danger" style="margin-bottom: 20px;">Close</button>
+                    <a href="{!! route('assessmentSessions.index') !!}" class="btn btn-danger" style="margin-bottom: 20px;">Cancel</a>
                 </div>
             </div>
         </div>
@@ -181,8 +172,9 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
+        <h4 class="modal-title text-center">Add Participants</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title text-center">Add Participants</h4>
+         
         </div>
         <div class="modal-body">
             <div class="container-fluid" style="border: 1px solid blackl">
@@ -238,8 +230,9 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
+        <h4 class="modal-title text-center">Add Assessor</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title text-center">Add Assessor</h4>
+         
         </div>
         <div class="modal-body">
             <div class="container-fluid" style="border: 1px solid blackl">
@@ -284,7 +277,7 @@
       </div>
     </div>
   </div>
-</div>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 

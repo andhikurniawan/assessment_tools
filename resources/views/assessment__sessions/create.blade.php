@@ -1,31 +1,38 @@
-@extends('layouts.app')
+@extends('main')
+
+@section('title', 'Create Session')
+
+@section('SesiAssessment', 'active')
 
 @section('content')
-    <section class="content-header">
-        <h1 style="margin-top:20px">
-            Assessment  Session
-        </h1>
-    </section>
-    <div class="content">
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div class="text-left">
+        <a href="{!! route('assessmentSessions.index') !!}" class="d-sm-inline text-decoration-none text-muted">
+                <i class="fas fa-chevron-left fa-lg" style="width: 20px"></i>
+            </a>
+            <h1 class="d-inline h3 text-gray-800">Tambah Sesi Assessment</h1>
+        </div>
+    </div>
+   
+   
+        <div class="card shadow mb-4">
         @include('adminlte-templates::common.errors')
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row">
+        <div class="card-body">
+       
                     {!! Form::open(['route' => 'assessmentSessions.store', 'id'=>'form1'])!!}
-
+                       
                         @include('assessment__sessions.fields')
 
                         <div style="float: right; margin-top: 50px;margin-bottom: 10px; margin-right: 20px;">
-                        <input type="submit" id="submitButton" value="Save & Next Select Competency Model" style="border: none; background: none; color: blue;"><i style="color: blue;" class="glyphicon glyphicon-menu-right"></i>
+                        <input type="submit" id="submitButton" value="Save & Next Select Competency Model" style="border: none; background: none; color: blue;"><i style="color: blue;" class="fas fa-angle-right"></i>
                         </div>
                                         
                     {!! Form::close() !!}
-                </div>
-            </div>
-        </div>
-    </div>
+                    
+                    </div>
+              </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
 

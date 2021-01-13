@@ -1,9 +1,13 @@
-@extends('templates.template')
+@extends('main')
+
+@section('title', 'Assessment Session')
+
+@section('SesiAssessment', 'active')
 
 @section('content')
-    <section class="content-header" >
-        <h1 class="pull-left" style="margin-top: 10px; margin-bottom: 35px">Welcome, {{ Auth::user()->name }} !</h1>
-    </section>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-4 text-gray-800">Halo, {{ Auth::user()->name }}</h1>
+    </div>
     <div class="content">
         <div class="clearfix"></div>
 
@@ -11,89 +15,87 @@
 
         <div class="clearfix"></div>
 
-        <div class="container-fluid" style="margin-left:-15px">
-    <div class="row">
-
-        <div class="col-md-3">
-            <!-- komponen panel di sini  -->
-            <a href="{{ route('assessmentSessions.index') }}">
-            <div class="panel panel-default" style="height: 115px">
-                <div class="panel-body">
-                   <p style="text-align:center">All Session</p> 
-                   <strong><p style="text-align:center; font-size:32px">10</p></strong>
-                    
+   <!-- All session Card Example -->
+   <div class="row mt-4 mb-4">
+        <div class="col-xl">
+   <div class="card border-left-primary shadow mb-4">
+                <div class="card-header py-3 text-center">
+                    <h6 class="m-0 font-weight-bold text-primary">All Session</h6>
                 </div>
+                <div class="card-body">
+                    <h1 class="text-center m-0 font-weight-bold" id="training">10</h1>
                 </div>
-                </a>
+            </div>
         </div>
 
-        <div class="col-md-3">
-            <!-- komponen panel di sini  -->
-            <div class="panel panel-default" style="height: 115px">
-                <div class="panel-body">
-                   <p style="text-align:center">Open</p> 
-                   <strong><p style="text-align:center; font-size:32px">10</p></strong>
-                    
+
+     <!-- All session Card Example -->
+     <div class="col-xl">
+   <div class="card border-left-warning shadow mb-4">
+                <div class="card-header py-3 text-center">
+                    <h6 class="m-0 font-weight-bold text-warning">Not Started</h6>
                 </div>
+                <div class="card-body">
+                    <h1 class="text-center m-0 font-weight-bold" id="training">10</h1>
                 </div>
+            </div>
         </div>
 
-        <div class="col-md-3">
-            <!-- komponen panel di sini  -->
-            <div class="panel panel-default" style="height: 115px">
-                <div class="panel-body">
-                   <p style="text-align:center">Not Started</p> 
-                   <strong><p style="text-align:center; font-size:32px">10</p></strong>
-                    
+     <!-- All session Card Example -->
+     <div class="col-xl">
+   <div class="card border-left-info shadow mb-4">
+                <div class="card-header py-3 text-center">
+                    <h6 class="m-0 font-weight-bold text-info">Open</h6>
                 </div>
+                <div class="card-body">
+                    <h1 class="text-center m-0 font-weight-bold" id="training">10</h1>
                 </div>
+            </div>
         </div>
 
-        <div class="col-md-3">
-            <!-- komponen panel di sini  -->
-            <div class="panel panel-default" style="height: 115px">
-                <div class="panel-body">
-                   <p style="text-align:center">Finished</p> 
-                   <strong><p style="text-align:center; font-size:32px">10</p></strong>
-                    
+     <!-- All session Card Example -->
+     <div class="col-xl">
+   <div class="card border-left-success shadow mb-4">
+                <div class="card-header py-3 text-center">
+                    <h6 class="m-0 font-weight-bold text-success">Finished</h6>
                 </div>
+                <div class="card-body">
+                    <h1 class="text-center m-0 font-weight-bold" id="training">10</h1>
                 </div>
+            </div>
         </div>
 
-    </div>
-</div>
-<div class="container">
-<div class="row" style="margin-bottom: 20px; margin-left:-25px; margin-top: 20px;" >
- <br>
-    <div class="col-sm-3">
-     <h4 style="margin-bottom:-5px;">All Session</h4>
-    </div>
-    <!-- <div class="col-sm-8" style="margin-left:-190px" >
-       <form action="/search" method="get" class="form-inline">
-       <div class="form-group">     
-       <div class="input-group">
-       <input type="search" name="search" class="form-control"> 
-       </div>      
-       </div>
-       <button type="submit" class="btn btn-primary">Search</button>
-       </form>
-    </div> -->
+        </div>
 
-    <div class="col-sm-2"  style="margin-left:665px">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h4 mb-0 text-gray-800">Assessment Session</h1>
+        <div class="text-right">
         <a href="{{ route('assessmentSessions.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add Session</a>                  
-    </div>
-           
-            </div>
         </div>
 
-        <div class="box box-primary">
-            <div class="box-body">
-                    @include('assessment__sessions.table')
-                    
             </div>
+       
+
+        <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Session</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                    @include('assessment__sessions.table')
+         </div>
            
+        </div>
         </div>
         
     </div>
+@endsection
+@section('script')
+    <!-- Page level plugins -->
+    <script src="{{ asset('style/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('style/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('style/js/demo/datatables-demo.js') }}"></script>
 @endsection
 

@@ -1,72 +1,67 @@
-@extends('layouts.app')
+@extends('main')
 
+@section('title', 'Mapping Participants')
+
+@section('SesiAssessment', 'active')
 @section('content')
-<section class="content-header" >
-        <h1 style="margin-top:20px">
-           Mapping Participants
-        </h1>
-    </section>
-
-    <div class="content">
-        <div class="box box-primary">
-            <div class="box-body">
-                <div class="row">
-
-    <div class="container" style="margin-top:10px">
-        <div class="row">
-            <b><h4 class="text-center">Build Upload Participants</h4></b>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div class="text-left">
+            <h1 class="d-inline h3 text-gray-800">Mapping Participants</h1>
         </div>
-        <br>
-        <div class="row">
-            <div class="col-sm-6 text-center">
-                <div class="row">
-                    <label>1. Download Excel Template</label>
-                </div>
-                <br>
+    </div>
+
+   
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Build Upload Participants</h6>
+        </div>
+        <div class="card-body">
+        <div class="row mt-4">
+            <div class="col text-center">
+            
+                <label>1. Download Excel Template</label>
+               
                 <a href="/file/template_participants_fix.xlsx" download="template_participants.xlsx" id="download" style="text-decoration: none;">
-                    <div class="row" style="width: 200px; height: 250px; border: 1px dashed black; margin: 0 auto;">
-                        <label style="margin-top: 50%; font-size: 18px; color: black;">Download Template</label>
+                    <div class="text-center" style="width: 230px; height: 250px; border: 1px dashed blue; margin: 0 auto;">
+                        <label style="margin-top: 40%; font-size: 18px; color: black;">Download Template</label>
                         <label style="font-size: 10px; color: black;">Click here to download template</label>
                     </div>
                 </a>
             </div>
-            <div class="col-sm-6 text-center">
-                <div class="row">
-                    <label>2. Upload Excel Template</label>
-                </div>
-                <br>
-                <div class="row" id="dragdrop" style="width: 200px; height: 250px; border: 1px dashed black; margin: 0 auto;">
+            <div class="col text-center">
+              
+             <label>2. Upload Excel Template</label>
+              
+                <div class="text-center" id="dragdrop" style="width: 230px; height: 250px; border: 1px dashed blue; margin: 0 auto;">
                     <form id="participantUpload" style="width: 100%; height: 100%;" method="post" action="{{ route('participant.detail') }}" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                         <input type="hidden" name="method" value="Upload">
-                        <input type="file" id="fileInput" name="file" style="width: 100%; height: 100%; margin-top: 50%; margin-left:5%" class="text-center">
+                        <input type="file" id="fileInput" name="file" style="width: 100%; height: 100%; margin-top: 40%; margin-left:5%" class="text-center">
                     </form>
                 </div>
             </div>
         </div>
         <br><br>
-        <div class="row text-center" >
+        <div class="text-center" >
             <label>OR</label>
         </div>
         <br>
-        <div class="row center-block" style="margin-bottom:20px">
+        <div class="text-center" style="margin-bottom:20px">
             <button id="add" class="btn btn-primary center-block">Add Participants Through Interface</button>
+        </div>
+       
         </div>
     </div>
 
     
-                </div>
-            </div>
-        </div>
-    </div>
-
+           
     
 <div class="modal fade" id="addParticipant" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
+        <h4 class="modal-title text-center">Add Participants</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title text-center">Add Participants</h4>
         </div>
         <div class="modal-body"> 
             <div class="container-fluid" style="border: 1px solid blackl">
@@ -119,9 +114,9 @@
       </div>
     </div>
   </div>
-</div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
 
 <script type="text/javascript">
@@ -205,7 +200,4 @@
     // }
 
 </script>
-
-    
-
 @endsection
