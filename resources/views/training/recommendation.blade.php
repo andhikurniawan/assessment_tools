@@ -3,7 +3,23 @@
 @section('title', 'Training Recommendation')
 
 @section('TrainingRecommendation', 'active')
+@switch(session('permission'))
+    @case('user')
+        @section('user', 'hidden')            
+        @break
+    @case('admin_tnd')
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ap', 'hidden')            
+        @section('admin_ot', 'hidden')            
+        @break
+    @case('admin')
+        @section('superadmin', 'hidden')                
+            @break
+    @default
 
+@endswitch
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Training Recommendation</h1>
@@ -72,9 +88,9 @@
                                     @endswitch
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ url('training/recommendation/details/'. $item->id)}}" class="btn btn-primary">Detail</a>
+                                    <a href="{{ url('training/recommendation/details/'. $item->training_rec_id)}}" class="btn btn-primary">Detail</a>
                                     @if ($item->status == "Menunggu Respon" || $item->status == "Wajib")
-                                    <a href="{{ url('training/recommendation/edit/'. $item->id)}}" class="btn btn-warning">Edit</a>                                        
+                                    <a href="{{ url('training/recommendation/edit/'. $item->training_rec_id)}}" class="btn btn-warning">Edit</a>                                        
                                     @endif
 
                                 </td>

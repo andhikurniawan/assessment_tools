@@ -2,8 +2,17 @@
 
 @section('title', 'Tambah Data Admin')
 
-@section('DaftarPegawai', 'active')
+@section('DataPegawai', 'active')
+@switch(session('permission'))
+    @case('user')
+        @section('user', 'hidden')            
+        @break
+    @case('admin')
+    @section('superadmin', 'hidden')                
+        @break
+    @default
 
+@endswitch
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="text-left">

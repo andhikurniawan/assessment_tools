@@ -3,7 +3,23 @@
 @section('title', 'Pilih Karyawan')
 
 @section('TrainingRecommendation', 'active')
+@switch(session('permission'))
+    @case('user')
+        @section('user', 'hidden')            
+        @break
+    @case('admin_tnd')
+    @section('superadmin', 'hidden')            
+    @section('admin', 'hidden')            
+    @section('admin_pm', 'hidden')            
+    @section('admin_ap', 'hidden')            
+    @section('admin_ot', 'hidden')            
+        @break
+        @case('admin')
+        @section('superadmin', 'hidden')                
+            @break
+    @default
 
+@endswitch
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="text-left">
@@ -66,7 +82,7 @@
 
                             <tr>
                                 <td>{{ $item->name }}</td>
-                                <td class="text-center"><a href="#" data-toggle="modal" data-target-id = "{{ $item->id }}" data-target="#addTrainingAssessmentModal" data-target-type= "admin"
+                                <td class="text-center"><a href="#" data-toggle="modal" data-target-id = "{{ $item->user_id }}" data-target="#addTrainingAssessmentModal" data-target-type= "admin"
                                         class="btn btn-success">Ajukan Rekomendasi Pelatihan</a></td>
                         @endforeach
 

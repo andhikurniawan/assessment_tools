@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,8 +19,16 @@ class UserController extends Controller
     public function index()
     {
         $employee = User::join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->join('role', 'user_role.role_id', '=', 'role.id')->join('company', 'user.company_id', '=', 'company.id')->select('user.name as name', 'user.employee_id', 'role.name as role_name', 'company.name as company_name', 'user.id as id')->get();
-        $company = Company::all();
+        $company_id = Auth::user()->company_id;
+        if ($company_id == null) {
+            $company = Company::all();
+        $employee = User::join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->join('role', 'user_role.role_id', '=', 'role.id')->join('company', 'user.company_id', '=', 'company.id')->select('user.name as name', 'user.employee_id', 'role.name as role_name', 'company.name as company_name', 'user.id as id')->get();
         $selected = "";
+        } else {
+            $company = Company::where('id', $company_id)->get()->first();
+        $employee = User::join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->join('role', 'user_role.role_id', '=', 'role.id')->join('company', 'user.company_id', '=', 'company.id')->select('user.name as name', 'user.employee_id', 'role.name as role_name', 'company.name as company_name', 'user.id as id')->where('company.id',$company_id)->get();
+        $selected = $company->id;
+        }
         return view('employee.index', compact('employee', 'company', 'selected'));
     }
 
@@ -30,7 +39,13 @@ class UserController extends Controller
      */
     public function create()
     {
-        $company = Company::all();
+        $company_id = Auth::user()->company_id;
+        if ($company_id == null) {
+            $company = Company::all();
+        } else {
+            $company = Company::where('id', $company_id)->get();
+        }
+        
         $role = DB::table('role')->where('id', 'user')->get();
         return view('employee.create', compact('company', 'role'));
     }
@@ -105,7 +120,12 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::where('id', $id)->get()->first();
-        $company = Company::all();
+        $company_id = Auth::user()->company_id;
+        if ($company_id == null) {
+            $company = Company::all();
+        } else {
+            $company = Company::where('id', $company_id)->get();
+        }
         $user_role = DB::table('user_role')->where('user_id', $id)->get()->first();
         if($user_role->role_id == "user"){
             $role = DB::table('role')->where('id', 'user')->get();
@@ -193,7 +213,12 @@ class UserController extends Controller
 
     public function createAdmin()
     {
-        $company = Company::all();
+        $company_id = Auth::user()->company_id;
+        if ($company_id == null) {
+            $company = Company::all();
+        } else {
+            $company = Company::where('id', $company_id)->get();
+        }
         $role = DB::table('role')->where('id', '!=', 'user')->where('id', '!=', 'superadmin')->get();
         return view('employee.create-admin', compact('company', 'role'));
     }

@@ -3,6 +3,16 @@
 @section('title', 'Employee')
 
 @section('DataPegawai', 'active')
+@switch(session('permission'))
+    @case('user')
+        @section('user', 'hidden')            
+        @break
+    @case('admin')
+    @section('superadmin', 'hidden')                
+        @break
+    @default
+
+@endswitch
 
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -13,11 +23,16 @@
             <h1 class=" h4 text-gray-800">Perusahaan</h1>
             <select name="company" id="company" class="form-control"
                 onchange="window.location.href=this.options[this.selectedIndex].value;">
+                @if ($company->first()->id == Auth::user()->company_id)
+                <option value="{{$company->id}}" selected>{{ $company->name}}</option>
+                    
+                @else
                 <option value="{{ url('employee/') }}">Semua Karyawan</option>
                 @foreach ($company as $item)
                     <option value="{{ url('employee/company', $item->id) }}"
                         {{ $selected == $item->id ? 'selected' : null }}>{{ $item->name }}</option>
-                @endforeach
+                @endforeach    
+                @endif
             </select>
         </div>
         <div class="text-right">

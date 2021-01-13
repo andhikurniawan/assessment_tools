@@ -43,6 +43,8 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
+            <div @yield('admin')>
+
             <!-- Nav Item - Dashboard -->
             <li class="nav-item @yield('dashboard')">
                 <a class="nav-link" href="/home">
@@ -52,9 +54,12 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
+        </div>
+
 
             <!-- Heading -->
-            <div @yield('user')>
+            
+            <div @yield('superadmin')>
 
             <div class="sidebar-heading">
                 Master
@@ -73,6 +78,9 @@
                     <span class="iconify" data-icon="ic:round-admin-panel-settings" data-inline="false"></span>
                     <span>Role</span></a>
             </li>
+        </div>
+
+        <div @yield('admin')>
 
             <!-- Nav Item  -->
             <li class="nav-item @yield('DataPegawai')">
@@ -86,6 +94,9 @@
                     <i class="far fa-calendar-check"></i>
                     <span>Job Target</span></a>
             </li>
+        </div>
+
+        <div @yield('admin_pm')>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -121,9 +132,14 @@
                     <i class="fas fa-tasks"></i>
                     <span>Gap Analysis</span></a>
             </li>
+        </div>
+
+        <div @yield('admin_ap')>
+
+        
             <!-- Divider -->
             <hr class="sidebar-divider">
-            </div>
+  
             <!-- Heading -->
             <div class="sidebar-heading">
                 Appraisal
@@ -159,12 +175,18 @@
             </li>
         </div>
 
+        
+
             <!-- Nav Item - Tables -->
             <li class="nav-item @yield('ReportAssessment')">
                 <a class="nav-link" href="#">
                     <i class="fas fa-tasks"></i>
                     <span>Report Assessment</span></a>
             </li>
+        </div>
+
+        <div @yield('admin_tnd')>
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -196,6 +218,7 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
+        </div>
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">

@@ -41,8 +41,7 @@ class TrainingController extends Controller
         } else {
             $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->where('user.company_id',$user_company)->distinct()->get();
         $employee = DB::table('user')->join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->where('user_role.role_id', '=', 'user')->where('user.company_id',$user_company)->get();
-            $training = Training::where('company_id',$user_company)->get()
-            ;
+            $training = Training::where('company_id',$user_company)->get();
         }
         
         return view('training.create')->with('assessment_result', $assessment_result)->with('employee', $employee)->with('training', $training);
@@ -90,12 +89,15 @@ class TrainingController extends Controller
         ]);
 
         $id = DB::getPdo()->lastInsertId();
-        $size = count(collect($request)->get('competency'));
-        for ($i = 0; $i < $size; $i++) {
-            DB::table('training_competencies')->insert(
-                ['id_training' => $id, 'id_competency' => $request->get('competency')[$i]]
-            );
+        if ($request->competency != null) {
+            $size = count(collect($request)->get('competency'));
+            for ($i = 0; $i < $size; $i++) {
+                DB::table('training_competencies')->insert(
+                    ['id_training' => $id, 'id_competency' => $request->get('competency')[$i]]
+                );
+            }
         }
+
 
         return redirect('training/master')->with('status', 'Data pelatihan berhasil ditambah!');
     }
@@ -109,7 +111,7 @@ class TrainingController extends Controller
     public function show(Training $training)
     {
         $training_competency = DB::table('training_competencies')->select('training_competencies.id', 'id_competency', 'competency.name')->join('training', 'training.id', '=', 'training_competencies.id_training', 'inner')->join('competency', 'competency.id', '=', 'training_competencies.id_competency', 'inner')->where('training.id', '=', $training->id)->get();
-        $company = Company::where('id', $training->id)->get()->first();
+        $company = Company::where('id', $training->company_id)->get()->first();
 
         return view('training/show')->with('training', $training)->with('training_competency', $training_competency)->with('company', $company);
     }
@@ -196,8 +198,9 @@ class TrainingController extends Controller
 
     public function dashboard()
     {
-        $assessment_session_count = DB::table('assessment_session')->select('status')->where('status', '=', 'finished')->count();
-        $training_recommnedation_count = Training_emp::all()->count();
+        $company_id = Auth::user()->company_id;
+        $assessment_session_count = DB::table('assessment_session')->select('status')->where('status','finished')->where('company_id',$company_id)->count();
+        $training_recommnedation_count = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->where('user.company_id', $company_id)->count();
         $track_record_count = Track_training_emp::where('status', '=', 'Menunggu')->count();
         $success_count = Track_project_emp::where('status', '=', 'Selesai')->count();
         $failed_count = Track_project_emp::where('status', '=', 'Gagal')->count();
@@ -215,19 +218,30 @@ class TrainingController extends Controller
         if (Auth::check() == null) {
             return redirect('home')->with('alert', 'Anda harus login terlebih dahulu!');
         }
-        if (session('permission') == "admin") {
-            $training_emp = Training_emp::all();
+        if (session('permission') == "admin" || session('permission') == "admin_tnd" || session('permission') == "superadmin") {
+            $company_id = Auth::user()->company_id;
+            if ($company_id == null) {
+                $training_emp = Training_emp::all();
+            } else {
+            $training_emp = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->where('user.company_id', $company_id)->select('training_emps.*', 'user.*', 'training_emps.id as training_rec_id')->get();
+            }
+        // dd($training_emp);
+
             return view('training.recommendation')->with('training_emp', $training_emp);
         } else {
             $training_emp = Training_emp::all()->where('user_id', Auth::id());
             return view('user.training-recommendation.index')->with('training_emp', $training_emp);
         }
-        // dd($training_emp);
     }
 
     public function master()
     {
-        $training = Training::all();
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $training = Training::all();
+        } else {
+         $training = Training::where('company_id',$user_company)->get();
+        }
         return view('training.master', compact('training'));
     }
 
@@ -328,14 +342,14 @@ class TrainingController extends Controller
 
     public function detailRecommendation($id)
     {
-        $training_emp = Training_emp::all()->where('id', $id);
+        $training_emp = Training_emp::where('id', $id)->get();
         // dd($training_emp);
         return view('training.details_recommendation')->with('training_emp', $training_emp);
     }
 
     public function editRecommedation($id)
     {
-        $training_emp = Training_emp::all()->where('id', $id);
+        $training_emp = Training_emp::where('id', $id)->get();
         // dd($training_emp);
         return view('training.edit_recommendation')->with('training_emp', $training_emp);
     }
