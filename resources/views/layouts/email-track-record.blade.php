@@ -18,30 +18,24 @@
                 <div style="display: block;
                 margin-left: auto;
                 margin-right: auto;
-                width: 100%;">
+                width: 50%;">
                     <img src="https://lh3.googleusercontent.com/hP9Y-BA4ZIFv97qDgj2qqYtxvbsSp1rwfxb9LNlqM61KFn8OGjYvw61MQZtdMV9-I6fPkBc6QPxBLehPcyLow0NjJvrebrWqIxKRtJSmEREBmfHHOoZEUVnVa4QrJXqXc6c8eqgeIgzvMQ9E3cKDbiBeMdALSnW4wBkeabdszMzmW3uqHNyULv-4C__SHgZfqkDU1dKbtBL9DaxjrLBa1WZogsXBkfspOCeObReHe0VtVW6uzYes-6j4jJkFWs0g2uQsZXsemW6z2YAJUtna9pAgBajNke8AHpYAXWh6MUPAVY3YByd8xEnBc60nEFcWE_ZHbiL6fec2F7CnOsfRNixfqZHbDJXYtrC3BSEIrrYcrCeeoodU-csETWV57Z7SZ_vKvKLrX953D_QW6MJ3Ps2mT-QZmkaruakuCB6jvdYSfufxAvLA110Qq5Oo1HAJCGEgHnfeFgohs_RqtZtu5poDf1darW3FmIT7hElbczk2iwRy1LesWL5qv8AY72lSmNp-qzrGXGwIh7LpIGv_6Oq6U9pZS1-dNH-eq36i3Bo4-l8mBE2EKEYQmYXp1uecExz-MaQ75cXcVGkp7waSLqACPeA-u6hzqfGkvyYvo4OtFnnoBXRoyt3RrY6jdo83dLMDUvhzTwaWZq5BhA2XYdr6uNo1GelZgZ65h_xuY_iOQ4OZuEOC4gSJxAKV=s636-no?authuser=6"
                         class="text-center" style="height: 100px; width: 100px" alt="web assessment logo">
                 </div>
                 <h1 style="text-align: center">Bubat Web Assessment</h1>
                 <h3>Halo, {{ $name }}</h3>
-                <p>Anda telah di rekomendasikan untuk mengikuti pelatihan <b>{{ $training_name }}</b>
+                <p>Admin telah menentukan periode memasukan data Track Record. Data yang dimasukan adalah riwayat Anda dalam mengikuti pelatihan atau sertifikasi dan dalam melaksanakan project.
                 </p>
-                <p>Pelatihan ini dilaksanakan oleh <b>{{ $training_host }}</b></p>
-                <p>Dimulai pada (TAHUN-BULAN-TANGGAL) : <b id="startDate">{{ $start_date }}</b></p>
-                <p>Selesai pada (TAHUN-BULAN-TANGGAL) : <b id="endDate">{{ $end_date }}</b></p>
-                @if ($status == 'Opsional')
-                    <p> Silakan beri respon pada menu Training Recommendation.</p>
-                @else
-                    <p> Pelatihan ini bersifat <b>Wajib</b>. Detail pelatihan terdapat pada menu Training
-                        Recommendation.</p>
-                @endif
+                <p>Periode Dimulai pada (TAHUN-BULAN-TANGGAL) : <b id="startDate">{{ $start_date }}</b></p>
+                <p>Periode Diakhiri pada (TAHUN-BULAN-TANGGAL) :<b id="endDate">{{ $end_date }}</b></p>
+
                 <p>Terima kasih.</p>
                 <br>
                 <div style="text-align: center">
                     <a style="  color: #fff;
                     background-color: #4e73df;
                     border-color: #4e73df; text-align: center;
-                    " href="{{ url('/training/recommendation') }}">Klik disini untuk melihat daftar rekomendasi pelatihan Anda</a>
+                    " href="{{ url('/track-record') }}">Klik disini untuk mengakses menu Track Record</a>
                 </div>
             </div>
         </div>

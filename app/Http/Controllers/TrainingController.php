@@ -334,10 +334,11 @@ class TrainingController extends Controller
         // check if email fail
         if (Mail::failures()) {
             return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan tetapi Gagal untuk dikirim via Email');
+        } else {
+            return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan dan Dikirim ke E-Mail Karyawan!');
         }
 
 
-        return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan dan Dikirim ke E-Mail Karyawan!');
     }
 
     public function detailRecommendation($id)
