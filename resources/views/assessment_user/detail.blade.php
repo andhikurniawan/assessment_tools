@@ -1,14 +1,31 @@
-@extends('layouts.app')
+@extends('main')
+
+@section('title', 'Assessment Session')
+
+@section('SesiAssessment', 'active')
+
+@if (session('permission') == 'user')
+        @section('user', 'hidden')
+        @endif
 
 @section('content')
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <div class="text-left">
+        <a href="{!! route('assessmentSessions.index') !!}" class="d-sm-inline text-decoration-none text-muted">
+                <i class="fas fa-chevron-left fa-lg" style="width: 20px"></i>
+            </a>
+            <h1 class="d-inline h3 text-gray-800">Assessment Session</h1>
+        </div>
+    </div>
+   
 
-<div class="content">
-    <div class="container-fluid">
-        <h3>Assessment Session</h3>
-
-        <div class="box box-primary">
-            <div class="box-body">
-        <table class="table">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Data Session</h6>
+        </div>
+        <div class="card-body">
+     
+        <table class="table table-striped">
             <tbody>
                 <tr class="success">
                     <td style="font-weight: bold;">Name</td>
@@ -38,16 +55,15 @@
         </table>
     </div>
     </div>
-    </div>
+
 
 <!-- Assee Map  -->
 
-    <div class="container-fluid">
-    <div class="box box-primary">
-            <div class="box-body">
-
-        <label>Assesse Map</label>
-        <br><br>
+<div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Assessee</h6>
+        </div>
+        <div class="card-body">
         <form method="post" action="{{ route('session') }}" id="formsubmit">
         <input type="hidden" name="assesse" id="assesseid" value="">
         <input type="hidden" name="_token" value="{!! csrf_token() !!}">
@@ -56,7 +72,7 @@
         @foreach($models as $model)
             <input type="hidden" name="models[]" value="{{ $model->id }}">
         @endforeach
-        <table class="table text-center">
+        <table class="table text-center table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr class="success">
                     <th>Nama</th>
@@ -78,13 +94,13 @@
                                 @if($assessee->assessee == $id)
                                     @if($assessee->relation == "Self")
                                         @if($assessee->status != "done")
-                                            <td><button class="btn btn-success btnsubmit" id="{{ $assessee->assessee . '-' . $assessee->relation }}"><i style="font-size: 12px;" class="fa fa-play-circle-o"></i>&nbsp;&nbsp;Start</button></td>
+                                            <td><button class="btn btn-success btnsubmit" id="{{ $assessee->assessee . '-' . $assessee->relation }}"><i class="fa fa-play-circle"></i>&nbsp;&nbsp;Start</button></td>
                                         @endif
                                     @endif
                                 @endif
                                 @if($assessee->assessee != $id)
                                     @if($assessee->status != "done")
-                                    <td><button class="btn btn-success btnsubmit" id="{{ $assessee->assessee . '-' . $assessee->relation }}"><i style="font-size: 12px;" class="fa fa-play-circle-o"></i>&nbsp;&nbsp;Start</button></td>
+                                    <td><button class="btn btn-success btnsubmit" id="{{ $assessee->assessee . '-' . $assessee->relation }}"><i class="fas fa-play-circle"></i>&nbsp;&nbsp;Start</button></td>
                                     @endif
                                 @endif
                             @break
@@ -97,8 +113,7 @@
         </form> 
                         </div>
                     </div>
-                </div>
-            </div>
+              
   
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
@@ -123,5 +138,12 @@ $(document).ready(function(){
 });
 
 </script>
+@endsection
+@section('script')
+    <!-- Page level plugins -->
+    <script src="{{ asset('style/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('style/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('style/js/demo/datatables-demo.js') }}"></script>
 @endsection

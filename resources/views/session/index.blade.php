@@ -1,163 +1,150 @@
-@extends('layouts.app')
+@extends('main')
+
+@section('title', 'Assessment Session')
+
+@section('SesiAssessment', 'active')
+@if (session('permission') == 'user')
+        @section('user', 'hidden')
+        @endif
 
 @section('content')
-
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-    
-        <div class="row">
-            <div class="col-sm-6" style="margin-left:15px">
-                <select id="models" class="form-control" style="width: 250px;">
-                @foreach($models as $model)
-                    <option value="{{ $model->id }}">{{ $model->name }}</option>
-                @endforeach
-                </select>
-            </div>
-            <div class="col-sm-4" style="margin-left:150px">
-                <button class="btn btn-success" id="btnsubmit" style="float: right;"><i style="font-size: 12px;" class="fa fa-check-square-o"></i>&nbsp;&nbsp;Finish</button>
-            </div>
+<div class="card shadow mb-4 ml-4 mr-4">
+<div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Data Session</h6>
         </div>
-        
-    </div>
-    <br>
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                    <tr class="table-light">   
+                        <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;Assessment &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</td>
+                        <td>{{ $session_id->name }}</td>
+                    </tr>
+                    <tr class="table-light">   
+                        <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;Start Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</td>
+                        <td>{{ date('M d, Y', strtotime($session_id->start_date)) }}</td>
+                    </tr>
+                    <tr class="table-light">   
+                        <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;End Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</td>
+                        <td>{{ date('M d, Y', strtotime($session_id->end_date)) }}</td>
+                    </tr>
+                    <tr class="table-light">   
+                        <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;Assesse Name &nbsp;:</td>
+                        <td>{{ $assesse_id->name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>      
+<button class="btn btn-success mb-4" id="btnsubmit" style="margin-left:90%"><i class="fas fa-check-circle"></i> Finish</button>
+      
     <form method="post" id="formsubmit" action="{{ route('session.simpan') }}">
+    
     <input type="hidden" name="_token" value="{!! csrf_token() !!}">
     <input type="hidden" name="session" value="{{ $session }}">
     <input type="hidden" name="assesse" value="{{ $assesse }}">
-    <input type="hidden" name="relation" value="{{ $relation }}">
-    @foreach($models as $model)
-        <input type="hidden" name="models[]" value="{{ $model->id }}">
-    @endforeach
-    @foreach($questionss as $keys => $questions)
-        @if($keys == 0)
-            <div class="container" id="models-{{ $models[$keys]->id }}" style="display: block;">
-        @elseif($keys > 0)
-            <div class="container" id="models-{{ $models[$keys]->id }}" style="display: none;">
-        @endif
-            @foreach($questions as $key => $question) 
-                @if($key < 1)
-                    <div class="container page-{{ $models[$keys]->id . '-' . (floor(($key / 1)) + 1)  }}" style="display: block;">
-                @else
-                    <div class="container page-{{ $models[$keys]->id . '-' . (floor(($key / 1)) + 1)  }}" style="display: none;">
-                @endif  
-                <div class="row">  
-                   <div class="col-sm-6">
-                   <div class="box box-primary" style="height:520px">
-            <div class="box-body">
-            <div class="panel panel-default" style="height: 35px; background-color:#f1f3de">
-                <div class="panel-body"> 
-                   <strong><p style="text-align:center; font-size:18px; margin-top:-10px">Question #{{ $key + 1}}</p></strong>
-                </div>
-                </div>
-                        <h5>{{$question->question }}</h5>
-                    </div>
-                    </div>
-                    </div>
-                    <div class="col-sm-6">
-                    <div class="box box-primary" style="height:520px">
-            <div class="box-body">
-            <div class="panel panel-default" style="height: 35px; background-color:#f1f3de">
-                <div class="panel-body"> 
-                   <strong><p style="text-align:center; font-size:18px; margin-top:-10px">Choose the best option</p></strong>
-                </div>
-                </div>
-                        <ul class="list-group">
-                        @foreach($question->key_behaviour as $key_behaviour)
-                            <li class="list-group-item"><input type="radio" name="{{ $models[$keys]->id . '-' .  $key }}" value="{{ $question->competency_id . '-' . $key_behaviour->level }}">&nbsp;{{ $key_behaviour->description }}</li> 
-                        @endforeach
-                        </ul>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
-
-                </div>  
-            @endforeach
+    <input type="hidden" name="relation" value="{{ $relation }}"> 
+    <input type="hidden" name="count" id="count">
+    
+  
+        @foreach($questionss as $key => $question)
+            @if($key < 5)
+                <div class="container page-{{ (floor(($key / 5)) + 1)  }}" style="display: block;">
+            @else
+                <div class="container page-{{ (floor(($key / 5)) + 1)  }}" style="display: none;">
+            @endif
+            <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Pertanyaan #{{$key + 1 }}</h6>
         </div>
-    @endforeach
+        <div class="card-body">    
+               
+         <h5 class="text-dark" style="margin-top:-10px">{{$question->question }}</h5>
+
+            <ul class="list-group">
+            <h6 class="text-primary" style="margin-top: 10px">Pilih salah satu jawaban yang terbaik :</h6>
+             @foreach($question->key_behaviour as $key_behaviour)
+                <li class="list-group-item" style="margin-top:10px"><input type="radio" name="{{ $key }}" value="{{ $question->id . '-' . $key_behaviour->level }}">&nbsp;{{ $key_behaviour->key_behaviour }}</li> 
+             @endforeach
+            </ul>
+            
+            </div>  
+            </div>
+    </div>
+        @endforeach
+
+   
+    
     </form>
     
-    @foreach($questionss as $key => $questions)
-        @if($key == 0)
-            <div class="container" id="pagination-{{ $questions[0]->competency_models_id }}" style="margin-left: 1.2%; display: block;">
-        @elseif($key > 0)
-            <div class="container" id="pagination-{{ $questions[0]->competency_models_id }}" style="display: none;">
-        @endif
-            <nav aria-label="Page navigation example" style="margin: 0 auto;">
-                <ul class="pagination">
-                    @if(count($questions) % 1 == 0)
-                        @for($i = 0; $i < count($questions) / 1; $i++)
-                            @if($i == 0)
-                                <li class="page-item num-page active"><a class="page-link page" id="{{ $i + 1 }}" href="#">{{ $i + 1 }}</a></li>
-                            @elseif($i > 0)
-                                <li class="page-item num-page"><a class="page-link page" id="{{ $i + 1 }}" href="#">{{ $i + 1 }}</a></li>
-                            @endif
-                        @endfor
-                    @elseif(count($questions) % 1 != 0)
-                        @for($i = 0; $i < round((count($questions)) / 1) + 1; $i++)
-                            @if($i == 0)
-                                <li class="page-item num-page active"><a class="page-link page" id="{{ $i + 1 }}" href="#">{{ $i + 1 }}</a></li>
-                            @elseif($i > 0)
-                                <li class="page-item num-page"><a class="page-link page" id="{{ $i + 1 }}" href="#">{{ $i + 1 }}</a></li>
-                            @endif
-                        @endfor
-                    @endif
-                </ul>
-            </nav>
-        </div>
-    @endforeach
-</div>
+    <div class="container" style="margin-left: 45%; margin-rigth: 50%; display: block;">
+        <nav aria-label="Page navigation example" style="margin: 0 auto;">
+            <ul class="pagination">
+                @if(count($questionss) % 5 == 0)
+                    @for($i = 0; $i < count($questionss) / 5; $i++)
+                        @if($i == 0)
+                            <li class="page-item num-page active"><a class="page-link page" id="{{ $i + 1 }}" href="#">{{ $i + 1 }}</a></li>
+                        @elseif($i > 0)
+                            <li class="page-item num-page"><a class="page-link page" id="{{ $i + 1 }}" href="#">{{ $i + 1 }}</a></li>
+                        @endif
+                    @endfor
+                @elseif(count($questionss) % 5 != 0)
+                    @for($i = 0; $i < floor((count($questionss)) / 5) + 1; $i++)
+                        @if($i == 0)
+                            <li class="page-item num-page active"><a class="page-link page" id="{{ $i + 1 }}" href="#">{{ $i + 1 }}</a></li>
+                        @elseif($i > 0)
+                            <li class="page-item num-page"><a class="page-link page" id="{{ $i + 1 }}" href="#">{{ $i + 1 }}</a></li>
+                        @endif
+                    @endfor
+                @endif
+            </ul>
+        </nav>
+        
+    </div>
+   
+
+
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
 
 $(document).ready(function(){
-    var models = {!! json_encode($models) !!};
+
     var questions = {!! json_encode($questionss) !!};
-    var curr_id = models[0]["id"];
-    var prev_id = models[0]["id"];
     var curr_page = 1;
     var prev_page = 1;
     var radios = $("input[type='radio']");
 
-    
-    
+    $("#count").val(questions.length);
+
     $(document).on("click", "a.page" , function() {
         
         prev_page = curr_page
         curr_page = this.id
 
-        $("#pagination-" + curr_id).find(".active").removeClass("active");
+        $("ul.pagination").find(".active").removeClass("active");
 
         $(this).parent().addClass("active");
 
-        $(".page-" + curr_id + "-" + prev_page).css("display", "none");
+        $(".page-" + prev_page).css("display", "none");
 
-        $(".page-" + curr_id + "-" + curr_page).css("display", "block");
+        $(".page-" + curr_page).css("display", "block");
     });
 
     $("#btnsubmit").on("click", function(){
 
-        var question_count = 0;
+        var question_count = questions.length;
         var checked = 0;
 
-        for(var i = 0; i < models.length; i++)
+        for(var i = 0; i < questions.length; i++)
         {   
-            question_count += questions[i].length;
-
-            for(var j = 0; j < questions[i].length; j++)
-            {   
-                var radio = document.getElementsByName(models[i]["id"] + "-" + j);
+            var radio = document.getElementsByName(i);
                 
-                for(var k = 0; k < radio.length; k++)
+            for(var k = 0; k < radio.length; k++)
+            {
+                if(radio[k].checked == true)
                 {
-                    if(radio[k].checked == true)
-                    {
-                        checked++;
-                    }
+                    checked++;
                 }
-
-                //$("input[name='" + models[i]["id"] + "-" + j + "']").first().attr("checked", true);
             }
         };
 
@@ -186,22 +173,6 @@ $(document).ready(function(){
         
 
     }); 
-
-    $("#models").on("change", function(){
-
-        prev_id = curr_id;
-        curr_id = this.value;
-
-        $("#pagination-" + prev_id).css("display", "none");
-
-        $("#pagination-" + curr_id).css("display", "block");
-
-        $("#models-" + prev_id).css("display", "none");
-
-        $("#models-" + curr_id).css("display", "block");
-
-    });
-
 });
 
 </script>

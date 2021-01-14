@@ -17,7 +17,6 @@ class participantController extends Controller
      */
     public function index()
     {
-        //
         $id = DB::table('user')->select("employee_id")->get();
 
         return view("participant.index", compact("id"));
@@ -76,6 +75,8 @@ class participantController extends Controller
 
             $group = array_values(array_unique($group));
 
+            //dd($group);
+
             for($i = 0; $i < count($group); $i++)
             {
                 $participant[$i] = [];
@@ -92,11 +93,13 @@ class participantController extends Controller
             }
 
             $assesse = [];
+
+            //dd($participant);
             
             for($i = 0; $i < count($participant); $i++)
             {   
                 $assessor = [];
-                $assesse[$i] = (object) array("name" => $participant[0][0][0], "email" => $participant[0][0][0], "assessor" => $assessor);
+                $assesse[$i] = (object) array("name" => $participant[$i][0][0], "email" => $participant[$i][0][0], "assessor" => $assessor);
 
                 for($j = 0; $j < count($participant[$i]); $j++)
                 {
@@ -110,8 +113,6 @@ class participantController extends Controller
                 array_push($participants, $assesse[$i]);
             }
 
-            //dd($participants);
-
             return view("participant.detail", compact("participants", "id", "method", "assesse", "assessor", "relation", "status"));
         }
     }
@@ -121,21 +122,31 @@ class participantController extends Controller
         $idassesse = $request->assesse;
         $idassessor = $request->assessor;
 
-        $assesse = DB::table('user')->select('name', 'email')->where('employee_id', $idassesse)->first();
+        $assesse = DB::table('user')->select('name', 'email', 'id')->where('employee_id', $idassesse)->first();
         $assessor = DB::table('user')->select('name', 'email')->where('employee_id', $idassessor)->first();
 
         return response()->json(compact("assesse", "assessor"));
     }
 
+    public function cariId(Request $request)
+    {
+        $idassesse = $request->assesse;
+        $idassessor = $request->assessor;
+
+        $assesse = DB::table('user')->select('id')->where('name', $idassesse)->first();
+        $assessor = DB::table('user')->select('id')->where('name', $idassessor)->first();
+
+        return response()->json(compact("assesse", "assessor"));
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -144,20 +155,20 @@ class participantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($id)
     {
         //
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource.s
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        
     }
 
     /**

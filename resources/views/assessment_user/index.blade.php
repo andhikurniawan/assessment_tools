@@ -45,7 +45,7 @@
                         <td>{{ $assessment->status }}</td>
                         <td>{{ $assessment->start_date }}</td>
                         <td>{{ $assessment->end_date }}</td>   
-                        <td> <button id="{{ $assessment->id }}" class="btn btn-xs btnsubmit"><i class="glyphicon glyphicon-eye-open"></i></button>  </td>
+                        <td> <button id="{{ $assessment->id }}" class="btn btn-warning btnsubmit">View</button>  </td>
                       
                     </tr>
                 @endforeach
@@ -70,7 +70,7 @@ $(document).ready(function(){
 
         document.getElementById("session_id").value = this.id;
 
-        alert($("#session_id").val());
+        // alert($("#session_id").val());
 
         // $("#formsubmit").submit();
 

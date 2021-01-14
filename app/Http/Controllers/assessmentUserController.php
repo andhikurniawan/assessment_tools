@@ -10,7 +10,7 @@ use stdClass;
 class assessmentUserController extends Controller
 {
     public function index()
-    {
+    {   
         $id = Auth::user()->id;
 
         $role = DB::table("user_role")
@@ -84,9 +84,8 @@ class assessmentUserController extends Controller
         }                                          
     }
 
-
     public function detail(Request $request)
-    {
+    {   
         $id = Auth::user()->id;
 
         $role = DB::table("user_role")
