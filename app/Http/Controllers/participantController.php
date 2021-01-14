@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Http\Request;
 use DB;
 use App\Imports\ParticipantImport;
+use Auth;
 
 class participantController extends Controller
 {
@@ -17,8 +18,13 @@ class participantController extends Controller
      */
     public function index()
     {
-        $id = DB::table('user')->select("employee_id")->get();
-
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $id = DB::table('user')->select("employee_id")->get();
+        } else {
+            $id = DB::table('user')->select("employee_id")->where('company_id', $user_company)->get();
+        }
+       
         return view("participant.index", compact("id"));
     }
 

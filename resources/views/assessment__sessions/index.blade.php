@@ -3,7 +3,16 @@
 @section('title', 'Assessment Session')
 
 @section('SesiAssessment', 'active')
+@switch(session('permission'))
+    @case('user')
+        @section('user', 'hidden')            
+        @break
+    @case('admin')
+    @section('superadmin', 'hidden')                
+        @break
+    @default
 
+@endswitch
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-4 text-gray-800">Halo, {{ Auth::user()->name }}</h1>
@@ -23,7 +32,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">All Session</h6>
                 </div>
                 <div class="card-body">
-                    <h1 class="text-center m-0 font-weight-bold" id="training">10</h1>
+                    <h1 class="text-center m-0 font-weight-bold" id="training">{{$assessment_all}}</h1>
                 </div>
             </div>
         </div>
@@ -36,7 +45,7 @@
                     <h6 class="m-0 font-weight-bold text-warning">Not Started</h6>
                 </div>
                 <div class="card-body">
-                    <h1 class="text-center m-0 font-weight-bold" id="training">10</h1>
+                    <h1 class="text-center m-0 font-weight-bold" id="training">{{$assessment_notStarted}}</h1>
                 </div>
             </div>
         </div>
@@ -48,7 +57,7 @@
                     <h6 class="m-0 font-weight-bold text-info">Open</h6>
                 </div>
                 <div class="card-body">
-                    <h1 class="text-center m-0 font-weight-bold" id="training">10</h1>
+                    <h1 class="text-center m-0 font-weight-bold" id="training">{{$assessment_open}}</h1>
                 </div>
             </div>
         </div>
@@ -60,7 +69,7 @@
                     <h6 class="m-0 font-weight-bold text-success">Finished</h6>
                 </div>
                 <div class="card-body">
-                    <h1 class="text-center m-0 font-weight-bold" id="training">10</h1>
+                    <h1 class="text-center m-0 font-weight-bold" id="training">{{$assessment_finished}}</h1>
                 </div>
             </div>
         </div>
@@ -68,14 +77,31 @@
         </div>
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h4 mb-0 text-gray-800">Assessment Session</h1>
-        <div class="text-right">
+    <div class="text-left mt-4">
+        <h1 class="d-inline h3 text-gray-800">Assessment Session</h1>
+        <br>
+            <br>
+            <h1 class=" h4 text-gray-800">Perusahaan</h1>
+            <select name="company" id="company" class="form-control"
+                onchange="window.location.href=this.options[this.selectedIndex].value;">
+                @if ($company->first()->id == Auth::user()->company_id)
+                <option value="{{$company->id}}" selected>{{ $company->name}}</option>
+                    
+                @else
+                <option value="{{ url('assessmentSessions/') }}">Semua Asessment Session</option>
+                @foreach ($company as $item)
+                    <option value="{{ url('assessmentSessions/company', $item->id) }}"
+                        {{ $selected == $item->id ? 'selected' : null }}>{{ $item->name }}</option>
+                @endforeach    
+                @endif
+            </select>     
+            
+            </div>
+        <div class="text-right" style="margin-top:11%">
         <a href="{{ route('assessmentSessions.create') }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Add Session</a>                  
         </div>
-
+      
             </div>
-       
-
         <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Daftar Session</h6>

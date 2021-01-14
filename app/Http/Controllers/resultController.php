@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Auth;
 use stdClass;
-
+use App\Models\Company;
 class resultController extends Controller
 {
     public function index()
@@ -21,6 +21,21 @@ class resultController extends Controller
         if($role->role_id == "superadmin" || $role->role_id == "admin")
         {
             $assessments = DB::table("assessment_session")->get();  
+
+            $company_id = Auth::user()->company_id;
+            if ($company_id == null) {
+                $company = Company::all();
+                $assessments = DB::table("assessment_session")
+                ->join('company', 'assessment_session.company_id', '=', 'company.id')->select('assessment_session.name', 'assessment_session.category', 'assessment_session.status','assessment_session.expired','assessment_session.start_date','assessment_session.end_date','company.name as company_name', 'assessment_session.id as id')->get(); 
+                $selected = "";
+            } else {
+                $company = Company::where('id', $company_id)->get()->first();
+                $assessments = DB::table("assessment_session")
+                ->join('company', 'assessment_session.company_id', '=', 'company.id')->select('assessment_session.name', 'assessment_session.category', 'assessment_session.status','assessment_session.expired','assessment_session.start_date','assessment_session.end_date','company.name as company_name', 'assessment_session.id as id')
+                ->where("company_id",$company_id)->get(); 
+                $selected = $company->id;
+            }
+            
         
             for($i = 0; $i < count($assessments); $i++)
             {
@@ -60,7 +75,7 @@ class resultController extends Controller
             }
 
 
-            return view('result.index_admin', compact("assessments"));
+            return view('result.index_admin', compact("assessments","company","selected"));
         }
         else if($role->role_id == "user")
         {   
@@ -94,6 +109,56 @@ class resultController extends Controller
         
             return view('result.index_user', compact("assessments"));
         }
+    }
+
+    public function empCompany($id)
+    {
+        $assessments = DB::table("assessment_session")
+        ->join('company', 'assessment_session.company_id', '=', 'company.id')->select('assessment_session.name', 'assessment_session.category', 'assessment_session.status','assessment_session.expired','assessment_session.start_date','assessment_session.end_date','company.name as company_name', 'assessment_session.id as id')
+        ->where("company_id",$id)->get(); 
+
+        $company = Company::all();
+        $selected = Company::where('id', $id)->get()->first();
+        $selected = $selected->id;
+        for($i = 0; $i < count($assessments); $i++)
+            {
+                $participants = DB::table("assessor_map")
+                                ->where("session_id", $assessments[$i]->id)
+                                ->get();
+                $assesse = [];
+
+                for($j = 0; $j < count($participants); $j++)
+                {
+                    array_push($assesse, $participants[$j]->userid_assessee);
+                }
+
+                $assesse = array_unique($assesse);
+                $assesse = array_values($assesse);
+
+                $participant_detail = [];
+
+                $total = 0;
+                $assessor = [];
+
+                for($j = 0; $j < count($assesse); $j++)
+                {   
+                    for($k = 0; $k < count($participants); $k++)
+                    {
+                        if($assesse[$j] == $participants[$k]->userid_assessee)
+                        {
+                            array_push($assessor, $participants[$k]->userid_assessor);
+                        }
+                    }
+                }
+
+                $total += count($assessor);
+                $total += count($assesse);
+
+                $assessments[$i]->counts = $total; 
+            }
+
+
+            return view('result.index_admin', compact("assessments","company","selected"));
     }
 
     public function detail(Request $request)

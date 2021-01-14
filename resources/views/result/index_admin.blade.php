@@ -3,11 +3,39 @@
 @section('title', 'Report Assessment Session')
 
 @section('ReportAssessment', 'active')
+@switch(session('permission'))
+    @case('user')
+        @section('user', 'hidden')            
+        @break
+    @case('admin')
+    @section('superadmin', 'hidden')                
+        @break
+    @default
 
+@endswitch
 @section('content')
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-3 text-gray-800">Assessment Result</h1>
+<div class="text-left mt-4">
+        <h1 class="d-inline h3 text-gray-800">Assessment Result</h1>
+        <br>
+            <br>
+            <h1 class=" h4 text-gray-800">Perusahaan</h1>
+            <select name="company" id="company" class="form-control"
+                onchange="window.location.href=this.options[this.selectedIndex].value;">
+                @if ($company->first()->id == Auth::user()->company_id)
+                <option value="{{$company->id}}" selected>{{ $company->name}}</option>
+                    
+                @else
+                <option value="{{ url('result/') }}">Semua Asessment Session</option>
+                @foreach ($company as $item)
+                    <option value="{{ url('result/company', $item->id) }}"
+                        {{ $selected == $item->id ? 'selected' : null }}>{{ $item->name }}</option>
+                @endforeach    
+                @endif
+            </select>     
+            
+            </div>
     </div>
 
     <div class="card shadow mb-4">
@@ -24,6 +52,7 @@
                         <th>NAME</th>
                         <th>PARTICIPANS</th>
                         <th>STATUS</th>
+                        <th>COMPANY</th>
                         <th>DATE</th>
                         <th>ACTION</th>
                     </tr>
@@ -34,6 +63,7 @@
                             <td>{{ $a->name }}</td>
                             <td>{{ $a->counts }}</td>
                             <td>{{ $a->status }}</td>
+                            <td>{{ $a->company_name }}</td>
                             <td>{{ date('M d, Y', strtotime($a->start_date)) }}</td>
                             <td><a href="#" class="btnSubmit" id="{{ $a->id }}"><button class="btn btn-warning">View</button></a></td>
                             </form>

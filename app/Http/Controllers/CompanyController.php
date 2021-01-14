@@ -2,155 +2,134 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateCompanyRequest;
-use App\Http\Requests\UpdateCompanyRequest;
-use App\Repositories\CompanyRepository;
-use App\Http\Controllers\AppBaseController;
+use App\Company;
 use Illuminate\Http\Request;
-use Flash;
-use Response;
 
-class CompanyController extends AppBaseController
+class CompanyController extends Controller
 {
-    /** @var  CompanyRepository */
-    private $companyRepository;
-
-    public function __construct(CompanyRepository $companyRepo)
-    {
-        $this->companyRepository = $companyRepo;
-    }
-
     /**
-     * Display a listing of the Company.
+     * Display a listing of the resource.
      *
-     * @param Request $request
-     *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $companies = $this->companyRepository->all();
-
-        return view('companies.index')
-            ->with('companies', $companies);
+        $company = Company::all();
+        return view('company.index', compact('company'));
     }
 
     /**
-     * Show the form for creating a new Company.
+     * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('companies.create');
+        return view('company.create');
+        
     }
 
     /**
-     * Store a newly created Company in storage.
+     * Store a newly created resource in storage.
      *
-     * @param CreateCompanyRequest $request
-     *
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function store(CreateCompanyRequest $request)
+    public function store(Request $request)
     {
-        $input = $request->all();
+        $request->validate([
+            'name' => 'required|min:3',
+            'address' => 'required|min:3',
+            'telp' => 'required|min:3',
+            'email' => 'required|min:3',
+            'description' => 'required|min:3',
+            'contact_person' => 'required|min:3',
+        ], [
+            'name.required' => 'Nama Perusahaan tidak boleh kosong',
+            'address.required' => 'Alamat tidak boleh kosong',
+            'telp.required' => 'Nomer telepon tidak boleh kosong',
+            'email.required' => 'Email tidak boleh kosong',
+            'description.required' => 'Deskripsi tidak boleh kosong',
+            'contact_person.required' => 'Contact Person tidak boleh kosong',
+        ]);
 
-        $company = $this->companyRepository->create($input);
+        Company::create($request->all());
+        return redirect('company')->with('status', 'Perusahaan berhasil ditambah!');
 
-        Flash::success('Company saved successfully.');
-
-        return redirect(route('companies.index'));
     }
 
     /**
-     * Display the specified Company.
+     * Display the specified resource.
      *
-     * @param int $id
-     *
-     * @return Response
+     * @param  \App\Company  $company
+     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Company $company)
     {
-        $company = $this->companyRepository->find($id);
-
-        if (empty($company)) {
-            Flash::error('Company not found');
-
-            return redirect(route('companies.index'));
-        }
-
-        return view('companies.show')->with('company', $company);
+        return view('company.show', compact('company'));
     }
 
     /**
-     * Show the form for editing the specified Company.
+     * Show the form for editing the specified resource.
      *
-     * @param int $id
-     *
-     * @return Response
+     * @param  \App\Company  $company
+     * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Company $company)
     {
-        $company = $this->companyRepository->find($id);
-
-        if (empty($company)) {
-            Flash::error('Company not found');
-
-            return redirect(route('companies.index'));
-        }
-
-        return view('companies.edit')->with('company', $company);
+        return view('company.edit', compact('company'));
     }
 
     /**
-     * Update the specified Company in storage.
+     * Update the specified resource in storage.
      *
-     * @param int $id
-     * @param UpdateCompanyRequest $request
-     *
-     * @return Response
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Company  $company
+     * @return \Illuminate\Http\Response
      */
-    public function update($id, UpdateCompanyRequest $request)
+    public function update(Request $request, Company $company)
     {
-        $company = $this->companyRepository->find($id);
+        $request->validate([
+            'name' => 'required|min:3',
+            'address' => 'required|min:3',
+            'telp' => 'required|min:3',
+            'email' => 'required|min:3',
+            'description' => 'required|min:3',
+            'contact_person' => 'required|min:3',
+        ], [
+            'name.required' => 'Nama Perusahaan tidak boleh kosong',
+            'address.required' => 'Alamat tidak boleh kosong',
+            'telp.required' => 'Nomer telepon tidak boleh kosong',
+            'email.required' => 'Email tidak boleh kosong',
+            'description.required' => 'Deskripsi tidak boleh kosong',
+            'contact_person.required' => 'Contact Person tidak boleh kosong',
+        ]);
 
-        if (empty($company)) {
-            Flash::error('Company not found');
+        Company::where('id', $company->id)
+        ->update([
+            'name' => $request->name,
+            'address' => $request->address,
+            'telp' => $request->telp,
+            'fax' => $request->fax,
+            'email' => $request->email,
+            'description' => $request->description,
+            'contact_person' => $request->contact_person
+        ]);
 
-            return redirect(route('companies.index'));
-        }
+        return redirect('company')->with('status', 'Perusahaan berhasil di update!');
 
-        $company = $this->companyRepository->update($request->all(), $id);
-
-        Flash::success('Company updated successfully.');
-
-        return redirect(route('companies.index'));
     }
 
     /**
-     * Remove the specified Company from storage.
+     * Remove the specified resource from storage.
      *
-     * @param int $id
-     *
-     * @throws \Exception
-     *
-     * @return Response
+     * @param  \App\Company  $company
+     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Company $company)
     {
-        $company = $this->companyRepository->find($id);
-
-        if (empty($company)) {
-            Flash::error('Company not found');
-
-            return redirect(route('companies.index'));
-        }
-
-        $this->companyRepository->delete($id);
-
-        Flash::success('Company deleted successfully.');
-
-        return redirect(route('companies.index'));
+        $company->delete();
+        return redirect('company')->with('status', 'Perusahaan berhasil di hapus!');
+        
     }
 }

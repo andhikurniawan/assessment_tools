@@ -5,6 +5,10 @@
 @section('TrackRecord', 'active')
 
 @section('user', 'hidden')
+@section('superadmin', 'hidden')            
+@section('admin', 'hidden')            
+@section('admin_pm', 'hidden')            
+@section('admin_ot', 'hidden')   
 
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">

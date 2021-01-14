@@ -3,7 +3,23 @@
 @section('title', 'Training Recommendation')
 
 @section('TrainingRecommendation', 'active')
+@switch(session('permission'))
+    @case('user')
+        @section('user', 'hidden')            
+        @break
+    @case('admin_tnd')
+    @section('superadmin', 'hidden')            
+    @section('admin', 'hidden')            
+    @section('admin_pm', 'hidden')            
+    @section('admin_ap', 'hidden')            
+    @section('admin_ot', 'hidden')            
+        @break
+        @case('admin')
+        @section('superadmin', 'hidden')                
+            @break
+    @default
 
+@endswitch
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="text-left">
@@ -21,6 +37,10 @@
            <div class="row">
                <table class="table table-borderless">
                    <tbody>
+                       <tr>
+                           <th>Perusahaan Pegawai</th>
+                           <td>{{ $company->name}}</td>
+                       </tr>
                        <tr>
                            <th>Nama Pelatihan</th>
                            <td>{{ $training->name}}</td>

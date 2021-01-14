@@ -2,9 +2,9 @@
         <thead>
             <tr>
                 <th>Name</th>
-        <th>Category</th>
         <th>Status</th>
         <th>Expired</th>
+        <th>Company</th>
         <th>Start Date</th>
         <th>End Date</th>
         <th>Action</th>
@@ -14,9 +14,9 @@
         @foreach($assessmentSessions as $assessmentSession)
             <tr>
                 <td>{{ $assessmentSession->name }}</td>
-            <td>{{ $assessmentSession->category }}</td>
             <td>{{ $assessmentSession->status }}</td>
             <td>{{ $assessmentSession->expired }}</td>
+            <td>{{ $assessmentSession->company_name}}</td>
             <td>{{ $assessmentSession->start_date }}</td>
             <td>{{ $assessmentSession->end_date }}</td>
                 <td>

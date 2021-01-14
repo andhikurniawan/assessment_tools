@@ -3,9 +3,27 @@
 @section('title', 'Detail Karyawan')
 
 @section('TrackRecord', 'active')
-    @if (session('permission') == 'user')
+@switch(session('permission'))
+    @case('user')
         @section('user', 'hidden')
-        @endif
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ot', 'hidden')                   
+        @break
+    @case('admin_tnd')
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ap', 'hidden')            
+        @section('admin_ot', 'hidden')            
+        @break
+    @case('admin')
+        @section('superadmin', 'hidden')                
+            @break
+    @default
+
+@endswitch
         @section('content')
 
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -33,7 +51,7 @@
 
             <!-- Employee Profile -->
             <div class="row">
-                <div class="col">
+            <div class="col">
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="row align-items-center">

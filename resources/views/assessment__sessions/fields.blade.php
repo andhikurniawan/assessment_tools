@@ -46,8 +46,12 @@
 <!-- Company Id Field -->
 <div class="row">
 <div class="col">
-    {!! Form::label('company_id', 'Company:') !!}
-    {!! Form::select('company_id', $company ,null, ['class' => 'form-control', 'placeholder' => 'Select Company']) !!}
+<label for="company_id">Company</label>
+                    <select class="form-control" id="company_id" name="company_id">
+                        @foreach ($company as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
 </div>
 <div class="col">
    

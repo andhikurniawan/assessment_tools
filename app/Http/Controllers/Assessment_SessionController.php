@@ -16,6 +16,7 @@ use App\Models\Company;
 use App\Models\Assessment_Session;
 use Auth;
 use stdClass;
+use App\User;
 
 class Assessment_SessionController extends AppBaseController
 {
@@ -45,9 +46,32 @@ class Assessment_SessionController extends AppBaseController
 
         if($role->role_id == "superadmin" || $role->role_id == "admin")
         {
-        $assessmentSessions = $this->assessmentSessionRepository->all();
+            $assessmentSessions = DB::table("assessment_session")
+            ->join('company', 'assessment_session.company_id', '=', 'company.id')->select('assessment_session.name', 'assessment_session.category', 'assessment_session.status','assessment_session.expired','assessment_session.start_date','assessment_session.end_date','company.name as company_name', 'assessment_session.id as id')->get(); 
 
-        return view('assessment__sessions.index')
+        $company_id = Auth::user()->company_id;
+        if ($company_id == null) {
+            $company = Company::all();
+            $assessmentSessions = DB::table("assessment_session")
+            ->join('company', 'assessment_session.company_id', '=', 'company.id')->select('assessment_session.name', 'assessment_session.category', 'assessment_session.status','assessment_session.expired','assessment_session.start_date','assessment_session.end_date','company.name as company_name', 'assessment_session.id as id')->get(); 
+            $assessment_finished = DB::table('assessment_session')->select('status')->where('status','finished')->count();
+            $assessment_notStarted = DB::table('assessment_session')->select('status')->where('status','not_started')->count();
+            $assessment_open = DB::table('assessment_session')->select('status')->where('status','open')->count();
+            $assessment_all = DB::table('assessment_session')->count();
+            $selected = "";
+        } else {
+            $company = Company::where('id', $company_id)->get()->first();
+            $assessmentSessions = DB::table("assessment_session")
+            ->join('company', 'assessment_session.company_id', '=', 'company.id')->select('assessment_session.name', 'assessment_session.category', 'assessment_session.status','assessment_session.expired','assessment_session.start_date','assessment_session.end_date','company.name as company_name', 'assessment_session.id as id')
+            ->where("company_id",$company_id)->get(); 
+            $assessment_finished = DB::table('assessment_session')->select('status')->where('status','finished')->where('company_id',$company_id)->count();
+            $assessment_notStarted = DB::table('assessment_session')->select('status')->where('status','not_started')->where('company_id',$company_id)->count();
+            $assessment_open = DB::table('assessment_session')->select('status')->where('status','open')->where('company_id',$company_id)->count();
+            $assessment_all = DB::table('assessment_session')->where('company_id',$company_id)->count();
+            $selected = $company->id;
+        }
+        
+        return view('assessment__sessions.index', compact("company","selected","assessment_finished","assessment_notStarted","assessment_open","assessment_all"))
             ->with('assessmentSessions', $assessmentSessions);
         }
         else if($role->role_id == "user")
@@ -55,6 +79,7 @@ class Assessment_SessionController extends AppBaseController
             return redirect("assessmentUser");
         }
     }
+
 
     public function search(Request $request){
         $search=$request->get('search');
@@ -70,7 +95,13 @@ class Assessment_SessionController extends AppBaseController
      */
     public function create()
     {
-        $company = Company::pluck('name','id');
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $company = Company::all();
+        } else {
+            $company = Company::where('id', $user_company)->get();
+        }
+        // $company = Company::pluck('name','id');
         return view('assessment__sessions.create', compact("company"));
     }
 
@@ -387,5 +418,21 @@ class Assessment_SessionController extends AppBaseController
 
     public function addCompetencyModel(){
         return view('assessment__sessions.addcompetencymodel');
+    }
+
+    public function asCompany($id)
+    {
+        $assessmentSessions = DB::table("assessment_session")
+            ->join('company', 'assessment_session.company_id', '=', 'company.id')->select('assessment_session.name', 'assessment_session.category', 'assessment_session.status','assessment_session.expired','assessment_session.start_date','assessment_session.end_date','company.name as company_name', 'assessment_session.id as id')
+            ->where("company_id",$id)->get(); 
+
+        $assessment_finished = DB::table('assessment_session')->select('status')->where('status','finished')->where('company_id',$id)->count();
+        $assessment_notStarted = DB::table('assessment_session')->select('status')->where('status','not_started')->where('company_id',$id)->count();
+        $assessment_open = DB::table('assessment_session')->select('status')->where('status','open')->where('company_id',$id)->count();
+        $assessment_all = DB::table('assessment_session')->where('company_id',$id)->count();
+        $company = Company::all();
+        $selected = Company::where('id', $id)->get()->first();
+        $selected = $selected->id;
+        return view('assessment__sessions.index', compact('assessmentSessions', 'company', 'selected', 'assessment_finished','assessment_notStarted','assessment_open','assessment_all'));
     }
 }

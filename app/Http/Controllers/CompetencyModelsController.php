@@ -11,6 +11,7 @@ use Flash;
 use Response;
 use App\Models\CompetencyModels;
 use Session;
+use Auth;
 
 class CompetencyModelsController extends AppBaseController
 {
@@ -44,7 +45,13 @@ class CompetencyModelsController extends AppBaseController
      */
     public function create()
     {
-        $models = CompetencyModels::All();
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $models = CompetencyModels::All();
+        } else {
+            $models = CompetencyModels::where('company_id', $user_company)->get();
+        }
+       
         return view('competency_models.create', compact("models"));
     }
 
