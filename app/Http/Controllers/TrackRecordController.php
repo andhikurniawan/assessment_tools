@@ -132,14 +132,19 @@ class TrackRecordController extends Controller
     public function trainingVerification($id, Request $request)
     {
         $status = "";
-        if ($request->option == "Verifikasi") {
+        $reason_rejected = "";
+        if ($request->verification == "Verifikasi") {
             $status = "Terverifikasi";
-        } else if ($request->option == "Tolak") {
+            $reason_rejected = "";
+        } else if ($request->verification == "Tolak") {
             $status = "Ditolak";
+            $reason_rejected = $request->reason_rejected;
+
         }
 
         Track_training_emp::where('id', $id)->update([
-            'status' => $status
+            'status' => $status,
+            'reason_rejected' => $reason_rejected
         ]);
 
         return redirect('track-record/employee/' . $request->user_id)->with('status', 'Status Riwayat Pelatihan/Sertifikasi Karyawan Berhasil Diubah!');
@@ -200,7 +205,8 @@ class TrackRecordController extends Controller
             'reason_associated_work' => $request->reason_associated_work,
             'certificate' => $fileName,
             'link' => $link,
-            'status' => 'Menunggu'
+            'status' => 'Menunggu',
+            'reason_rejected' => ""
         ]);
 
         return redirect('track-record')->with('status', 'Data pelatihan/sertifikasi berhasil ditambah!');
