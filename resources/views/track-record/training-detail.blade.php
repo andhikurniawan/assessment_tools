@@ -111,7 +111,7 @@
                         >{{ $track_training->reason_associated_work }}</textarea>
                 </div> 
 
-                @if (session('permission') != "user")
+                @if (session('permission') != "user" && $track_training->status == "Menunggu")
                 <div class="form-group">
                     <label for="verification">Verifikasi Data Pelatihan / Sertifikasi ?</label>
                     <select class="form-control" id="verification" name="verification">
