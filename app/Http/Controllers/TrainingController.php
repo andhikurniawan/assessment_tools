@@ -309,7 +309,8 @@ class TrainingController extends Controller
             'status' => $status,
             'type' => $request->trainingType,
             'recommended_by' => $request->recommendedBy,
-            'reason' => $reason
+            'reason' => $reason,
+            'reason_rejected' => ""
         ]);
 
         //  email data
@@ -378,14 +379,18 @@ class TrainingController extends Controller
     public function recommendationVerification($id, Request $request)
     {
         $status = "";
-        if ($request->option == "Terima") {
+        $reason_rejected ="";
+        if ($request->verification == "Terima") {
             $status = "Disetujui";
-        } else if ($request->option == "Tolak") {
+        } else if ($request->verification == "Tolak") {
             $status = "Ditolak";
+            $reason_rejected = $request->reason_rejected;
+
         }
 
         Training_emp::where('id', $request->id_training_emp)->update([
-            'status' => $status
+            'status' => $status,
+            'reason_rejected' => $reason_rejected
         ]);
         return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil ' . $status);
     }

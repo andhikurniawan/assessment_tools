@@ -122,7 +122,7 @@
                 <div class="form-group d-none" id="verificationDiv">
                     <label for="reason_rejected">Alasan Ditolak</label>
                     <textarea name="reason_rejected" class="form-control @error('reason_rejected') is-invalid @enderror" rows="5"
-                        placeholder="Isikan Alasan Anda Mengapa Data ini Ditolak">{{ old('reason_associated_work', $track_training->reason_rejected)}}</textarea>
+                        placeholder="Isikan Alasan Anda Mengapa Data ini Ditolak">{{ old('reason_rejected', $track_training->reason_rejected)}}</textarea>
                         @error('reason_rejected')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
