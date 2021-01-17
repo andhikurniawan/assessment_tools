@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Class perusahaan
+ * Class Company
  * @package App\Models
- * @version December 11, 2020, 5:07 am UTC
+ * @version November 20, 2020, 5:07 am UTC
  *
  * @property string $name
  * @property string $address
@@ -19,10 +20,11 @@ use Illuminate\Database\Eloquent\Model as Model;
  */
 class Company extends Model
 {
+    use SoftDeletes;
 
     public $table = 'company';
     
-
+    protected $dates = ['deleted_at'];
 
 
     public $fillable = [
@@ -58,10 +60,20 @@ class Company extends Model
      */
     public static $rules = [
         
+        'name' => 'nullable|string|max:128',
+        'address' => 'nullable|string',
+        'telp' => 'nullable|string|max:32',
+        'fax' => 'nullable|string|max:255',
+        'email' => 'nullable|string|max:64',
+        'contact_person' => 'nullable|string|max:64',
+        'description' => 'nullable|string'
     ];
+
 
     public function competencyGroups()
     {
         return $this->hasMany(Competency_Group::class);
     }
+        
+    
 }
