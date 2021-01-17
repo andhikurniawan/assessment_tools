@@ -17,10 +17,10 @@
             <td>{{ $competencyModels->company_id }}</td>
             <td>{{ $competencyModels->competency_id }}</td>
                 <td>
-                    {!! Form::open(['route' => ['competencyModels.destroy', $competencyModels->id], 'method' => 'delete']) !!}
+                    {!! Form::open(['route' => ['competencyModel.destroy', $competencyModels->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('competencyModels.show', [$competencyModels->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
-                        <a href="{{ route('competencyModels.edit', [$competencyModels->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
+                        <a href="{{ route('competencyModel.show', [$competencyModels->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-eye-open"></i></a>
+                        <a href="{{ route('competencyModel.edit', [$competencyModels->id]) }}" class='btn btn-default btn-xs'><i class="glyphicon glyphicon-edit"></i></a>
                         {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>
                     {!! Form::close() !!}
