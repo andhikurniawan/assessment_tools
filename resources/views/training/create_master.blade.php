@@ -3,7 +3,23 @@
 @section('title', 'Training Recommendation')
 
 @section('TrainingRecommendation', 'active')
+@switch(session('permission'))
+    @case('user')
+        @section('user', 'hidden')            
+        @break
+    @case('admin_tnd')
+    @section('superadmin', 'hidden')            
+    @section('admin', 'hidden')            
+    @section('admin_pm', 'hidden')            
+    @section('admin_ap', 'hidden')            
+    @section('admin_ot', 'hidden')            
+        @break
+        @case('admin')
+        @section('superadmin', 'hidden')                
+            @break
+    @default
 
+@endswitch
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="text-left">
@@ -20,6 +36,14 @@
         <div class="card-body">
             <form action="{{ url('training') }}" method="post">
                 @csrf
+                <div class="form-group">
+                    <label for="company_id">Perusahaan</label>
+                    <select class="form-control" id="company_id" name="company_id">
+                        @foreach ($company as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="name">Nama Pelatihan</label>
                     <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
@@ -42,7 +66,7 @@
                         <div class="col-sm-2">
                             <input type="number" min="1" max="366" name="duration" id="duration"
                                 class="form-control @error('duration') is-invalid @enderror" value="{{ old('duration') }}"
-                                placeholder="">
+                                placeholder="Durasi Pelatihan">
                             @error('duration')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -81,7 +105,7 @@
                 <div class="form-group">
                     <label for="link">Link Pelatihan</label>
                     <input type="url" name="link" id="link" class="form-control @error('link') is-invalid @enderror"
-                        value="{{ old('linnk') }}" placeholder="Masukan Link Pelatihan..">
+                        value="{{ old('link') }}" placeholder="Masukan Link Pelatihan..">
                     @error('link')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

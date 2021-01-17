@@ -1,11 +1,5 @@
-<li>
-    <a href="training"><i class="menu-icon fa fa-dashboard"></i>Training and Development</a>
-    <ul>
-        <li>
-            <a href="#"><i class="menu-icon fa fa-puzzle-piece"></i>Training Recommendation</a>
-        </li>
-        <li>
-            <a href="#"><i class="menu-icon fa fa-puzzle-piece"></i>Track Record</a>
-        </li>
-    </ul>
+<!-- ASSESSMENT MENU -->
+<li class="nav-main-heading"><span class="sidebar-mini-visible">A</span><span class="sidebar-mini-hidden">Assessment</span></li>
+<li class="{{ Request::is('assessmentSessions*') ? 'active' : '' }}">
+    <a href="{!! route('assessmentSessions.index') !!}"><i class="fa fa-edit"></i><span>Assessment Sessions</span></a>
 </li>

@@ -8,19 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') - Web Assessment</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('style/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('style/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('style/css/training.css') }}" rel="stylesheet">
     <link href="{{asset('style/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css" integrity="sha512-C7hOmCgGzihKXzyPU/z4nv97W0d9bv4ALuuEbSf6hm93myico9qa0hv4dODThvCsqQUmKmLcJmlpRmCaApr83g==" crossorigin="anonymous" />
 
 </head>
 
@@ -43,6 +43,8 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
+            <div @yield('admin')>
+
             <!-- Nav Item - Dashboard -->
             <li class="nav-item @yield('dashboard')">
                 <a class="nav-link" href="/home">
@@ -52,9 +54,12 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
+        </div>
+
 
             <!-- Heading -->
-            <div @yield('user')>
+            
+            <div @yield('superadmin')>
 
             <div class="sidebar-heading">
                 Master
@@ -62,13 +67,24 @@
 
             <!-- Nav Item  -->
             <li class="nav-item @yield('DataPerusahaan')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{url('company')}}">
                     <i class="fas fa-database"></i>
                     <span>Data Perusahaan</span></a>
             </li>
+
+            <!-- Nav Item  -->
+            <li class="nav-item @yield('Roles')">
+                <a class="nav-link" href="{{url('role')}}">
+                    <span class="iconify" data-icon="ic:round-admin-panel-settings" data-inline="false"></span>
+                    <span>Role</span></a>
+            </li>
+        </div>
+
+        <div @yield('admin')>
+
             <!-- Nav Item  -->
             <li class="nav-item @yield('DataPegawai')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ url('employee')}}">
                     <i class="fas fa-database"></i>
                     <span>Data Pegawai</span></a>
             </li>
@@ -78,6 +94,9 @@
                     <i class="far fa-calendar-check"></i>
                     <span>Job Target</span></a>
             </li>
+        </div>
+
+        <div @yield('admin_pm')>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -113,9 +132,14 @@
                     <i class="fas fa-tasks"></i>
                     <span>Gap Analysis</span></a>
             </li>
+        </div>
+
+        <div @yield('admin_ap')>
+
+        
             <!-- Divider -->
             <hr class="sidebar-divider">
-            </div>
+  
             <!-- Heading -->
             <div class="sidebar-heading">
                 Appraisal
@@ -123,40 +147,21 @@
 
             <!-- Nav Item  -->
             <li class="nav-item @yield('SesiAssessment')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{!! route('assessmentSessions.index') !!}">
                     <i class="fas fa-tasks"></i>
                     <span>Sesi Assessment</span></a>
             </li>
 
-            <div @yield('user')>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item @yield('TemplateAssessment')">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-tasks"></i>
-                    <span>Template Assessment</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item @yield('MappingParticipant')">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-tasks"></i>
-                    <span>Mapping Participants</span></a>
-            </li>
-            <!-- Nav Item - Tables -->
-            <li class="nav-item @yield('ModelKompetensi')">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-tasks"></i>
-                    <span>Model Kompetensi</span></a>
-            </li>
-        </div>
-
             <!-- Nav Item - Tables -->
             <li class="nav-item @yield('ReportAssessment')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('result') }}">
                     <i class="fas fa-tasks"></i>
                     <span>Report Assessment</span></a>
             </li>
+        </div>
+
+        <div @yield('admin_tnd')>
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -188,6 +193,7 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
+        </div>
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -308,7 +314,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('style/js/sb-admin-2.min.js') }}"></script>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @yield('script')
 
 
