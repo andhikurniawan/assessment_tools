@@ -38,7 +38,12 @@ class participantController extends Controller
             $idassesse = $request->assesse;
             $idassessor = $request->assessor;
 
-            $id = DB::table('user')->select("employee_id")->get();
+            $user_company = Auth::user()->company_id;
+            if ($user_company == null) {
+                $id = DB::table('user')->select("employee_id")->get();
+            } else {
+                $id = DB::table('user')->select("employee_id")->where('company_id', $user_company)->get();
+            }
 
             $assesse = DB::table('user')->select('name', 'email')->where('employee_id', $idassesse)->first();
             $assessor = DB::table('user')->select('name', 'email')->where('employee_id', $idassessor)->first();
@@ -65,7 +70,12 @@ class participantController extends Controller
             $assesse = "";
             $assessor = "";
 
-            $id = DB::table('user')->select("employee_id")->get();
+            $user_company = Auth::user()->company_id;
+            if ($user_company == null) {
+                $id = DB::table('user')->select("employee_id")->get();
+            } else {
+                $id = DB::table('user')->select("employee_id")->where('company_id', $user_company)->get();
+            }
 
             for($i = 1; $i < count($data[0]); $i++)
             {

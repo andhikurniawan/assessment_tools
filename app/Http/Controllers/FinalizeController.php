@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CompetencyModels;
 use Session;
 use DB;
+use Auth;
 
 class FinalizeController extends Controller
 {
@@ -23,7 +24,13 @@ class FinalizeController extends Controller
         $assessmentSession = Session::get("assesment");
         $competencyModel = Session::get("competency");
         $participant = Session::get("participant");
-        $id = DB::table('user')->select("employee_id")->get();
+
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $id = DB::table('user')->select("employee_id")->get();
+        } else {
+            $id = DB::table('user')->select("employee_id")->where('company_id', $user_company)->get();
+        }
 
         $competency = explode(",", $competencyModel);
         $models = CompetencyModels::All();

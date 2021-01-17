@@ -280,10 +280,16 @@ class Assessment_SessionController extends AppBaseController
 
             array_push($participants, $detail);
         }
-        
-        $modelss = competencyModels::All();
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $modelss = CompetencyModels::All();
+            $id = DB::table('user')->select("employee_id")->get();
+        } else {
+            $modelss = CompetencyModels::where('company_id', $user_company)->get();
+            $id = DB::table('user')->select("employee_id")->where('company_id', $user_company)->get();
+        }
 
-        $id = DB::table('user')->select("employee_id")->get();
+      
 
         return view('assessment__sessions.edit', compact("assessmentSession", "models", "participants", "modelss", "id", "assessmentId"));
     }

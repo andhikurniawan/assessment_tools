@@ -3,9 +3,27 @@
 @section('title', 'Assessment Session')
 
 @section('SesiAssessment', 'active')
-@if (session('permission') == 'user')
+@switch(session('permission'))
+    @case('user')
         @section('user', 'hidden')
-        @endif
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ot', 'hidden')                   
+        @break
+    @case('admin_tnd')
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ap', 'hidden')            
+        @section('admin_ot', 'hidden')            
+        @break
+    @case('admin')
+        @section('superadmin', 'hidden')                
+            @break
+    @default
+
+@endswitch
 
 @section('content')
 <div class="card shadow mb-4 ml-4 mr-4">

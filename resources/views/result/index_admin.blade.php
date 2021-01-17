@@ -5,11 +5,22 @@
 @section('ReportAssessment', 'active')
 @switch(session('permission'))
     @case('user')
-        @section('user', 'hidden')            
+        @section('user', 'hidden')
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ot', 'hidden')                   
+        @break
+    @case('admin_tnd')
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ap', 'hidden')            
+        @section('admin_ot', 'hidden')            
         @break
     @case('admin')
-    @section('superadmin', 'hidden')                
-        @break
+        @section('superadmin', 'hidden')                
+            @break
     @default
 
 @endswitch
@@ -23,7 +34,7 @@
             <h1 class=" h4 text-gray-800">Perusahaan</h1>
             <select name="company" id="company" class="form-control"
                 onchange="window.location.href=this.options[this.selectedIndex].value;">
-                @if ($company->first()->id == Auth::user()->company_id)
+                @if (Auth::user()->company_id != null)
                 <option value="{{$company->id}}" selected>{{ $company->name}}</option>
                     
                 @else

@@ -23,7 +23,7 @@
             <h1 class=" h4 text-gray-800">Perusahaan</h1>
             <select name="company" id="company" class="form-control"
                 onchange="window.location.href=this.options[this.selectedIndex].value;">
-                @if ($company->first()->id == Auth::user()->company_id)
+                @if (Auth::user()->company_id != null)
                 <option value="{{$company->id}}" selected>{{ $company->name}}</option>
                     
                 @else

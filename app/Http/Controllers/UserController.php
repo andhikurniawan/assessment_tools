@@ -20,6 +20,7 @@ class UserController extends Controller
     {
         $employee = User::join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->join('role', 'user_role.role_id', '=', 'role.id')->join('company', 'user.company_id', '=', 'company.id')->select('user.name as name', 'user.employee_id', 'role.name as role_name', 'company.name as company_name', 'user.id as id')->get();
         $company_id = Auth::user()->company_id;
+        
         if ($company_id == null) {
             $company = Company::all();
         $employee = User::join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->join('role', 'user_role.role_id', '=', 'role.id')->join('company', 'user.company_id', '=', 'company.id')->select('user.name as name', 'user.employee_id', 'role.name as role_name', 'company.name as company_name', 'user.id as id')->get();
@@ -29,6 +30,7 @@ class UserController extends Controller
         $employee = User::join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->join('role', 'user_role.role_id', '=', 'role.id')->join('company', 'user.company_id', '=', 'company.id')->select('user.name as name', 'user.employee_id', 'role.name as role_name', 'company.name as company_name', 'user.id as id')->where('company.id',$company_id)->get();
         $selected = $company->id;
         }
+       
         return view('employee.index', compact('employee', 'company', 'selected'));
     }
 
