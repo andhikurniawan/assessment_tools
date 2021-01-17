@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Competency;
+use App\Jobs\TrainingRecommendationMailJob;
+use App\Mail\TrainingRecommendationMail;
 use App\Track_project_emp;
 use App\Track_training_emp;
 use App\Training;
@@ -318,6 +320,7 @@ class TrainingController extends Controller
         $training = Training::where('id', $request->trainingDropdown)->get()->first();
         $email = $user->email;
         $data = array(
+            'email' => $email,
             'name' => $user->name,
             'training_name' => $training->name,
             'training_host' => $training->host,
@@ -327,10 +330,8 @@ class TrainingController extends Controller
         );
 
         // send email
-        Mail::send('layouts.email', $data, function ($mail) use ($email, $data) {
-            $mail->from('web.assessment.bubat@gmail.com', 'Admin HR Bubat Web Assessment');
-            $mail->to($email, $data['name'])->subject('Rekomendasi Pelatihan dari Bubat Web Assessment');
-        });
+        TrainingRecommendationMailJob::dispatch($data);
+
 
         // check if email fail
         if (Mail::failures()) {

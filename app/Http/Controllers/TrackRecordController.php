@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Jobs\TrackRecordInputPeriodMailJob;
 use App\Track_project_emp;
 use App\Track_training_emp;
 use App\User;
@@ -66,33 +67,17 @@ class TrackRecordController extends Controller
         $user = User::where('company_id', $request->company_modal)->get();
         $start_date = $request->start_date;
         $end_date = $request->end_date;
-        // dd($user);
 
         // send email
-        foreach ($user as $key => $item) {
-            // --test echo
-            // echo($key+1 ." ".$item->name." | ");
-            // echo("<br>");
-
-            // if ($key % 10 == 0) {
-            // echo ("=== break 10 list ===");
-            // echo ("=== break 10 list ===");
-            // echo("<br>");
-            // }
-            // --end test
-            
+        foreach ($user as $item) {
             $email = $item->email;
-            $data = array(
+            $data_tr = array(
+                'email' => $email,
                 'name' => $item->name,
                 'start_date' => $start_date,
                 'end_date' => $end_date
             );
-
-            Mail::send('layouts.email-track-record', $data, function($mail) use ($email, $data){
-                $mail->from('web.assessment.bubat@gmail.com', 'Admin HR Bubat Web Assessment');
-                $mail->to($email, $data['name'])->subject('Periode Input Data Track Record');
-            });
-
+            TrackRecordInputPeriodMailJob::dispatch($data_tr);
         }
         if (Mail::failures()) {
             return redirect('track-record')->with('status', 'Waktu Periode Input Track Record berhasil diubah tetapi gagal dalam mengirim email');
