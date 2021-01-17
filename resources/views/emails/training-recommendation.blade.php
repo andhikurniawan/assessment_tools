@@ -16,7 +16,7 @@ Pelatihan ini bersifat **Wajib**. Detail pelatihan terdapat pada menu Training R
 @endif
 
 
-@component('mail::button', ['url' => '/training/recommendation'])
+@component('mail::button', ['url' => $data['url']])
 Klik disini untuk melihat daftar rekomendasi pelatihan Anda
 @endcomponent
 

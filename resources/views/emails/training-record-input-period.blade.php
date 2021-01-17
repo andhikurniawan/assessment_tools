@@ -7,7 +7,7 @@ Periode Dimulai pada (TAHUN-BULAN-TANGGAL) : **{{$tr_input_data['start_date']}}*
 
 Periode Diakhiri pada (TAHUN-BULAN-TANGGAL) : **{{$tr_input_data['end_date']}}**
 
-@component('mail::button', ['url' => '/track-record'])
+@component('mail::button', ['url' => $data['url']])
 Klik disini untuk mengakses menu Track Record
 @endcomponent
 

@@ -318,6 +318,7 @@ class TrainingController extends Controller
         //  email data
         $user = User::where('id', $request->userId)->get()->first();
         $training = Training::where('id', $request->trainingDropdown)->get()->first();
+        $url = url('/training/recommendation');
         $email = $user->email;
         $data = array(
             'email' => $email,
@@ -326,7 +327,8 @@ class TrainingController extends Controller
             'training_host' => $training->host,
             'start_date' => $training->start_date,
             'end_date' => $training->end_date,
-            'status' => $trainingStatus
+            'status' => $trainingStatus,
+            'url' => $url
         );
 
         // send email
