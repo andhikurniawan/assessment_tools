@@ -59,6 +59,7 @@ class Company extends Model
      * @var array
      */
     public static $rules = [
+        
         'name' => 'nullable|string|max:128',
         'address' => 'nullable|string',
         'telp' => 'nullable|string|max:32',
@@ -68,5 +69,11 @@ class Company extends Model
         'description' => 'nullable|string'
     ];
 
+
+    public function competencyGroups()
+    {
+        return $this->hasMany(Competency_Group::class);
+    }
+        
     
 }
