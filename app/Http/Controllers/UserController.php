@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Repositories\UserRepository;
+use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
+use Flash;
+use Response;
 use App\Company;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class UserController extends AppBaseController
 {
     /**
      * Display a listing of the resource.
@@ -20,6 +26,7 @@ class UserController extends Controller
     {
         $employee = User::join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->join('role', 'user_role.role_id', '=', 'role.id')->join('company', 'user.company_id', '=', 'company.id')->select('user.name as name', 'user.employee_id', 'role.name as role_name', 'company.name as company_name', 'user.id as id')->get();
         $company_id = Auth::user()->company_id;
+        
         if ($company_id == null) {
             $company = Company::all();
         $employee = User::join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->join('role', 'user_role.role_id', '=', 'role.id')->join('company', 'user.company_id', '=', 'company.id')->select('user.name as name', 'user.employee_id', 'role.name as role_name', 'company.name as company_name', 'user.id as id')->get();
@@ -29,6 +36,7 @@ class UserController extends Controller
         $employee = User::join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->join('role', 'user_role.role_id', '=', 'role.id')->join('company', 'user.company_id', '=', 'company.id')->select('user.name as name', 'user.employee_id', 'role.name as role_name', 'company.name as company_name', 'user.id as id')->where('company.id',$company_id)->get();
         $selected = $company->id;
         }
+       
         return view('employee.index', compact('employee', 'company', 'selected'));
     }
 

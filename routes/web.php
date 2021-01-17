@@ -27,10 +27,57 @@ Route::get('/', function () {
         ]);
 });
 
+
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->middleware('verified');
+
+Route::resource('users', 'UserController');
+Route::resource('grupkompetensis', 'grupkompetensiController');
+Route::resource('kompetensis', 'kompetensiController');
+Route::resource('modelkompetensis', 'modelkompetensiController');
+Route::resource('behaviors', 'behaviorController');
+
+Route::resource('perusahaans', 'perusahaanController');
+
+Route::resource('relasikompetensis', 'relasikompetensiController');
+
+Route::resource('competencyGroups', 'Competency_GroupController');
+
+Route::resource('competencies', 'CompetencyController');
+
+Route::resource('keyBehaviours', 'Key_BehaviourController');
+
+Route::resource('competencyModels', 'Competency_ModelController');
+/*Modul Assessment*/
+Route::get('/assessment', 'Assessment_SessionController@index');
+Route::get('/search', 'Assessment_SessionController@search');
+Route::resource('assessmentSessions', 'Assessment_SessionController');
+Route::get('assessmentSessions/company/{id}', 'Assessment_SessionController@asCompany');
+Route::post("assessmentSession/update", "assessmentSessionController@editAssessment")->name("assessmentSession/update")->middleware("auth");
+Route::post("assessmentSession/deleteModel", "assessmentSessionController@deleteModel")->name("assessmentSession/deleteModel")->middleware("auth");
+Route::post("assessmentSession/deleteParticipant", "assessmentSessionController@deleteParticipant")->name("assessmentSession/deleteParticipant")->middleware("auth");
+Route::post("assessmentSession/insertModel", "assessmentSessionController@insertModel")->name("assessmentSession/insertModel")->middleware("auth");
+Route::post("assessmentSession/insertParticipant", "assessmentSessionController@insertParticipant")->name("assessmentSession/insertParticipant")->middleware("auth");
+Route::resource('competencyModel', 'CompetencyModelsController');
+Route::resource('companies', 'CompanyController');
+Route::resource("participant", 'participantController');
+Route::post("participant/detail", 'participantController@detail')->name("participant.detail");
+Route::get("participant/detail/cari", 'participantController@cari')->name("participant.cari")->middleware("auth");
+Route::get("participant/detail/cariId", 'participantController@cariId')->name("participant.cariId")->middleware("auth");
+Route::post("finalize/save", "FinalizeController@save")->name("finalize.save");
+Route::get("finalize/finalize", "FinalizeController@finalize")->name("finalize.finalize");
+Route::get("finalize", "FinalizeController@index")->name("finalize");
+Route::get("assessmentUser", "assessmentUserController@index")->name("assessmentUser")->middleware("auth");
+Route::post("session", "sessionController@index")->name("session");
+Route::post("session/simpan", "sessionController@simpan")->name("session.simpan");
+Route::post("assessmentUser/detail", "assessmentUserController@detail")->name("assessmentUser.detail");
+Route::get("result", "resultController@index")->name("result")->middleware("auth");
+Route::get('result/company/{id}', 'resultController@empCompany');
+Route::post("result/detail", "resultController@detail")->name("result.detail")->middleware("auth");
+Route::post("result/detail/laporan", "resultController@laporan")->name("result/detail/laporan")->middleware("auth");
 Route::get('/logout', 'HomeController@logout')->middleware('verified');
+/*End Modul Assessment*/
 
 Route::get('/training/dashboard', 'TrainingController@dashboard');
 Route::get('/training/recommendation', 'TrainingController@recommendation');
@@ -74,5 +121,7 @@ Route::resource('employee', 'UserController');
 //     return new TrainingRecommendationMail();
 // });
 
+
+Route::resource('gapAnalyses', 'Gap_AnalysisController');
 Route::resource('company', 'CompanyController');
 Route::resource('role', 'RoleController');

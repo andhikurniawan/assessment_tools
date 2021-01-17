@@ -8,19 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') - Web Assessment</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('style/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
+         
     <!-- Custom styles for this template-->
     <link href="{{ asset('style/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('style/css/training.css') }}" rel="stylesheet">
     <link href="{{asset('style/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css" integrity="sha512-C7hOmCgGzihKXzyPU/z4nv97W0d9bv4ALuuEbSf6hm93myico9qa0hv4dODThvCsqQUmKmLcJmlpRmCaApr83g==" crossorigin="anonymous" />
 
 </head>
 
@@ -108,27 +109,27 @@
 
             <!-- Nav Item  -->
             <li class="nav-item @yield('kompetensi')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/competencies">
                     <i class="fas fa-tasks"></i>
                     <span>Kompetensi</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
             <li class="nav-item @yield('GrupKompetensi')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/competencyGroups">
                     <i class="fas fa-tasks"></i>
                     <span>Grup Kompetensi</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item @yield('ModelKompetensi')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/competencyModels">
                     <i class="fas fa-tasks"></i>
                     <span>Model Kompetensi</span></a>
             </li>
             <!-- Nav Item - Tables -->
             <li class="nav-item @yield('GapAnalysis')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/gapAnalyses">
                     <i class="fas fa-tasks"></i>
                     <span>Gap Analysis</span></a>
             </li>
@@ -147,39 +148,14 @@
 
             <!-- Nav Item  -->
             <li class="nav-item @yield('SesiAssessment')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{!! route('assessmentSessions.index') !!}">
                     <i class="fas fa-tasks"></i>
                     <span>Sesi Assessment</span></a>
             </li>
 
-            <div @yield('user')>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item @yield('TemplateAssessment')">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-tasks"></i>
-                    <span>Template Assessment</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item @yield('MappingParticipant')">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-tasks"></i>
-                    <span>Mapping Participants</span></a>
-            </li>
-            <!-- Nav Item - Tables -->
-            <li class="nav-item @yield('ModelKompetensi')">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-tasks"></i>
-                    <span>Model Kompetensi</span></a>
-            </li>
-        </div>
-
-        
-
             <!-- Nav Item - Tables -->
             <li class="nav-item @yield('ReportAssessment')">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('result') }}">
                     <i class="fas fa-tasks"></i>
                     <span>Report Assessment</span></a>
             </li>
@@ -339,7 +315,7 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('style/js/sb-admin-2.min.js') }}"></script>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @yield('script')
 
 
