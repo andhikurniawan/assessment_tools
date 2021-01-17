@@ -64,7 +64,7 @@ class TrackRecordController extends Controller
                     'end_date' => $request->end_date
                 ]);
         }
-        $user = User::where('company_id', $request->company_modal)->get();
+        $user = User::join('user_role','user_role.user_id','=','user.id')->where('user.company_id', $request->company_modal)->where('role_id','user')->get();
         $start_date = $request->start_date;
         $end_date = $request->end_date;
 
