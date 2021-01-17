@@ -11,7 +11,7 @@
        <div class="box box-primary">
            <div class="box-body">
                <div class="row">
-                   {!! Form::model($competencyModels, ['route' => ['competencyModels.update', $competencyModels->id], 'method' => 'patch']) !!}
+                   {!! Form::model($competencyModels, ['route' => ['competencyModel.update', $competencyModels->id], 'method' => 'patch']) !!}
 
                         @include('competency_models.fields')
 

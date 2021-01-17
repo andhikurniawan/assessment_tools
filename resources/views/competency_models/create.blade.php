@@ -59,7 +59,7 @@
                 </select>
                 <br><br>
                 <button id="add" class="btn btn-primary btn-md" style="width: 60px; font-size: 14px; margin-top: -10px;">Add</button>
-                <form method="post" id="form" action="{{ route('competencyModels.store') }}">
+                <form method="post" id="form" action="{{ route('competencyModel.store') }}">
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                 <input type=hidden id="idmodels" name="model[]">
                 

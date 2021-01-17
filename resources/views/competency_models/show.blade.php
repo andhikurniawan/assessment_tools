@@ -10,8 +10,8 @@
         <div class="box box-primary">
             <div class="box-body">
                 <div class="row" style="padding-left: 20px">
-                    @include('competency_models.show_fields')
-                    <a href="{{ route('competencyModels.index') }}" class="btn btn-default">Back</a>
+                    @include('competency_model.show_fields')
+                    <a href="{{ route('competencyModel.index') }}" class="btn btn-default">Back</a>
                 </div>
             </div>
         </div>

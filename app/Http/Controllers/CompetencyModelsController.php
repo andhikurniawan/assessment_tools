@@ -89,7 +89,7 @@ class CompetencyModelsController extends AppBaseController
         if (empty($competencyModels)) {
             Flash::error('Competency Models not found');
 
-            return redirect(route('competencyModels.index'));
+            return redirect(route('competencyModel.index'));
         }
         $competencies = DB::table('competency')
         ->select(array('id','code','name'))
@@ -118,7 +118,7 @@ class CompetencyModelsController extends AppBaseController
         if (empty($competencyModels)) {
             Flash::error('Competency Models not found');
 
-            return redirect(route('competencyModels.index'));
+            return redirect(route('competencyModel.index'));
         }
 
         return view('competency_models.edit')->with('competencyModels', $competencyModels);
@@ -139,14 +139,14 @@ class CompetencyModelsController extends AppBaseController
         if (empty($competencyModels)) {
             Flash::error('Competency Models not found');
 
-            return redirect(route('competencyModels.index'));
+            return redirect(route('competencyModel.index'));
         }
 
         $competencyModels = $this->competencyModelsRepository->update($request->all(), $id);
 
         Flash::success('Competency Models updated successfully.');
 
-        return redirect(route('competencyModels.index'));
+        return redirect(route('competencyModel.index'));
     }
 
     /**
@@ -165,13 +165,13 @@ class CompetencyModelsController extends AppBaseController
         if (empty($competencyModels)) {
             Flash::error('Competency Models not found');
 
-            return redirect(route('competencyModels.index'));
+            return redirect(route('competencyModel.index'));
         }
 
         $this->competencyModelsRepository->delete($id);
 
         Flash::success('Competency Models deleted successfully.');
 
-        return redirect(route('competencyModels.index'));
+        return redirect(route('competencyModel.index'));
     }
 }

@@ -57,7 +57,7 @@ Route::post("assessmentSession/deleteModel", "assessmentSessionController@delete
 Route::post("assessmentSession/deleteParticipant", "assessmentSessionController@deleteParticipant")->name("assessmentSession/deleteParticipant")->middleware("auth");
 Route::post("assessmentSession/insertModel", "assessmentSessionController@insertModel")->name("assessmentSession/insertModel")->middleware("auth");
 Route::post("assessmentSession/insertParticipant", "assessmentSessionController@insertParticipant")->name("assessmentSession/insertParticipant")->middleware("auth");
-Route::resource('competencyModels', 'CompetencyModelsController');
+Route::resource('competencyModel', 'CompetencyModelsController');
 Route::resource('companies', 'CompanyController');
 Route::resource("participant", 'participantController');
 Route::post("participant/detail", 'participantController@detail')->name("participant.detail");

@@ -132,7 +132,7 @@ class Assessment_SessionController extends AppBaseController
 
         session(["assesment" => $assesment]);
 
-        return redirect(route('competencyModels.create'));
+        return redirect(route('competencyModel.create'));
 
         // return redirect(route('assessmentSessions.addCompetencyModel'));
     }
