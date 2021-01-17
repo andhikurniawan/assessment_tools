@@ -1,8 +1,10 @@
+<div>
+
 <h2> Detail Kompetensi / {{ $competency->name }} ({{ $competency->code }})</h2>
 <p>{{ $competency->description }}. Kompetensi {{ $competency->name }} adalah tipe <b>{{ $competency->type }}</b>
-yang termasuk kedalam grup <b>{{ $competency->competencyGroup['name'] }}</b>
-
-<br><br>
+yang termasuk kedalam grup <b>{{ $competency->competencyGroup['name'] }}</b></p>
+</div>
+<br>
 <h3>
 <img src="https://icon-library.com/images/notepad-icon-png/notepad-icon-png-27.jpg" width="30" height="30" class="d-inline-block align-top"
 class="user-image" alt="User Image"/>

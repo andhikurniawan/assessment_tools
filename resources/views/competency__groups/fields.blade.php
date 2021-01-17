@@ -1,3 +1,5 @@
+<br>
+
 <!-- Perusahaan Field -->
 <div class="form-group col-sm-12">
 {!! Form::label('company_id', 'Nama Perusahaan:') !!}  
@@ -19,5 +21,5 @@
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-success']) !!}
-    <a href="{{ route('competencyGroups.index') }}" class="btn btn-default">Cancel</a>
+    <a href="{{ route('competencyGroups.index') }}" class="btn btn-danger">Cancel</a>
 </div>

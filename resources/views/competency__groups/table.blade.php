@@ -1,12 +1,12 @@
 <div class="table-responsive">
-    <table class="table" id="competencyGroups-table">
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
             <tr>
                 <th>No</th>
                 <th>Perusahaan</th>
                 <th>Grup Kompetensi</th>
                 <th>Deskripsi</th>
-                <th colspan="3">Action</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -21,8 +21,8 @@
                     {!! Form::open(['route' => ['competencyGroups.destroy', $competencyGroup->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                     
-                        <a href="{{ route('competencyGroups.edit', [$competencyGroup->id]) }}" class='btn btn-warning'><i class="glyphicon glyphicon-edit"></i></a>
-                        {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        <a href="{{ route('competencyGroups.edit', [$competencyGroup->id]) }}" class='btn btn-warning'><span class="iconify" data-icon="bx:bx-edit" data-inline="false"></span></a>
+                        {!! Form::button('<span class="iconify" data-icon="bi:trash" data-inline="false"></span>', ['type' => 'submit', 'class' => 'btn btn-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>
                     {!! Form::close() !!}
                 </td>

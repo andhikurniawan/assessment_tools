@@ -1,48 +1,41 @@
-@extends('layouts.app')
+@extends('main')
+
+@section('title', 'Daftar Kompetensi')
+
+@section('kompetensi', 'active')
 
 @section('content')
-    <section class="content-header">
-    <div class="container-fluid">
-    <h1>Welcome! {{ Auth::user()->name }}</h1>
-        <h1 class="pull-right">
-        <a class="btn btn-success pull-right" style="margin-top: -65px;" href="{{ route('competencies.create') }}">Tambah Kompetensi</a>
-        </h1>
-        
-        
-        <div class ="container">
-        <h3 style="margin-left: -16px;" >Kelola Seluruh Kompetensi</h3> 
-     
-        <form action="#" method="get" >
-        <div class="col-xs-4">
-            <div class="input-group">
-                <input type="text" name="q"  style="margin-left: -32px;" class="form-control" size="50px" placeholder="Search..."/>
-          <span class="input-group-btn">
-            <button type='submit' name='search' style="margin-left: -32px;" id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-          </span>
-            </div>
-            </div>
-        </form>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Kelola Seluruh Kompetensi</h1>
+        <div class="text-right">
+            <a href="{{ route('competencies.create') }}" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                    class="fas fa-plus fa-sm text-white-50"></i> Tambah Kompetensi Baru</a>
+             </div>
 
+    </div>
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
         </div>
-        </div>
-        
-    </section>
-    <div class="content">
-        <div class="clearfix"></div>
+    @endif
 
-        @include('flash::message')
-
-        <div class="clearfix"></div>
-        <div class="container-fluid">
-        <div class="box box-success">
-            <div class="box-body">
-            
-            @include('competencies.table')
-            </div>
+     <!-- Daftar Kompetensi-->
+     <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Kompetensi</h6>
         </div>
-        <div class="text-center">
-        </div>
+        <div class="card-body">
+        @include('competencies.table')
         </div>
     </div>
 @endsection
 
+@section('script')
+ <!-- Page level plugins -->
+ <script src="{{ asset('style/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('style/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('style/js/demo/datatables-demo.js') }}"></script>
+
+    @endsection

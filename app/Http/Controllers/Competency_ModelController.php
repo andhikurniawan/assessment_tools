@@ -11,6 +11,7 @@ use Flash;
 use Response;
 use App\Models\Competency_Relation;
 use App\Models\Competency;
+use App\Models\Company;
 
 class Competency_ModelController extends AppBaseController
 {
@@ -45,7 +46,9 @@ class Competency_ModelController extends AppBaseController
      */
     public function create()
     {
-        return view('competency__models.create');
+        $companies = Company::all()->pluck('name','id');
+        $competencies = Competency::all()->pluck('name','id');
+        return view('competency__models.create', compact('companies', 'competencies'));
     }
 
     /**
@@ -99,6 +102,8 @@ class Competency_ModelController extends AppBaseController
      */
     public function edit($id)
     {
+        $companies = Company::all()->pluck('name','id');
+        $competencies = Competency::all()->pluck('name','id');
         $competencyModel = $this->competencyModelRepository->find($id);
 
         if (empty($competencyModel)) {
@@ -107,7 +112,10 @@ class Competency_ModelController extends AppBaseController
             return redirect(route('competencyModels.index'));
         }
 
-        return view('competency__models.edit')->with('competencyModel', $competencyModel);
+       
+        return view('competency__models.edit', compact('competencyModel', 'companies', 'competencies'));
+        
+       
     }
 
     /**

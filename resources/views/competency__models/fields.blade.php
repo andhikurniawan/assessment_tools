@@ -1,29 +1,30 @@
+
 <!-- Name Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('name', 'Name:') !!}
+<div class="form-group col-sm-12">
+    {!! Form::label('name', 'Nama Model Kompetensi:') !!}
     {!! Form::text('name', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Description Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('description', 'Description:') !!}
+<div class="form-group col-sm-12">
+    {!! Form::label('description', 'Deskripsi:') !!}
     {!! Form::text('description', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Company Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('company_id', 'Company Id:') !!}
-    {!! Form::number('company_id', null, ['class' => 'form-control']) !!}
+<!-- Company Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('company_id', 'Perusahaan:') !!}
+    {!! Form::select('company_id',$companies,'', ['class' => 'form-control']) !!}
 </div>
 
-<!-- Competency Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('competency_id', 'Competency Id:') !!}
-    {!! Form::number('competency_id', null, ['class' => 'form-control']) !!}
+<!-- Competency Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('competency_id', 'Kompetensi:') !!}
+    {!! Form::select('competency_id',$competencies,'', ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-success']) !!}
-    <a href="{{ route('competencyModels.index') }}" class="btn btn-default">Cancel</a>
+    <a href="{{ route('competencyModels.index') }}" class="btn btn-danger">Cancel</a>
 </div>

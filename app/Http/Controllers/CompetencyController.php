@@ -80,7 +80,7 @@ class CompetencyController extends AppBaseController
     public function show($id)
     {
         $competency = $this->competencyRepository->find($id);
-        $behaviour = Key_Behaviour::all()->find($id);
+        $behaviour = Key_Behaviour::all()->where('competency_id', $id);
         $job = Job_Target::all()->find($id);
 
         if (empty($competency)) {

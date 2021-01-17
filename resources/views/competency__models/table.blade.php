@@ -1,11 +1,11 @@
 <div class="table-responsive">
-    <table class="table" id="competencyModels-table">
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
             <tr>
                 <th>No</th>
                 <th>Nama Model</th>
                 <th>Deskripsi</th>
-                <th colspan="3">Action</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -18,9 +18,9 @@
                 <td>
                     {!! Form::open(['route' => ['competencyModels.destroy', $competencyModel->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                    <a href="{{ route('competencyModels.show', [$competencyModel->id]) }}" class='btn btn-primary'><i class="glyphicon glyphicon-eye-open"></i></a>
-                        <a href="{{ route('competencyModels.edit', [$competencyModel->id]) }}" class='btn btn-warning'><i class="glyphicon glyphicon-edit"></i></a>
-                        {!! Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                    <a href="{{ route('competencyModels.show', [$competencyModel->id]) }}" class='btn btn-primary'><span class="iconify" data-icon="bi:eye-fill" data-inline="false"></span></a>
+                        <a href="{{ route('competencyModels.edit', [$competencyModel->id]) }}" class='btn btn-warning'><span class="iconify" data-icon="bx:bx-edit" data-inline="false"></span></a>
+                        {!! Form::button('<span class="iconify" data-icon="bi:trash" data-inline="false"></span>', ['type' => 'submit', 'class' => 'btn btn-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>
                     {!! Form::close() !!}
                 </td>

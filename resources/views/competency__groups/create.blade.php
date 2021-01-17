@@ -1,18 +1,20 @@
-@extends('layouts.app')
+@extends('main')
+
+@section('title', 'Tambah Grup Kompetensi')
 
 @section('content')
     <section class="content-header">
-    <div class ="container">
+  
         <h3>
             Tambah Grup Kompetensi <br>  
         </h3>
     </section>
     <div class="content">
         @include('adminlte-templates::common.errors')
-        <div class="form-group col-sm-12">
+       
         <div class="box box-success">
-            <div class="box-body">
-                <div class="row">
+        <div class="card shadow mb-4">
+        <div class="card-body">
                     {!! Form::open(['route' => 'competencyGroups.store']) !!}
 
                         @include('competency__groups.fields')
@@ -21,7 +23,6 @@
                     </div>
             </div>
         </div>
-        </div>
     </div>
-    </div>
+  
 @endsection
