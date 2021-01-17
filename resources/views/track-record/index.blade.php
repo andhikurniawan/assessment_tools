@@ -3,23 +3,27 @@
 @section('title', 'Track Record')
 
 @section('TrackRecord', 'active')
-    @switch(session('permission'))
-        @case('user')
+@switch(session('permission'))
+    @case('user')
         @section('user', 'hidden')
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ot', 'hidden')                   
+        @break
+    @case('admin_tnd')
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ap', 'hidden')            
+        @section('admin_ot', 'hidden')            
+        @break
+    @case('admin')
+        @section('superadmin', 'hidden')                
             @break
-            @case('admin_tnd')
-        @section('superadmin', 'hidden')
-        @section('admin', 'hidden')
-        @section('admin_pm', 'hidden')
-        @section('admin_ap', 'hidden')
-        @section('admin_ot', 'hidden')
-            @break
-            @case('admin')
-        @section('superadmin', 'hidden')
-            @break
-            @default
+    @default
 
-        @endswitch
+@endswitch
 
         @section('content')
             <div class="d-sm-flex align-items-center justify-content-between mb-4">

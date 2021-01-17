@@ -5,7 +5,11 @@
 @section('TrackRecord', 'active')
 @switch(session('permission'))
     @case('user')
-        @section('user', 'hidden')            
+        @section('user', 'hidden')
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ot', 'hidden')                   
         @break
     @case('admin_tnd')
         @section('superadmin', 'hidden')            
@@ -128,6 +132,17 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        @if ($track_training->reason_rejected != null)
+                        <div class="form-group">
+                            <label for="reason_rejected">Alasan Ditolak oleh Admin</label>
+                            <textarea name="reason_rejected" class="form-control @error('reason_rejected') is-invalid @enderror" rows="5"
+                                placeholder="" disabled>{{ old('reason_associated_work', $track_training->reason_rejected)}}</textarea>
+                                @error('reason_rejected')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                            
+                        @endif
                         <button type="submit" class="btn btn-primary">Update</button>
                     </form>
                 </div>

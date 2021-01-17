@@ -4,10 +4,27 @@
 
 @section('TrackRecord', 'active')
 
-@if (session('permission') == "user")
-@section('user', 'hidden')
-    
-@endif
+@switch(session('permission'))
+    @case('user')
+        @section('user', 'hidden')
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ot', 'hidden')                   
+        @break
+    @case('admin_tnd')
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ap', 'hidden')            
+        @section('admin_ot', 'hidden')            
+        @break
+    @case('admin')
+        @section('superadmin', 'hidden')                
+            @break
+    @default
+
+@endswitch
 
 
 @section('content')
@@ -93,11 +110,25 @@
                     <textarea name="reason_associated_work" class="form-control" rows="5" disabled
                         >{{ $track_training->reason_associated_work }}</textarea>
                 </div> 
-                @if (session('permission') != "user")
-                    
+
+                @if (session('permission') != "user" && $track_training->status == "Menunggu")
+                <div class="form-group">
+                    <label for="verification">Verifikasi Data Pelatihan / Sertifikasi ?</label>
+                    <select class="form-control" id="verification" name="verification">
+                        <option value="Verifikasi" selected>Verifikasi</option>
+                        <option value="Tolak">Tolak</option>
+                    </select>
+                </div>
+                <div class="form-group d-none" id="verificationDiv">
+                    <label for="reason_rejected">Alasan Ditolak</label>
+                    <textarea name="reason_rejected" class="form-control @error('reason_rejected') is-invalid @enderror" rows="5"
+                        placeholder="Isikan Alasan Anda Mengapa Data ini Ditolak">{{ old('reason_rejected', $track_training->reason_rejected)}}</textarea>
+                        @error('reason_rejected')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
                 <input type="hidden" name="user_id" value="{{$track_training->user_id}}">
-                <button type="submit" class="btn btn-primary" name="option" value="Verifikasi">Verifikasi</button>
-                <button type="submit" class="btn btn-danger" name="option" value="Tolak">Tolak</button>
                 @endif 
 
             </form>
@@ -127,5 +158,20 @@
     <!-- Page level plugins -->
     <script src="{{ asset('style/vendor/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('style/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <script>
+        jQuery(document).ready(function() {
+            $('#verification').change(function(){
+                var status = $('#verification').val();
+                if(status == "Tolak"){
+                    $('#verificationDiv').removeClass("d-none");
+                } else {
+                    $('#verificationDiv').addClass("d-none");
+                }
+            });
+
+        });
+
+    </script>
 
 @endsection

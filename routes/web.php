@@ -1,9 +1,11 @@
 <?php
 
+use App\Mail\TrainingRecommendationMail;
 use App\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -114,7 +116,10 @@ Route::get('employee/company/{id}', 'UserController@empCompany');
 Route::get('employee/create-admin', 'UserController@createAdmin');
 Route::resource('employee', 'UserController');
 //for testing
-Route::get('/email', 'HomeController@email');
+// Route::get('/email', function() {
+//     Mail::to('email@email.com')->send(new TrainingRecommendationMail());
+//     return new TrainingRecommendationMail();
+// });
 
 
 Route::resource('gapAnalyses', 'Gap_AnalysisController');

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Competency;
+use App\Jobs\TrainingRecommendationMailJob;
+use App\Mail\TrainingRecommendationMail;
 use App\Track_project_emp;
 use App\Track_training_emp;
 use App\Training;
@@ -309,35 +311,38 @@ class TrainingController extends Controller
             'status' => $status,
             'type' => $request->trainingType,
             'recommended_by' => $request->recommendedBy,
-            'reason' => $reason
+            'reason' => $reason,
+            'reason_rejected' => ""
         ]);
 
         //  email data
         $user = User::where('id', $request->userId)->get()->first();
         $training = Training::where('id', $request->trainingDropdown)->get()->first();
+        $url = url('/training/recommendation');
         $email = $user->email;
         $data = array(
+            'email' => $email,
             'name' => $user->name,
             'training_name' => $training->name,
             'training_host' => $training->host,
             'start_date' => $training->start_date,
             'end_date' => $training->end_date,
-            'status' => $trainingStatus
+            'status' => $trainingStatus,
+            'url' => $url
         );
 
         // send email
-        Mail::send('layouts.email', $data, function ($mail) use ($email, $data) {
-            $mail->from('web.assessment.bubat@gmail.com', 'Admin HR Bubat Web Assessment');
-            $mail->to($email, $data['name'])->subject('Rekomendasi Pelatihan dari Bubat Web Assessment');
-        });
+        TrainingRecommendationMailJob::dispatch($data);
+
 
         // check if email fail
         if (Mail::failures()) {
             return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan tetapi Gagal untuk dikirim via Email');
+        } else {
+            return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan dan Dikirim ke E-Mail Karyawan!');
         }
 
 
-        return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil di Tambahkan dan Dikirim ke E-Mail Karyawan!');
     }
 
     public function detailRecommendation($id)
@@ -377,14 +382,18 @@ class TrainingController extends Controller
     public function recommendationVerification($id, Request $request)
     {
         $status = "";
-        if ($request->option == "Terima") {
+        $reason_rejected ="";
+        if ($request->verification == "Terima") {
             $status = "Disetujui";
-        } else if ($request->option == "Tolak") {
+        } else if ($request->verification == "Tolak") {
             $status = "Ditolak";
+            $reason_rejected = $request->reason_rejected;
+
         }
 
         Training_emp::where('id', $request->id_training_emp)->update([
-            'status' => $status
+            'status' => $status,
+            'reason_rejected' => $reason_rejected
         ]);
         return redirect('training/recommendation')->with('status', 'Rekomendasi Pelatihan Berhasil ' . $status);
     }

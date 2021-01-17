@@ -3,17 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Jobs\TrackRecordInputPeriodMailJob;
 use App\Track_project_emp;
 use App\Track_training_emp;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+
 
 class TrackRecordController extends Controller
 {
     public function index()
     {
+        if (Auth::check() == null) {
+            return redirect('home')->with('alert', 'Anda harus login terlebih dahulu!');
+        }
         $id = Auth::id();
         $company_id = Auth::user()->company_id;
         $period = DB::table('track_input_period')->where('company_id', $company_id)->get()->first();
@@ -58,7 +64,28 @@ class TrackRecordController extends Controller
                     'end_date' => $request->end_date
                 ]);
         }
-        return redirect('track-record')->with('status', 'Waktu Periode Input Track Record berhasil diubah!');
+        $user = User::join('user_role','user_role.user_id','=','user.id')->where('user.company_id', $request->company_modal)->where('role_id','user')->get();
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $url = url('/training/recommendation');
+
+        // send email
+        foreach ($user as $item) {
+            $email = $item->email;
+            $data_tr = array(
+                'email' => $email,
+                'name' => $item->name,
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                'url' => $url
+            );
+            TrackRecordInputPeriodMailJob::dispatch($data_tr);
+        }
+        if (Mail::failures()) {
+            return redirect('track-record')->with('status', 'Waktu Periode Input Track Record berhasil diubah tetapi gagal dalam mengirim email');
+        } else {
+            return redirect('track-record')->with('status', 'Waktu Periode Input Track Record berhasil diubah dan sudah kirim e-mail ke Pegawai!');
+        }
     }
 
     public function employeeDetail($id)
@@ -92,14 +119,19 @@ class TrackRecordController extends Controller
     public function trainingVerification($id, Request $request)
     {
         $status = "";
-        if ($request->option == "Verifikasi") {
+        $reason_rejected = "";
+        if ($request->verification == "Verifikasi") {
             $status = "Terverifikasi";
-        } else if ($request->option == "Tolak") {
+            $reason_rejected = "";
+        } else if ($request->verification == "Tolak") {
             $status = "Ditolak";
+            $reason_rejected = $request->reason_rejected;
+
         }
 
         Track_training_emp::where('id', $id)->update([
-            'status' => $status
+            'status' => $status,
+            'reason_rejected' => $reason_rejected
         ]);
 
         return redirect('track-record/employee/' . $request->user_id)->with('status', 'Status Riwayat Pelatihan/Sertifikasi Karyawan Berhasil Diubah!');
@@ -160,7 +192,8 @@ class TrackRecordController extends Controller
             'reason_associated_work' => $request->reason_associated_work,
             'certificate' => $fileName,
             'link' => $link,
-            'status' => 'Menunggu'
+            'status' => 'Menunggu',
+            'reason_rejected' => ""
         ]);
 
         return redirect('track-record')->with('status', 'Data pelatihan/sertifikasi berhasil ditambah!');
