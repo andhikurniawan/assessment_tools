@@ -92,4 +92,9 @@ class JobTargets extends Model
     {
         return $this->hasMany(\App\Models\JobRequirement::class, 'job_target_id');
     }
+
+    public function team()
+    {
+        return $this->belongsTo(\App\Models\Team::class, 'team_id');
+    }
 }

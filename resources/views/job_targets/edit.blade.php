@@ -18,7 +18,7 @@
         <div class="card-body">
         {!! Form::model($jobTargets, ['route' => ['jobTargets.update', $jobTargets->id], 'method' => 'patch']) !!}
 
-        @include('job_targets.fields')
+        @include('job_targets.fields2')
 
         {!! Form::close() !!}
         </div>

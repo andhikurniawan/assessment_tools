@@ -72,3 +72,5 @@ Route::get('/email', 'HomeController@email');
 
 
 Route::resource('jobRequirements', 'JobRequirementController');
+
+Route::resource('teams', 'TeamController');

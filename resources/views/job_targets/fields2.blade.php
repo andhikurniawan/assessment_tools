@@ -1,7 +1,11 @@
 <!-- Assessment Session Id Field -->
+<h1 class="d-inline h3 text-gray-800" style="margin-bottom: 20px;">Add Assessment</h1>
 <div class="form-group">
-    {!! Form::hidden('assessment_session_id', null, ['class' => 'form-control']) !!}
+    {!! Form::label('assessment_session_id', 'Assessment Session:') !!}
+    {!! Form::select('assessment_session_id', $sessions, null, ['class' => 'form-control', 'placeholder' => '- Select Assessment Session -']) !!}
 </div>
+
+<h1 class="d-inline h3 text-gray-800" style="margin-bottom: 20px;">Edit Job Target</h1>
 
 <div class="form-group">
     {!! Form::label('team_id', 'Team:') !!}

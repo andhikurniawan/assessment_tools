@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\Models\Team;
+use App\Models\AssessmentSession;
 
 class JobTargetsController extends AppBaseController
 {
@@ -29,10 +31,10 @@ class JobTargetsController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $teams = Team::all();
         $jobTargets = $this->jobTargetsRepository->all();
 
-        return view('job_targets.index')
-            ->with('jobTargets', $jobTargets);
+        return view('job_targets.index',compact('jobTargets','teams'));
     }
 
     /**
@@ -42,7 +44,8 @@ class JobTargetsController extends AppBaseController
      */
     public function create()
     {
-        return view('job_targets.create');
+        $teams = Team::pluck('name','id');
+        return view('job_targets.create', compact('teams'));
     }
 
     /**
@@ -100,7 +103,10 @@ class JobTargetsController extends AppBaseController
             return redirect(route('jobTargets.index'));
         }
 
-        return view('job_targets.edit')->with('jobTargets', $jobTargets);
+        $sessions = AssessmentSession::pluck('name','id');
+        $teams = Team::pluck('name','id');
+
+        return view('job_targets.edit', compact('jobTargets','teams','sessions'));
     }
 
     /**
