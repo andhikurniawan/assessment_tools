@@ -27,12 +27,47 @@ class HomeController extends Controller
     {
         $id = Auth::id();
         $role = DB::table('user_role')->where('user_id', $id)->select('role_id')->first();
-        if ($role->role_id == "superadmin" || $role->role_id == "admin") {
-            session(['permission' => 'admin']);
-            return view('home');
-        } else {
-            session(['permission' => 'user']);
-            return view('user.index');
+        switch ($role->role_id) {
+            case 'superadmin':
+                session(['permission' => 'superadmin']);
+                return view('home');
+                break;
+            
+            case 'admin':
+                session(['permission' => 'admin']);
+                return redirect('employee');
+                break;
+            
+            case 'admin_pm':
+                session(['permission' => 'admin_pm']);
+                return view('home');
+                break;
+            
+            case 'admin_ap':
+                session(['permission' => 'admin_ap']);
+                return view('home');
+                break;
+            
+            case 'admin_ot':
+                session(['permission' => 'admin_ot']);
+                return view('home');
+                break;
+            
+            case 'admin_tnd':
+                session(['permission' => 'admin_tnd']);
+                return redirect('training/dashboard');
+
+                break;
+            
+            case 'user':
+                session(['permission' => 'user']);
+                return view('user.index');
+                break;
+            
+            default:
+            session(['permission' => 'guest']);
+                return view('welcome');
+                break;
         }
     }
 

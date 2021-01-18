@@ -3,7 +3,23 @@
 @section('title', 'Training Recommendation')
 
 @section('TrainingRecommendation', 'active')
+@switch(session('permission'))
+    @case('user')
+        @section('user', 'hidden')            
+        @break
+    @case('admin_tnd')
+    @section('superadmin', 'hidden')            
+    @section('admin', 'hidden')            
+    @section('admin_pm', 'hidden')            
+    @section('admin_ap', 'hidden')            
+    @section('admin_ot', 'hidden')            
+        @break
+        @case('admin')
+        @section('superadmin', 'hidden')                
+            @break
+    @default
 
+@endswitch
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <div class="text-left">
@@ -21,6 +37,14 @@
             <form action="{{ url('training/' . $training->id) }}" method="post">
                 @method('PUT')
                 @csrf
+                <div class="form-group">
+                    <label for="company_id">Perusahaan</label>
+                    <select class="form-control" id="company_id" name="company_id">
+                        @foreach ($company as $item)
+                            <option value="{{ $item->id }}" {{$item->id == $training->company_id ? "selected" : null}}>{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="name">Nama Pelatihan</label>
                     <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"

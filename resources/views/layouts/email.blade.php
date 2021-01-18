@@ -27,8 +27,8 @@
                 <p>Anda telah di rekomendasikan untuk mengikuti pelatihan <b>{{ $training_name }}</b>
                 </p>
                 <p>Pelatihan ini dilaksanakan oleh <b>{{ $training_host }}</b></p>
-                <p>Dimulai pada hari <b id="startDate">{{ $start_date }}</b></p>
-                <p>Selesai pada hari <b id="endDate">{{ $end_date }}</b></p>
+                <p>Dimulai pada (TAHUN-BULAN-TANGGAL) : <b id="startDate">{{ $start_date }}</b></p>
+                <p>Selesai pada (TAHUN-BULAN-TANGGAL) : <b id="endDate">{{ $end_date }}</b></p>
                 @if ($status == 'Opsional')
                     <p> Silakan beri respon pada menu Training Recommendation.</p>
                 @else

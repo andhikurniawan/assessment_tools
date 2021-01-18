@@ -4,9 +4,23 @@
 
 @section('TrainingRecommendation', 'active')
 
-@if (session('permission') == "user")
-    @section('user', 'hidden')
-@endif
+@switch(session('permission'))
+    @case('user')
+        @section('user', 'hidden')            
+        @break
+    @case('admin_tnd')
+    @section('superadmin', 'hidden')            
+    @section('admin', 'hidden')            
+    @section('admin_pm', 'hidden')            
+    @section('admin_ap', 'hidden')            
+    @section('admin_ot', 'hidden')            
+        @break
+        @case('admin')
+        @section('superadmin', 'hidden')                
+            @break
+    @default
+
+@endswitch
 
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -91,10 +105,28 @@
                         >{{ $training_emp->reason }}</textarea>
                 </div>
                 @if (session('permission') == "user" && $training_emp->status == "Menunggu Respon")
-                <input type="hidden" name="id_training_emp" value="{{$training_emp->id}}">
-                <button type="submit" class="btn btn-success" name="option" value="Terima">Terima</button>
-                <button type="submit" class="btn btn-danger" name="option" value="Tolak">Tolak</button>  
+                <div class="form-group">
+                    <label for="verification">Terima Rekomendasi Pelatihan?</label>
+                    <select class="form-control" id="verification" name="verification">
+                        <option value="Terima" selected>Terima</option>
+                        <option value="Tolak">Tolak</option>
+                    </select>
+                </div>
                 @endif
+                @if($training_emp->reason_rejected != null || $training_emp->status == "Menunggu Respon")
+                <div class="form-group" id="rejectedDiv">
+                    <label for="reason_rejected">Alasan Menolak Rekomendasi Pelatihan?</label>
+                    <textarea name="reason_rejected" class="form-control @error('reason_rejected') is-invalid @enderror" rows="5"
+                        placeholder="Isikan Alasan Anda Mengapa Menolak Rekomendasi Pelatihan" {{ $training_emp->status != "Menunggu Respon" ? "disabled" : null}}>{{ old('reason_rejected', $training_emp->reason_rejected)}}</textarea>
+                        @error('reason_rejected')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                @endif
+                @if (session('permission') == "user" && $training_emp->status == "Menunggu Respon")
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <input type="hidden" name="id_training_emp" value="{{$training_emp->id}}">
+                @endif 
             </form>
         </div>
     </div>
@@ -158,4 +190,23 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ asset('style/js/demo/datatables-demo.js') }}"></script>
+
+    <script>
+        jQuery(document).ready(function() {
+            var state = '{{$training_emp->status}}';
+            if (state == "Menunggu Respon") {
+                $('#rejectedDiv').addClass("d-none");
+            }
+            $('#verification').change(function(){
+                var status = $('#verification').val();
+                if(status == "Tolak"){
+                    $('#rejectedDiv').removeClass("d-none");
+                } else {
+                    $('#rejectedDiv').addClass("d-none");
+                }
+            });
+
+        });
+
+    </script>
 @endsection
