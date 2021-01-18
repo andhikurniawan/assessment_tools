@@ -32,6 +32,10 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->middleware('verified');
 
+Route::resource('jobTargets', 'JobTargetsController');
+
+Route::resource('roles', 'rolesController');
+
 Route::resource('users', 'UserController');
 Route::resource('grupkompetensis', 'grupkompetensiController');
 Route::resource('kompetensis', 'kompetensiController');
@@ -116,6 +120,12 @@ Route::get('employee/company/{id}', 'UserController@empCompany');
 Route::get('employee/create-admin', 'UserController@createAdmin');
 Route::resource('employee', 'UserController');
 //for testing
+Route::get('/email', 'HomeController@email');
+
+
+Route::resource('jobRequirements', 'JobRequirementController');
+
+Route::resource('teams', 'TeamController');
 // Route::get('/email', function() {
 //     Mail::to('email@email.com')->send(new TrainingRecommendationMail());
 //     return new TrainingRecommendationMail();

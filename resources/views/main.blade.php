@@ -91,8 +91,8 @@
             </li>
             <!-- Nav Item  -->
             <li class="nav-item @yield('JobTarget')">
-                <a class="nav-link" href="#">
-                    <i class="far fa-calendar-check"></i>
+                <a class="nav-link" href="{{ url('jobTargets') }}">
+                    <span class="iconify" data-icon="bx:bx-target-lock" data-inline="false"></span>
                     <span>Job Target</span></a>
             </li>
         </div>
