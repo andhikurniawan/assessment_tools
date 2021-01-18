@@ -16,7 +16,7 @@
                     @foreach($teams as $team)
                         <tr>
                             <td>{{ $team->name }}</td>
-                            <td>{{ $team->assessment_session_id }}</td>
+                            <td>{!! $team->assessmentSession->name !!}</td>
                             <td>
                                 {!! Form::open(['route' => ['teams.destroy', $team->id], 'method' => 'delete']) !!}
                                 <div class='btn-group'>

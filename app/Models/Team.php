@@ -49,5 +49,13 @@ class Team extends Model
         'assessment_session_id' => 'nullable|integer'
     ];
 
-    
+    public function assessmentSession()
+    {
+        return $this->belongsTo(\App\Models\AssessmentSession::class, 'assessment_session_id');
+    }
+
+    public function jobTargets()
+    {
+        return $this->hasMany(\App\Models\JobTarget::class, 'team_id');
+    }
 }

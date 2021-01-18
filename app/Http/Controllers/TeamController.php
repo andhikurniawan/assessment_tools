@@ -9,6 +9,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use App\Models\AssessmentSession;
 
 class TeamController extends AppBaseController
 {
@@ -42,7 +43,8 @@ class TeamController extends AppBaseController
      */
     public function create()
     {
-        return view('teams.create');
+        $sessions = AssessmentSession::pluck('name','id');
+        return view('teams.create',compact('sessions'));
     }
 
     /**
@@ -99,8 +101,9 @@ class TeamController extends AppBaseController
 
             return redirect(route('teams.index'));
         }
+        $sessions = AssessmentSession::pluck('name','id');
 
-        return view('teams.edit')->with('team', $team);
+        return view('teams.edit', compact('team','sessions'));
     }
 
     /**

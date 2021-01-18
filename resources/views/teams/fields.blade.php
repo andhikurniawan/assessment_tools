@@ -7,11 +7,11 @@
 <!-- Assessment Session Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('assessment_session_id', 'Assessment Session Id:') !!}
-    {!! Form::number('assessment_session_id', null, ['class' => 'form-control']) !!}
+    {!! Form::select('assessment_session_id', $sessions, null, ['class' => 'form-control', 'placeholder' => '- Select Assessment Session -']) !!}
 </div>
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('teams.index') }}" class="btn btn-default">Cancel</a>
+    <a href="{{ route('jobTargets.index') }}" class="btn btn-default">Cancel</a>
 </div>
