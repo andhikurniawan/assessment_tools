@@ -1,7 +1,7 @@
 <!-- Company Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('company_id', 'Perusahaan:') !!}
-    {!! Form::select('company_id',$companies,'', ['class' => 'form-control']) !!}
+    {!! Form::select('company_id',$company,'', ['class' => 'form-control']) !!}
 </div>
 
 
@@ -18,10 +18,14 @@
 </div>
 
 
-<!-- Competency Field -->
+
 <div class="form-group col-sm-12">
-    {!! Form::label('competency_id', 'Kompetensi:') !!}
-    {!! Form::select('competency_id',$competencies,'', ['class' => 'form-control']) !!}
+<label>Kompetensi:</label>
+<select class="js-example-basic-multiple form-control" name="competency[]" multiple="multiple">
+@foreach ($competency as $item)
+<option value="{{$item->id}}">{{$item->name}}</option>
+@endforeach
+</select>
 </div>
 
 
@@ -30,3 +34,4 @@
     {!! Form::submit('Save', ['class' => 'btn btn-success']) !!}
     <a href="{{ route('competencyModels.index') }}" class="btn btn-danger">Cancel</a>
 </div>
+

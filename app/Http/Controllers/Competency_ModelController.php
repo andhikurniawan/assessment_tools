@@ -98,25 +98,18 @@ class Competency_ModelController extends AppBaseController
     public function create()
     {
 
-        $id = Auth::user()->id;
-        $role = DB::table("user_role")
-        ->where("user_id", $id)
-        ->select("role_id")
-        ->first();
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $company = Company::all()->pluck('name', 'id');
+            $competency = Competency::all();
+        } else {
+            $company = Company::where('id', $user_company)->pluck('name', 'id');
+            $competency = Competency::join('competency_group', 'competency.competency_group_id', '=', 'competency_group.id')
+            ->where('competency_group.company_id', $user_company)->select('competency.*')->get();
+        }
+        return view('competency__models.create', compact('competency', 'company'));
+
      
-        if($role->role_id == "superadmin" || $role->role_id == "admin")
-        {
-            $companies = Company::all()->pluck('name','id');
-            $competencies = Competency::all()->pluck('name','id');
-            return view('competency__models.create', compact('companies', 'competencies'));
-        }
-        else if($role->role_id == "admin_pm")
-        {   
-            $companies = Company::where('id', Auth::user()->company_id)
-            ->pluck('name','id');
-            $competencies = Competency::all()->pluck('name','id');
-            return view('competency__models.create', compact('companies', 'competencies'));
-        }
 
        
     }
@@ -172,24 +165,19 @@ class Competency_ModelController extends AppBaseController
      */
     public function edit($id)
     {
-        
+        $competencyModel = $this->competencyModelRepository->find($id);
         $user_company = Auth::user()->company_id;
         if ($user_company == null) {
-            $companies = Company::all()->pluck('name','id');
+            $company = Company::all()->pluck('name', 'id');
+            $competency = Competency::all();
         } else {
-            $companies = Company::where('id', $user_company)->pluck('name','id');
+            $company = Company::where('id', $user_company)->pluck('name', 'id');
+            $competency = Competency::join('competency_group', 'competency.competency_group_id', 
+            '=', 'competency_group.id')->where('competency_group.company_id', $user_company)
+            ->select('competency.*')->get();
         }
-       
-    
-        $competencies = Competency::all()->pluck('name','id');
-        $competencyModel = $this->competencyModelRepository->find($id);
-
-        if (empty($competencyModel)) {
-            Flash::error('Competency  Model not found');
-
-            return redirect(route('competencyModels.index'));
-        }
-        return view('competency__models.edit', compact('competencyModel', 'companies', 'competencies'));
+      
+        return view('competency__models.edit', compact('competencyModel', 'company', 'competency'));
         
     }
 

@@ -83,4 +83,12 @@ class Competency extends Model
     {
         return $this->hasMany(Competency_Relation::class);
     }
+
+    public function scopeSearch($query, $q)
+    {
+        if($q == null)
+            return $query;
+        else
+            return $query->where('competency_group_id','=',$q);
+    }
 }

@@ -24,5 +24,5 @@
             @endforeach
         </tbody>
     </table>
-    <a  style="margin-left: 5px" href="{{ route('keyBehaviours.create') }}">Add New</a>   
+    <a  style="margin-left: 5px" href="{{ route('keyBehaviours.create') }}">Tambah Key Behaviour</a>   
 </div>

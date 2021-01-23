@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateCompetency_GroupRequest;
 use App\Http\Requests\UpdateCompetency_GroupRequest;
 use App\Repositories\Competency_GroupRepository;
+use App\Models\Competency_Relation;
 use App\Models\Competency_Group;
 use App\Models\Company;
+use App\Models\Competency;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
@@ -144,6 +146,7 @@ class Competency_GroupController extends AppBaseController
     public function show($id)
     {
         $competencyGroup = $this->competencyGroupRepository->find($id);
+        $competencyRelation = Competency_Relation::all()->where('competency_models_id', $id);
 
         if (empty($competencyGroup)) {
             Flash::error('Competency  Group not found');
@@ -151,7 +154,7 @@ class Competency_GroupController extends AppBaseController
             return redirect(route('competencyGroups.index'));
         }
 
-        return view('competency__groups.show')->with('competencyGroup', $competencyGroup);
+        return view('competency__groups.show', compact('competencyGroup','competencyRelation'));
     }
 
     /**

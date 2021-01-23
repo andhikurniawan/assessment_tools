@@ -3,7 +3,6 @@
         <thead>
             <tr>
             <th>No</th>
-            <th>Perusahaan</th>
             <th>Kode</th>
             <th>Grup Kompetensi</th>
             <th>Nama</th>
@@ -17,9 +16,8 @@
         @foreach($competencies as $competency)
             <tr>
             <td>{{ $no++ }}</td>
-            <td>{{ $competency->company_name }}</td>
             <td>{{ $competency->code }}</td>
-            <td>{{ $competency->group_name }}</td>
+            <td>{{ $competency->competencyGroup->name }}</td>
             <td width="100">{{ $competency->name }}</td>
             <td>{{ $competency->type }}</td>
             <td>{{ $competency->status }}</td>

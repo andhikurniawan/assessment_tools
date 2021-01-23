@@ -1,24 +1,26 @@
-<!-- Name Field -->
-<div class="form-group">
-    {!! Form::label('name', 'Name:') !!}
-    <p>{{ $competencyGroup->name }}</p>
-</div>
+<h4> Detail Grup Kompetensi / {{ $competencyGroup->name }}</h4>
+<p>{{ $competencyGroup->description }}.</p>
+<br>
 
-<!-- Description Field -->
-<div class="form-group">
-    {!! Form::label('description', 'Description:') !!}
-    <p>{{ $competencyGroup->description }}</p>
-</div>
+<h5>Daftar Kompetensi</h5>
+@include('competency__groups.competency')                           
 
+
+<br>
 <!-- Created At Field -->
 <div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $competencyGroup->created_at }}</p>
+   {!! Form::label('created_at', 'Created At:') !!} {{ $competencyGroup->created_at }} <br>
+    {!! Form::label('updated_at', 'Updated At:') !!} {{ $competencyGroup->updated_at }}
 </div>
 
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $competencyGroup->updated_at }}</p>
-</div>
+
+@section('script')
+ <!-- Page level plugins -->
+ <script src="{{ asset('style/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('style/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('style/js/demo/datatables-demo.js') }}"></script>
+
+    @endsection
 

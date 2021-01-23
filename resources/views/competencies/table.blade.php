@@ -3,11 +3,10 @@
         <thead>
             <tr>
             <th>No</th>
-            <th>Perusahaan</th>
             <th>Kode</th>
-            <th>Grup Kompetensi</th>
             <th>Nama</th>
             <th>Tipe</th>
+            <th>Pertanyaan</th>
             <th>Status</th>
             <th>Action</th>
             </tr>
@@ -17,11 +16,10 @@
         @foreach($competencies as $competency)
             <tr>
             <td>{{ $no++ }}</td>
-            <td width="300">{{ $competency->company_name }}</td>
             <td>{{ $competency->code }}</td>
-            <td>{{ $competency->group_name }}</td>
             <td width="100">{{ $competency->name }}</td>
             <td>{{ $competency->type }}</td>
+            <td>{{ $competency->question }}</td>
             <td>{{ $competency->status }}</td>
                     <td>
                     {!! Form::open(['route' => ['competencies.destroy', $competency->id], 'method' => 'delete']) !!}

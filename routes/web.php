@@ -132,5 +132,6 @@ Route::get('competencyGroups/company/{id}', 'Competency_GroupController@empCompa
 Route::get('competency/company/{id}', 'CompetencyController@empCompany');
 Route::get('competencyModels/company/{id}', 'Competency_ModelController@empCompany');
 Route::resource('dashboardPms', 'dashboard_pmController');
-
+Route::get("competencies/Company/{company_id}", "CompetencyController@filterCompetencyGroup");
+Route::get("competencies/Company/{company_id}/CompetencyGroup/{competency_group_id}", "CompetencyController@filtering");
 
