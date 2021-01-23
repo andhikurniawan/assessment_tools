@@ -235,6 +235,9 @@
                 <div class="card-body">
                     <form method="post" action="{{ route('result/detail/laporan') }}">
                         <input type="hidden" name="id" id="id">
+                        @if (session('permission') == "user")
+                            <input type="hidden" name="track_user" value="user">
+                        @endif
                         <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                     <div class="table-responsive">
                         <table class="table table-bordered dataTable" width="100%" cellspacing="0">

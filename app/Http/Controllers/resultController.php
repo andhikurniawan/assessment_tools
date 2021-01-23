@@ -306,7 +306,12 @@ class resultController extends Controller
         }
         else if($role->role_id == "user")
         {
+            if ($request->track_user != null) {
+            $session_id = explode('-', $request->id);
+            $session_id = $session_id[1];
+            } else {
             $session_id = request("id");
+            }
 
             $result = DB::table("assessment_competency_result")
                         ->join("competency", "competency.id", "=", "assessment_competency_result.competency_id")
