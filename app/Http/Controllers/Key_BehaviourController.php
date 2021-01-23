@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 use App\Models\Key_Behaviour;
 use Flash;
 use Response;
+use App\Models\Competency;
+use App\Models\Company;
+use App\Models\Competency_Model;
+use DB;
+use Auth;
 
 class Key_BehaviourController extends AppBaseController
 {
@@ -44,7 +49,8 @@ class Key_BehaviourController extends AppBaseController
     public function create()
     {
         $levels = Key_Behaviour::$levels;
-        return view('key__behaviours.create', compact('levels'));
+        $competencies = Competency::all()->pluck('name','id');
+        return view('key__behaviours.create', compact('levels', 'competencies'));
     }
 
     /**
@@ -95,6 +101,8 @@ class Key_BehaviourController extends AppBaseController
     public function edit($id)
     {
         $keyBehaviour = $this->keyBehaviourRepository->find($id);
+        $levels = Key_Behaviour::$levels;
+        $competencies = Competency::all()->pluck('name','id');
 
         if (empty($keyBehaviour)) {
             Flash::error('Key  Behaviour not found');
@@ -102,7 +110,8 @@ class Key_BehaviourController extends AppBaseController
             return redirect(route('keyBehaviours.index'));
         }
 
-        return view('key__behaviours.edit')->with('keyBehaviour', $keyBehaviour);
+        return view('key__behaviours.edit', compact('keyBehaviour', 'levels', 'competencies'));
+      
     }
 
     /**

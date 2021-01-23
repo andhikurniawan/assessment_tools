@@ -15,9 +15,10 @@ class="user-image" alt="User Image"/>
 <h3>
 <img src="https://www.materialui.co/materialIcons/communication/vpn_key_black_192x192.png" width="30" height="30" class="d-inline-block align-top" 
 class="user-image" alt="User Image"/>
-<span class="hidden-xs" style="margin-left: 5px">Key Behaviour</span> <span><a class="btn btn-success" style="margin-left: 5px" href="{{ route('keyBehaviours.create') }}">Add New</a></span></h3>
-@include('competencies.behaviour')                           
-
+<span class="hidden-xs" style="margin-left: 5px">Key Behaviour</span> </h3>
+@include('competencies.behaviour')    
+                  
+<br>
 <h3> Pertanyaan Assessment </h3>
 <p>{{ $competency->question }}</p>
 

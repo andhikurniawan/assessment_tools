@@ -3,7 +3,8 @@
         <thead>
             <tr>
                 <th>No</th>
-                <th>Nama Model</th>
+                <th>Perusahaan</th>
+                <th>Model Kompetensi</th>
                 <th>Deskripsi</th>
                 <th>Action</th>
             </tr>
@@ -13,6 +14,7 @@
         @foreach($competencyModels as $competencyModel)
             <tr>
             <td>{{ $no++ }}</td>
+            <td>{{ $competencyModel->company["name"] }}</td>
             <td>{{ $competencyModel->name }}</td>
             <td>{{ $competencyModel->description }}</td>
                 <td>

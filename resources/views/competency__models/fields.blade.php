@@ -1,3 +1,9 @@
+<!-- Company Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('company_id', 'Perusahaan:') !!}
+    {!! Form::select('company_id',$companies,'', ['class' => 'form-control']) !!}
+</div>
+
 
 <!-- Name Field -->
 <div class="form-group col-sm-12">
@@ -11,17 +17,13 @@
     {!! Form::text('description', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Company Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('company_id', 'Perusahaan:') !!}
-    {!! Form::select('company_id',$companies,'', ['class' => 'form-control']) !!}
-</div>
 
 <!-- Competency Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('competency_id', 'Kompetensi:') !!}
     {!! Form::select('competency_id',$competencies,'', ['class' => 'form-control']) !!}
 </div>
+
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

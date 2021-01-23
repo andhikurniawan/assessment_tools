@@ -37,14 +37,7 @@ Route::resource('jobTargets', 'JobTargetsController');
 Route::resource('roles', 'rolesController');
 
 Route::resource('users', 'UserController');
-Route::resource('grupkompetensis', 'grupkompetensiController');
-Route::resource('kompetensis', 'kompetensiController');
-Route::resource('modelkompetensis', 'modelkompetensiController');
-Route::resource('behaviors', 'behaviorController');
 
-Route::resource('perusahaans', 'perusahaanController');
-
-Route::resource('relasikompetensis', 'relasikompetensiController');
 
 Route::resource('competencyGroups', 'Competency_GroupController');
 
@@ -135,3 +128,9 @@ Route::resource('teams', 'TeamController');
 Route::resource('gapAnalyses', 'Gap_AnalysisController');
 Route::resource('company', 'CompanyController');
 Route::resource('role', 'RoleController');
+Route::get('competencyGroups/company/{id}', 'Competency_GroupController@empCompany');
+Route::get('competency/company/{id}', 'CompetencyController@empCompany');
+Route::get('competencyModels/company/{id}', 'Competency_ModelController@empCompany');
+Route::resource('dashboardPms', 'dashboard_pmController');
+
+

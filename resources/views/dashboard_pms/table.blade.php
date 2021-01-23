@@ -17,19 +17,16 @@
         @foreach($competencies as $competency)
             <tr>
             <td>{{ $no++ }}</td>
-            <td width="300">{{ $competency->company_name }}</td>
+            <td>{{ $competency->company_name }}</td>
             <td>{{ $competency->code }}</td>
             <td>{{ $competency->group_name }}</td>
             <td width="100">{{ $competency->name }}</td>
             <td>{{ $competency->type }}</td>
             <td>{{ $competency->status }}</td>
                     <td>
-                    {!! Form::open(['route' => ['competencies.destroy', $competency->id], 'method' => 'delete']) !!}
-                    <div class='btn-group'>
-                        <a href="{{ route('competencies.show', [$competency->id]) }}" class='btn btn-primary'><span class="iconify" data-icon="bi:eye-fill" data-inline="false"></span></a>
-                        <a href="{{ route('competencies.edit', [$competency->id]) }}" class='btn btn-warning'><span class="iconify" data-icon="bx:bx-edit" data-inline="false"></span></a>
-                        {!! Form::button('<span class="iconify" data-icon="bi:trash" data-inline="false"></span>', ['type' => 'submit', 'class' => 'btn btn-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                    </div>
+                      <div class='btn-group'>
+                        <a href="{{ route('competencies.show', [$competency->id]) }}" class='btn btn-primary'>Detail</a>
+                             </div>
                     {!! Form::close() !!}
                 </td>
             </tr>

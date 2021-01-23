@@ -19,20 +19,27 @@
     {!! Form::label('description', 'Deskripsi:') !!}
     {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
 </div>
-                
+
+                <!-- Status  Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('status', 'Status:') !!}
+    {!! Form::select('status', array('public' => 'Public', 'private' => 'Private'), null, ['class' => 'form-control']) !!}
+</div>
             </div>
         </div>
         <div class="col-sm-auto">
             <div>
             <br>
+
+
+
+
                
 <!-- Type Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('type', 'Tipe Kompetensi:') !!}
-    {!! Form::select('type', array('Softskill' => 'Soft Skill', 'Hardskill' => 'Hard Skill'), null, ['class' => 'form-control']) !!}
+    {!! Form::select('type', array('soft_skill  ' => 'Soft Skill', 'hard_skill' => 'Hard Skill'), null, ['class' => 'form-control']) !!}
 </div>
-
-
 
 
 <!-- Perusahaan Field -->
@@ -48,6 +55,7 @@
     {!! Form::label('question', 'Pertanyaan:') !!}
     {!! Form::textarea('question', null, ['class' => 'form-control']) !!}
 </div>
+
 
                 
             </div>

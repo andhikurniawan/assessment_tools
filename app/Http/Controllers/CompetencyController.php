@@ -11,8 +11,12 @@ use App\Models\Competency;
 use App\Models\Competency_Group;
 use App\Models\Key_Behaviour;
 use App\Models\Job_Target;
+use App\Models\Company;
 use Flash;
 use Response;
+use DB;
+use Auth;
+
 
 class CompetencyController extends AppBaseController
 {
@@ -33,11 +37,78 @@ class CompetencyController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $competencies = $this->competencyRepository->all();
+        
+        $id = Auth::user()->id;
+        $role = DB::table("user_role")
+        ->where("user_id", $id)
+        ->select("role_id")
+        ->first();
+     
 
-        return view('competencies.index')
-            ->with('competencies', $competencies);
+        if($role->role_id == "superadmin" || $role->role_id == "admin")
+        {
+           
+        $competencies = DB::table('competency')
+        ->join('competency_group', 'competency.competency_group_id', '=', 'competency_group.id')
+        ->join('company', 'company.id', '=', 'company.id')
+        ->select('competency.id','competency.name', 'competency.code', 'competency.status', 'competency.type', 
+        'competency.question', 'company.name as company_name', 'competency_group.name as group_name')
+        ->get();
+
+        $company_id = Auth::user()->company_id;
+        if ($company_id == null) {
+            $company = Company::all();
+            $selected = "";
+        } else {
+            $company = Company::where('id', $company_id)->get()->first();
+            $selected = $company->id;
+        }
+        
+        return view('competencies.index', compact("competencies","company","selected"));
+    
+        }
+        else if($role->role_id == "admin_pm")
+        {   
+        $competencies = DB::table('competency')
+        ->join('competency_group', 'competency.competency_group_id', '=', 'competency_group.id')
+        ->join('company', 'company.id', '=', 'company.id')
+        ->select('competency.id','competency.name', 'competency.code', 'competency.status', 'competency.type', 
+        'competency.question', 'company.name as company_name', 'competency_group.name as group_name')
+        ->where('company_id', Auth::user()->company_id)
+      
+        ->get();
+
+        $company_id = Auth::user()->company_id;
+        if ($company_id == null) {
+            $company = Company::all();
+            $selected = "";
+        } else {
+            $company = Company::where('id', $company_id)->get()->first();
+            $selected = $company->id;
+        }
+        
+        return view('competencies.index', compact("competencies","company","selected"));
+    
+        }
+       
     }
+
+    public function empCompany($id)
+    {
+   
+        $competencies = DB::table('competency')
+        ->join('competency_group', 'competency.competency_group_id', '=', 'competency_group.id')
+        ->join('company', 'company.id', '=', 'company.id')
+        ->select('competency.id','competency.name', 'competency.code', 'competency.status', 'competency.type', 
+        'competency.question', 'company.name as company_name', 'competency_group.name as group_name')
+        ->where('company_id', $id)->get();
+        $company = Company::all();
+        $selected = Company::where('id', $id)->get()->first();
+        $selected = $selected->id;
+        return view('competencies.index', compact('competencies', 'company', 'selected'));
+    }
+
+       
 
     /**
      * Show the form for creating a new Competency.

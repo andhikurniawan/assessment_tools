@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model as Model;
  * @property string $question
  * @property integer $competencygroup_id
  * @property string $type
+ * @property string $status
  * @property integer $number_keybehaviour
  */
 class Competency extends Model
@@ -29,9 +30,11 @@ class Competency extends Model
         'code',
         'question',
         'competency_group_id',
+        'status',
         'type',
         'description',
-        'number_keybehaviour'
+        'number_keybehaviour',
+      
     ];
 
     /**
@@ -45,9 +48,11 @@ class Competency extends Model
         'code' => 'string',
         'question' => 'string',
         'competency_group_id' => 'integer',
+        'status' => 'string',
         'type' => 'string',
         'description' => 'string',
-        'number_keybehaviour' => 'integer'
+        'number_keybehaviour' => 'integer',
+        
     ];
 
     /**

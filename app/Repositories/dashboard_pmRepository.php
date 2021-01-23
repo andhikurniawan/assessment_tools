@@ -2,28 +2,22 @@
 
 namespace App\Repositories;
 
-use App\Models\Competency;
+use App\Models\dashboard_pm;
 use App\Repositories\BaseRepository;
 
 /**
- * Class CompetencyRepository
+ * Class dashboard_pmRepository
  * @package App\Repositories
- * @version December 14, 2020, 8:25 am UTC
+ * @version January 21, 2021, 4:49 pm UTC
 */
 
-class CompetencyRepository extends BaseRepository
+class dashboard_pmRepository extends BaseRepository
 {
     /**
      * @var array
      */
     protected $fieldSearchable = [
-        'name',
-        'code',
-        'question',
-        'competencygroup_id',
-        'status',
-        'type',
-        'number_keybehaviour'
+        
     ];
 
     /**
@@ -41,6 +35,6 @@ class CompetencyRepository extends BaseRepository
      **/
     public function model()
     {
-        return Competency::class;
+        return dashboard_pm::class;
     }
 }

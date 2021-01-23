@@ -79,7 +79,8 @@
                     <span class="iconify" data-icon="ic:round-admin-panel-settings" data-inline="false"></span>
                     <span>Role</span></a>
             </li>
-        </div>
+            </div>
+       
 
         <div @yield('admin')>
 
@@ -107,11 +108,11 @@
                 Profile Matching
             </div>
 
-            <!-- Nav Item  -->
-            <li class="nav-item @yield('kompetensi')">
-                <a class="nav-link" href="/competencies">
+            <!-- Nav Item - Charts -->
+            <li class="nav-item @yield('Dashboard')">
+                <a class="nav-link" href="/dashboardPms">
                     <i class="fas fa-tasks"></i>
-                    <span>Kompetensi</span></a>
+                    <span>Dashboard</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
@@ -120,6 +121,14 @@
                     <i class="fas fa-tasks"></i>
                     <span>Grup Kompetensi</span></a>
             </li>
+
+            <!-- Nav Item  -->
+            <li class="nav-item @yield('kompetensi')">
+                <a class="nav-link" href="/competencies">
+                    <i class="fas fa-tasks"></i>
+                    <span>Kompetensi</span></a>
+            </li>
+
 
             <!-- Nav Item - Tables -->
             <li class="nav-item @yield('ModelKompetensi')">
