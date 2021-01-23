@@ -37,15 +37,14 @@ class TrainingController extends Controller
     {
         $user_company = Auth::user()->company_id;
         if ($user_company == null) {
-            $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->distinct()->get();
+            $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id', 'assessment_session.id as session_id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->distinct()->get();
         $employee = DB::table('user')->join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->where('user_role.role_id', '=', 'user')->get();
             $training = Training::all();
         } else {
-            $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->where('user.company_id',$user_company)->distinct()->get();
+            $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id', 'assessment_session.id as session_id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->where('user.company_id',$user_company)->distinct()->get();
         $employee = DB::table('user')->join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->where('user_role.role_id', '=', 'user')->where('user.company_id',$user_company)->get();
             $training = Training::where('company_id',$user_company)->get();
         }
-        
         return view('training.create')->with('assessment_result', $assessment_result)->with('employee', $employee)->with('training', $training);
     }
 

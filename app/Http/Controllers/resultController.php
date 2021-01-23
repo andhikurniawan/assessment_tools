@@ -228,11 +228,10 @@ class resultController extends Controller
                 ->select("role_id")
                 ->first();
 
-        if($role->role_id == "superadmin" || $role->role_id == "admin")
+        if($role->role_id == "superadmin" || $role->role_id == "admin" || $role->role_id == "admin_tnd")
         {
             $id = request("id");
             $id = explode("-", $id);
-
             $assesse_id = $id[0];
             $session_id = $id[1];
 

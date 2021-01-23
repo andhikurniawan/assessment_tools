@@ -93,7 +93,7 @@ class TrackRecordController extends Controller
         $employee = User::where('id', $id)->get()->first();
         $track_training = Track_training_emp::where('user_id', $id)->get();
         $track_project = Track_project_emp::where('user_id', $id)->get();
-        $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id', 'assessment_session.start_date as start_date', 'assessment_session.end_date as end_date')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->where('user.id', $id)->distinct('assessment_name')->get();
+        $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id', 'assessment_session.start_date as start_date', 'assessment_session.end_date as end_date', 'assessment_session.id as session_id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->where('user.id', $id)->distinct('assessment_name')->get();
         $period = DB::table('track_input_period')->get()->first();
         if ($period == null) {
             $period = (object) [
@@ -157,7 +157,7 @@ class TrackRecordController extends Controller
             'start_date' => 'required',
             'end_date' => 'required',
             'description' => 'required|min:3',
-            'certificate' => 'required|file|image|mimes:jpeg,png,jpg|max:2048',
+            'certificate' => 'required|file|image|mimes:jpeg,png,jpg|max:5120',
             'reason_associated_work' => 'required|min:3',
 
         ], [
@@ -167,7 +167,7 @@ class TrackRecordController extends Controller
             'start_date.required' => 'Tanggal mulai pelatihan tidak boleh kosong',
             'end_date.required' => 'Tanggal selesai pelatihan tidak boleh kosong',
             'description.required' => 'Deskripsi pelatihan tidak boleh kosong',
-            'certificate.required' => 'File harus JPG/PNG dengan ukuran file maksimal 2MB',
+            'certificate.required' => 'File harus JPG/PNG dengan ukuran file maksimal 5MB dan tidak boleh kosong',
             'reason_associated_work.required' => 'Alasan keterkaitan dengan pekerjaan tidak boleh kosong',
         ]);
         $link = "";

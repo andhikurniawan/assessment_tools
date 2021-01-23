@@ -172,7 +172,7 @@
                         <table class="table table-bordered dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Nama Karyawan</th>
+                                    <th>Nama Project</th>
                                     <th>Platform</th>
                                     <th>Posisi</th>
                                     <th>Tanggal Mulai</th>
@@ -233,6 +233,9 @@
                     <h6 class="m-0 font-weight-bold text-primary">Riwayat Assessment</h6>
                 </div>
                 <div class="card-body">
+                    <form method="post" action="{{ route('result/detail/laporan') }}">
+                        <input type="hidden" name="id" id="id">
+                        <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                     <div class="table-responsive">
                         <table class="table table-bordered dataTable" width="100%" cellspacing="0">
                             <thead>
@@ -250,7 +253,7 @@
                                         <td>{{ $item->assessment_name }}</td>
                                         <td>{{ $item->start_date }}</td>
                                         <td>{{ $item->end_date }}</td>
-                                        <td class="text-center"><a href="#" class="btn btn-primary">Detail</a></td>
+                                        <td class="text-center"><button id="{{ $item->id . '-' . $item->session_id }}"  class="btn btn-primary btn-submit">Detail</button></td>
                                     </tr>
                                 @endforeach
 
@@ -311,4 +314,17 @@
                 });
 
             </script>
+                <script type="text/javascript">
+
+                    $(document).ready(function(){
+                
+                        $(document).on("click", "button.btn-submit", function(){
+                
+                            $("#id").val(this.id);
+                
+                        });
+                
+                    });
+                
+                </script>
         @endsection
