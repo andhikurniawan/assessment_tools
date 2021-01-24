@@ -34,6 +34,8 @@ class dashboard_pmController extends AppBaseController
      */
     public function index(Request $request)
     {
+
+
         $id = Auth::user()->id;
         $role = DB::table("user_role")
         ->where("user_id", $id)
@@ -76,9 +78,15 @@ class dashboard_pmController extends AppBaseController
     
             $grupkompetensi = Competency_Group::where('company_id', Auth::user()->company_id)
             ->count('name');
-            $kompetensi = Competency::count('name');
+            
+            $kompetensi = Competency::join('competency_group', 'competency.competency_group_id', 
+            '=', 'competency_group.id')
+            ->where('competency_group.company_id', Auth::user()->company_id)
+            ->select('competency.*')->count('competency.name');
+
             $modelkompetensi = Competency_Model::where('company_id', Auth::user()->company_id)
             ->count('name');
+
             $kamus = Competency::where('status', 'public')
             ->orWhere('status', '')
             ->orWhere('status', null)

@@ -4,6 +4,7 @@
             <tr>
             <th>No</th>
             <th>Kode</th>
+            <th>Grup Kompetensi</th>
             <th>Nama</th>
             <th>Tipe</th>
             <th>Pertanyaan</th>
@@ -17,6 +18,7 @@
             <tr>
             <td>{{ $no++ }}</td>
             <td>{{ $competency->code }}</td>
+            <td>{{ $competency->competencyGroup->name }}</td>
             <td width="100">{{ $competency->name }}</td>
             <td>{{ $competency->type }}</td>
             <td>{{ $competency->question }}</td>
