@@ -132,4 +132,10 @@ Route::get('competencyGroups/company/{id}', 'Competency_GroupController@empCompa
 Route::get('competency/company/{id}', 'CompetencyController@empCompany');
 Route::get('competencyModels/company/{id}', 'Competency_ModelController@empCompany');
 Route::resource('dashboardPms', 'dashboard_pmController');
-
+Route::get('gap/company/{id}', 'Gap_AnalysisController@empCompany');
+Route::post('gap/partisipan', 'Gap_AnalysisController@show')->name('gap.show')->middleware('auth');
+Route::post("gap/partisipan/detail", "Gap_AnalysisController@gap")->name("gap/partisipan/detail")->middleware("auth");
+Route::post('/competencyModels/{competencyModel}/competencies', 'CompetencyRelationController@store');
+Route::delete('/competencyModels/{competencyModel}/competencies/{competency}', 'CompetencyRelationController@destroy');
+Route::post("/competencyModels/{Competency_id}/competency", "Competency_ModelController@addCompetency")->name("addCompetency");
+Route::post('detachCompetency', 'Competency_ModelController@dettach')->name('competencyModels.dettach');

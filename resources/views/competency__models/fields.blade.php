@@ -18,17 +18,6 @@
 </div>
 
 
-
-<div class="form-group col-sm-12">
-<label>Kompetensi:</label>
-<select class="js-example-basic-multiple form-control" name="competency[]" multiple="multiple">
-@foreach ($competency as $item)
-<option value="{{$item->id}}">{{$item->name}}</option>
-@endforeach
-</select>
-</div>
-
-
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit('Save', ['class' => 'btn btn-success']) !!}

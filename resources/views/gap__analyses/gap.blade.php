@@ -20,36 +20,39 @@
 
 @section('content')
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-3 text-gray-800">Hasil Assessment</h1>
+        <h1 class="h3 mb-3 text-gray-800">Gap Analysis / {{ $assessee->name }}</h1>
     </div>
-       
-<div class="card shadow mb-4">
+
+    <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Partisipan</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Gap Analysis</h6>
         </div>
         <div class="card-body">
-        <form method="post" action="{{ route('gap/partisipan/detail') }}">
-        <input type="hidden" name="id" id="id">
-        <input type="hidden" name="_token" value="{!! csrf_token() !!}">
         <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Aksi</th>
+                    <th>No</th>
+                    <th>Job Target</th>
+                    <th>Kompetensi</th>
+                    <th>Job Requirement</th>
+                    <th>Hasil Assessment</th>
+                    <th>Gap</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($assessees as $a)
+                @php $no = 1; @endphp
+                @foreach($result as $a)
                     <tr>    
-                        <td>{{ $a->name }}</td>
-                        <td>{{ $a->email }}</td> 
-                        <td><button id="{{ $a->id . '-' . $session_id }}" class="btn btn-warning btn-submit">Lihat Gap</button></td>
+                    <td>{{ $no++ }}</td>
+                        <td>{{ $a->competency_name }}</td> 
+                        <td></td>
+                        <td></td>
+                        <td>{{ $a->average_level }}</td>
+                        <td></td>
                     </tr>   
                 @endforeach
             </tbody>
         </table>
-        </form>
     </div>
 </div>
 

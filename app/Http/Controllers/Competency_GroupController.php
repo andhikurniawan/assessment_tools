@@ -46,6 +46,7 @@ class Competency_GroupController extends AppBaseController
         if($role->role_id == "superadmin" || $role->role_id == "admin")
         {
             $competencyGroups = $this->competencyGroupRepository->all();
+           
 
             $company_id = Auth::user()->company_id;
             if ($company_id == null) {
@@ -146,7 +147,7 @@ class Competency_GroupController extends AppBaseController
     public function show($id)
     {
         $competencyGroup = $this->competencyGroupRepository->find($id);
-        $competencyRelation = Competency_Relation::all()->where('competency_models_id', $id);
+        $competencies = Competency::all()->where('competency_group_id', $id);
 
         if (empty($competencyGroup)) {
             Flash::error('Competency  Group not found');
@@ -154,7 +155,7 @@ class Competency_GroupController extends AppBaseController
             return redirect(route('competencyGroups.index'));
         }
 
-        return view('competency__groups.show', compact('competencyGroup','competencyRelation'));
+        return view('competency__groups.show', compact('competencyGroup','competencies'));
     }
 
     /**

@@ -10,12 +10,12 @@
         </thead>
         <tbody>
         @php $no = 1; @endphp
-        @foreach($competencyRelation as $data)
+        @foreach($competencies as $data)
             <tr>
             <td>{{ $no++ }}</td>
-            <td>{{ $data->competency->name }}</td>
-            <td>{{ $data->competency->code }}</td>
-            <td>{{ $data->competency->indicator }}</td>
+            <td>{{ $data->name }}</td>
+            <td>{{ $data->code }}</td>
+            <td>{{ $data->description }}</td>
             </tr>
             @endforeach
         </tbody>

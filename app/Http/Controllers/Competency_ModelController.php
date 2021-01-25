@@ -143,7 +143,6 @@ class Competency_ModelController extends AppBaseController
     public function show($id)
     {
         $competencyModel = $this->competencyModelRepository->find($id);
-        $competencyRelation = Competency_Relation::all()->where('competency_models_id', $id);
 
         if (empty($competencyModel)) {
             Flash::error('Competency Model not found');
@@ -151,8 +150,16 @@ class Competency_ModelController extends AppBaseController
             return redirect(route('competencyModels.index'));
         }
 
-        return view('competency__models.show', compact('competencyModel','competencyRelation'));
+        $competencies = DB::table('competency')
+                        ->select(array('id','code','name'))
+                        ->get();
+        $items = array();
 
+        foreach ($competencies as $competency) {
+            $items[$competency->id] = $competency->code.' - '.$competency->name;
+        }
+
+        return view('competency__models.show', compact('competencyModel','items', 'competencies'));
     }
 
 
@@ -231,4 +238,27 @@ class Competency_ModelController extends AppBaseController
 
         return redirect(route('competencyModels.index'));
     }
+
+ 
+  public function dettach(Request $request) {
+    $competencyModel = Competency_Model::findOrFail($request["competency_models_id"]);
+    $competencyModel->competencies()->detach($request["competency_id"]);
+    Flash::success('Deleted Succeessfully');
+
+
+    return redirect()->back();
+}
+
+
+public function addCompetency(Request $request,$competencyModel_id){
+    $competencyModel = Competency_Model::findOrFail($competencyModel_id);
+
+    if($competencyModel->competencies()->where("competency_models_id",$competencyModel_id)->where("competency_id",$request["competency"])->get()->isEmpty()){
+        $competencyModel->competencies()->attach($request["competency"]);
+    }else{
+        Flash::error('Competency already exist');
+//            Flash::alert()
+    }
+    return redirect(route("competencyModels.show",$competencyModel_id));
+}
 }
