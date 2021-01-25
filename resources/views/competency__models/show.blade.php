@@ -22,6 +22,7 @@
         <div class="block-header block-header-default">
             <h2 class="block-title">Detail Model Kompetensi / {{ $competencyModel->name }}</h2>
         </div>
+        <p>{{ $competencyModel->description }}.</p>
         <br>
         <div class="card">
         <div class="card-body">

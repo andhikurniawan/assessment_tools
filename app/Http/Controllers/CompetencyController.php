@@ -46,7 +46,7 @@ class CompetencyController extends AppBaseController
             ->first();
          
     
-            if($role->role_id == "superadmin" || $role->role_id == "admin")
+            if($role->role_id == "superadmin" )
             {
                 $competencies = Competency::all();
     
@@ -61,7 +61,7 @@ class CompetencyController extends AppBaseController
                 return view('competencies.index', compact("competencies","company","selected"));
         
             }
-            else if($role->role_id == "admin_pm")
+            else if($role->role_id == "admin_pm" || $role->role_id == "admin")
             {   
              
                 $competencies = Competency::join('competency_group', 'competency.competency_group_id', 

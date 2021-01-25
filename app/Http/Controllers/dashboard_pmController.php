@@ -43,7 +43,7 @@ class dashboard_pmController extends AppBaseController
         ->first();
      
 
-        if($role->role_id == "superadmin" || $role->role_id == "admin")
+        if($role->role_id == "superadmin")
         {
             $competencies = Competency::where('status', 'public')
             ->orWhere('status', '')
@@ -69,7 +69,7 @@ class dashboard_pmController extends AppBaseController
            
     
         }
-        else if($role->role_id == "admin_pm")
+        else if($role->role_id == "admin_pm" || $role->role_id == "admin")
         {   
             $competencies = Competency::where('status', 'public')
             ->orWhere('status', '')

@@ -43,7 +43,7 @@ class Competency_GroupController extends AppBaseController
         ->first();
      
 
-        if($role->role_id == "superadmin" || $role->role_id == "admin")
+        if($role->role_id == "superadmin")
         {
             $competencyGroups = $this->competencyGroupRepository->all();
            
@@ -59,7 +59,7 @@ class Competency_GroupController extends AppBaseController
             return view('competency__groups.index', compact("competencyGroups","company","selected"));
     
         }
-        else if($role->role_id == "admin_pm")
+        else if($role->role_id == "admin_pm" || $role->role_id == "admin")
         {   
             $competencyGroups = Competency_Group::where('company_id', Auth::user()->company_id)
             ->get();
@@ -104,12 +104,12 @@ class Competency_GroupController extends AppBaseController
         ->select("role_id")
         ->first();
      
-        if($role->role_id == "superadmin" || $role->role_id == "admin")
+        if($role->role_id == "superadmin" )
         {
             $companies = Company::all()->pluck('name','id');
             return view('competency__groups.create', compact('companies'));
         }
-        else if($role->role_id == "admin_pm")
+        else if($role->role_id == "admin_pm" || $role->role_id == "admin")
         {   
             $companies = Company::where('id', Auth::user()->company_id)
             ->pluck('name','id');

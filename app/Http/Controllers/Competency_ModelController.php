@@ -42,7 +42,7 @@ class Competency_ModelController extends AppBaseController
         ->first();
      
 
-        if($role->role_id == "superadmin" || $role->role_id == "admin")
+        if($role->role_id == "superadmin" )
         {
             $competencyModels = $this->competencyModelRepository->all();
 
@@ -57,7 +57,7 @@ class Competency_ModelController extends AppBaseController
             return view('competency__models.index', compact("competencyModels","company","selected"));
       
         }
-        else if($role->role_id == "admin_pm")
+        else if($role->role_id == "admin_pm" || $role->role_id == "admin")
         {   
             $competencyModels = Competency_Model::where('company_id', Auth::user()->company_id)
             ->get();
@@ -240,25 +240,8 @@ class Competency_ModelController extends AppBaseController
     }
 
  
-  public function dettach(Request $request) {
-    $competencyModel = Competency_Model::findOrFail($request["competency_models_id"]);
-    $competencyModel->competencies()->detach($request["competency_id"]);
-    Flash::success('Deleted Succeessfully');
+  
 
 
-    return redirect()->back();
-}
 
-
-public function addCompetency(Request $request,$competencyModel_id){
-    $competencyModel = Competency_Model::findOrFail($competencyModel_id);
-
-    if($competencyModel->competencies()->where("competency_models_id",$competencyModel_id)->where("competency_id",$request["competency"])->get()->isEmpty()){
-        $competencyModel->competencies()->attach($request["competency"]);
-    }else{
-        Flash::error('Competency already exist');
-//            Flash::alert()
-    }
-    return redirect(route("competencyModels.show",$competencyModel_id));
-}
 }

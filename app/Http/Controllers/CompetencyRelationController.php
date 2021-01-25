@@ -10,11 +10,18 @@ use Illuminate\Http\Request;
 class CompetencyRelationController extends Controller
 {
     
-    public function store(Competency_Model $competencyModel, Request $request)
-    {
-    	$competencyModel->competencies()->attach(request('competency_id'));
+    
 
-    	return back();
+    public function addCompetency(Request $request,$competencyModel_id){
+        $competencyModel = Competency_Model::findOrFail($competencyModel_id);
+    
+        if($competencyModel->competencies()->where("competency_models_id",$competencyModel_id)->where("competency_id",$request["competency"])->get()->isEmpty()){
+            $competencyModel->competencies()->attach($request["competency"]);
+        }else{
+            Flash::error('Competency already exist');
+    //            Flash::alert()
+        }
+        return redirect(route("competencyModels.show",$competencyModel_id));
     }
 
     public function destroy(Competency_Model $competencyModel, Competency $competency)

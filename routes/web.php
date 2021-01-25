@@ -39,13 +39,7 @@ Route::resource('roles', 'rolesController');
 Route::resource('users', 'UserController');
 
 
-Route::resource('competencyGroups', 'Competency_GroupController');
 
-Route::resource('competencies', 'CompetencyController');
-
-Route::resource('keyBehaviours', 'Key_BehaviourController');
-
-Route::resource('competencyModels', 'Competency_ModelController');
 /*Modul Assessment*/
 Route::get('/assessment', 'Assessment_SessionController@index');
 Route::get('/search', 'Assessment_SessionController@search');
@@ -123,11 +117,16 @@ Route::resource('teams', 'TeamController');
 //     Mail::to('email@email.com')->send(new TrainingRecommendationMail());
 //     return new TrainingRecommendationMail();
 // });
-
-
-Route::resource('gapAnalyses', 'Gap_AnalysisController');
 Route::resource('company', 'CompanyController');
 Route::resource('role', 'RoleController');
+
+
+// Modul Profile Matching
+Route::resource('competencyGroups', 'Competency_GroupController');
+Route::resource('competencies', 'CompetencyController');
+Route::resource('keyBehaviours', 'Key_BehaviourController');
+Route::resource('competencyModels', 'Competency_ModelController');
+Route::resource('gapAnalyses', 'Gap_AnalysisController');
 Route::get('competencyGroups/company/{id}', 'Competency_GroupController@empCompany');
 Route::get('competency/company/{id}', 'CompetencyController@empCompany');
 Route::get('competencyModels/company/{id}', 'Competency_ModelController@empCompany');
@@ -135,7 +134,6 @@ Route::resource('dashboardPms', 'dashboard_pmController');
 Route::get('gap/company/{id}', 'Gap_AnalysisController@empCompany');
 Route::post('gap/partisipan', 'Gap_AnalysisController@show')->name('gap.show')->middleware('auth');
 Route::post("gap/partisipan/detail", "Gap_AnalysisController@gap")->name("gap/partisipan/detail")->middleware("auth");
-Route::post('/competencyModels/{competencyModel}/competencies', 'CompetencyRelationController@store');
 Route::delete('/competencyModels/{competencyModel}/competencies/{competency}', 'CompetencyRelationController@destroy');
-Route::post("/competencyModels/{Competency_id}/competency", "Competency_ModelController@addCompetency")->name("addCompetency");
-Route::post('detachCompetency', 'Competency_ModelController@dettach')->name('competencyModels.dettach');
+Route::post("/competencyModels/{Competency_id}/competency", "CompetencyRelationController@addCompetency")->name("addCompetency");
+
