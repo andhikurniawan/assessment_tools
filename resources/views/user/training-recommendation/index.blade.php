@@ -69,7 +69,7 @@
                                     @endswitch
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ url('training/recommendation/details/'. $item->id)}}" class="btn btn-primary">Detail</a>                               
+                                    <a href="{{ url('training/recommendation/details/'. $item->id)}}" class="btn btn-primary tr-{{$item->status}}">Detail</a>                               
                                 </td>
                             </tr>
                         @endforeach

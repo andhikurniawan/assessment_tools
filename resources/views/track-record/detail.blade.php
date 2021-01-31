@@ -137,7 +137,7 @@
                                             @endswitch
                                         </td>
                                         <td class="text-center"><a href="{{ url('track-record/training/' . $item->id) }}"
-                                                class="btn btn-primary">Lihat</a>
+                                                class="btn btn-primary tr-{{$item->status}}">Lihat</a>
                                             @if (session('permission') == 'user')
                                                 @if ($item->status == 'Menunggu' || $item->status == "Ditolak")
                                                     <a href="{{ url('track-record/training/edit/' . $item->id) }}"
@@ -279,7 +279,9 @@
             <!-- Page level custom scripts -->
             <script type="text/javascript">
                 $(document).ready(function() {
-                    $('.dataTable').DataTable();
+                    $('.dataTable').DataTable({
+                        order: [[2, 'asc']]
+                    });
                     // var data = table;
                     // var table = $('#dataTable').DataTable();
                     // var data = table.column(0).data().sort().reverse();
