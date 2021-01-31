@@ -254,7 +254,12 @@ class TrainingController extends Controller
             $competency = Competency::all();
         } else {
             $company = Company::where('id', $user_company)->get();
-            $competency = Competency::join('competency_group', 'competency.competency_group_id', '=', 'competency_group.id')->where('competency_group.company_id', $user_company)->select('competency.*')->get();
+            $competency = DB::table('assessment_relation')->join('assessment_session', 'assessment_relation.assessment_session_id', '=', 'assessment_session.id')
+            ->join('competency_relation', 'assessment_relation.competency_models_id', '=', 'competency_relation.competency_models_id')
+            ->rightJoin('competency', 'competency.id', '=', 'competency_relation.competency_id')
+            ->rightJoin('competency_group', 'competency.competency_group_id', '=', 'competency_group.id')
+            ->where('competency_group.company_id', '=', $user_company)->orWhere('assessment_session.company_id', '=', $user_company)
+            ->select('competency.id', 'competency.name')->distinct()->get();
         }
         return view('training.create_master', compact('competency', 'company'));
     }
