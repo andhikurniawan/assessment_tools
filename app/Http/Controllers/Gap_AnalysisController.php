@@ -111,7 +111,8 @@ class Gap_AnalysisController extends AppBaseController
     public function empCompany($id)
     {
         $assessments = DB::table("assessment_session")
-        ->join('company', 'assessment_session.company_id', '=', 'company.id')->select('assessment_session.name', 'assessment_session.category', 'assessment_session.status','assessment_session.expired','assessment_session.start_date','assessment_session.end_date','company.name as company_name', 'assessment_session.id as id')
+        ->join('company', 'assessment_session.company_id', '=', 'company.id')
+        ->select('assessment_session.name', 'assessment_session.category', 'assessment_session.status','assessment_session.expired','assessment_session.start_date','assessment_session.end_date','company.name as company_name', 'assessment_session.id as id')
         ->where("company_id",$id)
         ->where('status', 'finished')
         ->get(); 
@@ -324,6 +325,7 @@ class Gap_AnalysisController extends AppBaseController
         return redirect(route('gapAnalyses.index'));
     }
 
+
     public function gap(Request $request)
     {
         $id = Auth::user()->id;
@@ -339,17 +341,19 @@ class Gap_AnalysisController extends AppBaseController
 
             $assesse_id = $id[0];
             $session_id = $id[1];
+            $jobtarget_id = $id[0];
 
             $result = DB::table("assessment_competency_result")
-                        ->join("competency", "competency.id", "=", "assessment_competency_result.competency_id")
-                        ->join("competency_group", "competency_group.id", "=", "competency_group_id")
-                        ->where("session_id", $session_id)
-                        ->where("userid_assessee", $assesse_id)
-                        ->select("competency.name as competency_name", "modus_level", "average_level", 
-                        "competency_id", "competency_group.name as group")
-                        ->get();
+            ->join("competency", "competency.id", "=", "assessment_competency_result.competency_id")
+            ->where("session_id", $session_id)
+            ->where("userid_assessee", $assesse_id)
+            ->select("competency.name as competency_name", "modus_level", "median_level",
+            "third_quartile",
+            "assessment_competency_result.competency_id as competency_id", "max_level")
+            ->get();
 
-           
+
+          
             $session = DB::table("assessment_session")
                         ->where("id", $session_id)
                         ->select("name", "start_date")
@@ -360,15 +364,7 @@ class Gap_AnalysisController extends AppBaseController
                         ->select("name")
                         ->first();   
                         
-            $group = [];
-
-            for($i = 0; $i < count($result); $i++)
-            {
-                array_push($group, $result[$i]->group);
-            }
-
-            $group = array_unique($group);
-            $group = array_values($group);
+      
 
             $job = DB::table("job_target")
                     ->where("assessment_session_id", $session_id)
@@ -384,8 +380,10 @@ class Gap_AnalysisController extends AppBaseController
                 
                 $req = DB::table("job_requirement")
                         ->join("competency", "competency.id", "=", "job_requirement.competency_id")
+                        ->join("job_target", "job_target.id", "=", "job_requirement.job_target_id")
                         ->where("job_requirement.job_target_id", $job[$i]->id)
-                        ->select("competency_id", "name", "skill_level as level")
+                        ->select("competency_id", "name", "skill_level as level", "job_target.job_name as job")
+                        ->distinct('job_target.job_name')
                         ->get();
                 
                 $detail->req = $req;
@@ -409,8 +407,8 @@ class Gap_AnalysisController extends AppBaseController
                 }
             }
 
-            return view('gap__analyses.gap', compact("result", "assessee", "session", 
-            "group", "jobs", "job"));
+            return view('gap__analyses.gap', compact("result", 
+            "assessee", "session", "jobs", "job", "req"));
         }
         
     }

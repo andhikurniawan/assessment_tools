@@ -68,7 +68,7 @@ class Key_BehaviourController extends AppBaseController
 
         Flash::success('Key  Behaviour saved successfully.');
 
-        return redirect(route('keyBehaviours.index'));
+        return redirect(route('competencies.index'));
     }
 
     /**
@@ -129,14 +129,14 @@ class Key_BehaviourController extends AppBaseController
         if (empty($keyBehaviour)) {
             Flash::error('Key  Behaviour not found');
 
-            return redirect(route('keyBehaviours.index'));
+            return redirect(route('competencies.index'));
         }
 
         $keyBehaviour = $this->keyBehaviourRepository->update($request->all(), $id);
 
         Flash::success('Key  Behaviour updated successfully.');
 
-        return redirect(route('keyBehaviours.index'));
+        return redirect(route('competencies.index'));
     }
 
     /**
@@ -155,13 +155,13 @@ class Key_BehaviourController extends AppBaseController
         if (empty($keyBehaviour)) {
             Flash::error('Key  Behaviour not found');
 
-            return redirect(route('keyBehaviours.index'));
+            return redirect(route('competencies.index'));
         }
 
         $this->keyBehaviourRepository->delete($id);
 
         Flash::success('Key  Behaviour deleted successfully.');
 
-        return redirect(route('keyBehaviours.index'));
+        return redirect(route('competencies.index'));
     }
 }

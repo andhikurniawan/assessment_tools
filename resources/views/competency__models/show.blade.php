@@ -18,20 +18,21 @@
 @endswitch
 
 @section('content')
-<div class="block">
-        <div class="block-header block-header-default">
-            <h2 class="block-title">Detail Model Kompetensi / {{ $competencyModel->name }}</h2>
-        </div>
+<div class="card shadow mb-4">
+                <div class="card-body">
+                <br>
+            <h3 class="block-title">Detail Model Kompetensi / {{ $competencyModel->name }}</h3>
+       
         <p>{{ $competencyModel->description }}.</p>
         <br>
-        <div class="card">
-        <div class="card-body">
-           <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+        <h5><b>Daftar Kompetensi</b></h5>
+        <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                     <th>No</th>
-                    <th>Nama</th>
                     <th>Kode</th>
+                    <th>Nama</th>
                     <th>Action</th>
                     </tr>
                 </thead>    
@@ -54,9 +55,8 @@
                 </tbody>
             </table>    
 </div>
-</div>
 <br>
-</div>
+</div></div>
     <div class="card">
     <div class="card-body">
             <h4 style="margin-left:-12px">Tambah Kompetensi</h4>

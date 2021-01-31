@@ -1,8 +1,8 @@
-<h4> Detail Grup Kompetensi / {{ $competencyGroup->name }}</h4>
+<h3> Detail Grup Kompetensi / {{ $competencyGroup->name }}</h3>
 <p>{{ $competencyGroup->description }}.</p>
 <br>
 
-<h5>Daftar Kompetensi</h5>
+<h5><b>Daftar Kompetensi</b></h5>
 @include('competency__groups.competency')                           
 
 

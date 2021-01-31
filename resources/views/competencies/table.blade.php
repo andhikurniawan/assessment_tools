@@ -26,8 +26,8 @@
                     <td>
                     {!! Form::open(['route' => ['competencies.destroy', $competency->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('competencies.show', [$competency->id]) }}" class='btn btn-primary'><span class="iconify" data-icon="bi:eye-fill" data-inline="false"></span></a>
-                        <a href="{{ route('competencies.edit', [$competency->id]) }}" class='btn btn-warning'><span class="iconify" data-icon="bx:bx-edit" data-inline="false"></span></a>
+                        <a href="{{ route('competencies.show', [$competency->id]) }}" class='btn btn-primary' id='detail'><span class="iconify" data-icon="bi:eye-fill" data-inline="false"></span></a>
+                        <a href="{{ route('competencies.edit', [$competency->id]) }}" class='btn btn-warning' id='edit'><span class="iconify" data-icon="bx:bx-edit" data-inline="false"></span></a>
                         {!! Form::button('<span class="iconify" data-icon="bi:trash" data-inline="false"></span>', ['type' => 'submit', 'class' => 'btn btn-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
                     </div>
                     {!! Form::close() !!}

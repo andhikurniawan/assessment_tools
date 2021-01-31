@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Competency_Model;
 use App\Models\Competency;
+use Flash;
 
 use Illuminate\Http\Request;
 
@@ -19,7 +20,6 @@ class CompetencyRelationController extends Controller
             $competencyModel->competencies()->attach($request["competency"]);
         }else{
             Flash::error('Competency already exist');
-    //            Flash::alert()
         }
         return redirect(route("competencyModels.show",$competencyModel_id));
     }

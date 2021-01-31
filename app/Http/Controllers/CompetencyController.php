@@ -153,6 +153,13 @@ class CompetencyController extends AppBaseController
         $competency = $this->competencyRepository->find($id);
         $behaviour = Key_Behaviour::all()->where('competency_id', $id);
         $job = Job_Target::all()->find($id);
+        
+        $req = DB::table("job_requirement")
+        ->join('job_target', 'job_requirement.job_target_id', '=', 'job_target.id')
+        ->select('job_target.job_name as job')
+        ->where('competency_id', $id)
+        ->distinct('job_target.job_name')
+        ->get();
 
         if (empty($competency)) {
             Flash::error('Competency not found');
@@ -160,7 +167,7 @@ class CompetencyController extends AppBaseController
             return redirect(route('competencies.index'));
         }
 
-        return view('competencies.show', compact('competency','behaviour','job'));
+        return view('competencies.show', compact('competency','behaviour','job', 'req'));
 
 
       
