@@ -200,11 +200,19 @@ class TrainingController extends Controller
     public function dashboard()
     {
         $company_id = Auth::user()->company_id;
-        $assessment_session_count = DB::table('assessment_session')->select('status')->where('status','finished')->where('company_id',$company_id)->count();
-        $training_recommnedation_count = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->where('user.company_id', $company_id)->count();
-        $track_record_count = Track_training_emp::where('status', '=', 'Menunggu')->count();
-        $success_count = Track_project_emp::where('status', '=', 'Selesai')->count();
-        $failed_count = Track_project_emp::where('status', '=', 'Gagal')->count();
+        if($company_id == null){
+            $assessment_session_count = DB::table('assessment_session')->select('status')->where('status','finished')->count();
+            $training_recommnedation_count = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->count();
+            $track_record_count = Track_training_emp::where('status', '=', 'Menunggu')->count();
+            $success_count = Track_project_emp::where('status', '=', 'Selesai')->count();
+            $failed_count = Track_project_emp::where('status', '=', 'Gagal')->count();
+        } else {
+            $assessment_session_count = DB::table('assessment_session')->select('status')->where('status','finished')->where('company_id',$company_id)->count();
+            $training_recommnedation_count = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->where('user.company_id', $company_id)->count();
+            $track_record_count = Track_training_emp::join('user', 'user.id', '=', 'track_training_emps.user_id')->where('status', '=', 'Menunggu')->where('user.company_id','=',$company_id)->count();
+            $success_count = Track_project_emp::join('user', 'user.id', '=', 'track_project_emps.user_id')->where('status', '=', 'Selesai')->where('user.company_id','=',$company_id)->count();
+            $failed_count = Track_project_emp::join('user', 'user.id', '=', 'track_project_emps.user_id')->where('status', '=', 'Gagal')->where('user.company_id','=',$company_id)->count();
+        }
 
         return view('training.index')->with([
             'assessment_count' => $assessment_session_count,
