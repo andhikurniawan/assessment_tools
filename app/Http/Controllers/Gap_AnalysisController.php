@@ -341,17 +341,55 @@ class Gap_AnalysisController extends AppBaseController
 
             $assesse_id = $id[0];
             $session_id = $id[1];
-            $jobtarget_id = $id[0];
+            $job_target = [];
+            $pm = 2;
 
             $result = DB::table("assessment_competency_result")
             ->join("competency", "competency.id", "=", "assessment_competency_result.competency_id")
+            ->join("job_target", "job_target.assessment_session_id", "=",
+            "assessment_competency_result.session_id")
+            ->join("job_requirement", "job_requirement.job_target_id", "=", "job_target.id")
             ->where("session_id", $session_id)
             ->where("userid_assessee", $assesse_id)
-            ->select("competency.name as competency_name", "modus_level", "median_level",
-            "third_quartile",
-            "assessment_competency_result.competency_id as competency_id", "max_level")
+            ->where("job_target.job_name", "Project Manager")
+            ->select("competency.name as competency_name", "competency.id as competency_id",
+             "modus_level as hasil", "median_level",
+            "third_quartile", "job_target.job_name as job_name", "job_target.id as job_id", "max_level",
+            "job_requirement.skill_level as req")
+            ->distinct("competency.id")
             ->get();
 
+            $result2 = DB::table("assessment_competency_result")
+            ->join("competency", "competency.id", "=", "assessment_competency_result.competency_id")
+            ->join("job_target", "job_target.assessment_session_id", "=",
+            "assessment_competency_result.session_id")
+            ->join("job_requirement", "job_requirement.job_target_id", "=", "job_target.id")
+            ->where("session_id", $session_id)
+            ->where("userid_assessee", $assesse_id)
+            ->where("job_target.job_name", "Programmer")
+            ->select("competency.name as competency_name", "competency.id as competency_id",
+             "modus_level as hasil", "median_level",
+            "third_quartile", "job_target.job_name as job_name", "job_target.id as job_id",
+            "assessment_competency_result.competency_id as competency_id", "max_level",
+            "job_requirement.skill_level as req")
+            ->distinct("competency.id")
+            ->get();
+
+            $result3 = DB::table("assessment_competency_result")
+            ->join("competency", "competency.id", "=", "assessment_competency_result.competency_id")
+            ->join("job_target", "job_target.assessment_session_id", "=",
+            "assessment_competency_result.session_id")
+            ->join("job_requirement", "job_requirement.job_target_id", "=", "job_target.id")
+            ->where("session_id", $session_id)
+            ->where("userid_assessee", $assesse_id)
+            ->where("job_target.job_name", "Analis")
+            ->select("competency.name as competency_name", "competency.id as competency_id",
+             "modus_level as hasil", "median_level",
+            "third_quartile", "job_target.job_name as job_name", "job_target.id as job_id",
+            "assessment_competency_result.competency_id as competency_id", "max_level",
+            "job_requirement.skill_level as req")
+            ->distinct("competency.id")
+            ->get();
 
           
             $session = DB::table("assessment_session")
@@ -364,11 +402,12 @@ class Gap_AnalysisController extends AppBaseController
                         ->select("name")
                         ->first();   
                         
-      
+          
 
             $job = DB::table("job_target")
                     ->where("assessment_session_id", $session_id)
                     ->select("id", "job_name")
+                    ->distinct('job_name')
                     ->get();
 
             $jobs = [];
@@ -381,7 +420,23 @@ class Gap_AnalysisController extends AppBaseController
                 $req = DB::table("job_requirement")
                         ->join("competency", "competency.id", "=", "job_requirement.competency_id")
                         ->join("job_target", "job_target.id", "=", "job_requirement.job_target_id")
-                        ->where("job_requirement.job_target_id", $job[$i]->id)
+                        ->where("job_target.job_name", "project manager")
+                        ->select("competency_id", "name", "skill_level as level", "job_target.job_name as job")
+                        ->distinct('job_target.job_name')
+                        ->get();
+
+                        $req2 = DB::table("job_requirement")
+                        ->join("competency", "competency.id", "=", "job_requirement.competency_id")
+                        ->join("job_target", "job_target.id", "=", "job_requirement.job_target_id")
+                        ->where("job_target.job_name", "programmer")
+                        ->select("competency_id", "name", "skill_level as level", "job_target.job_name as job")
+                        ->distinct('job_target.job_name')
+                        ->get();
+
+                        $req3 = DB::table("job_requirement")
+                        ->join("competency", "competency.id", "=", "job_requirement.competency_id")
+                        ->join("job_target", "job_target.id", "=", "job_requirement.job_target_id")
+                        ->where("job_target.job_name", "analis")
                         ->select("competency_id", "name", "skill_level as level", "job_target.job_name as job")
                         ->distinct('job_target.job_name')
                         ->get();
@@ -407,8 +462,8 @@ class Gap_AnalysisController extends AppBaseController
                 }
             }
 
-            return view('gap__analyses.gap', compact("result", 
-            "assessee", "session", "jobs", "job", "req"));
+            return view('gap__analyses.gap', compact("result", "result2", "result3", "coba", "coba2",
+            "coba3", "assessee", "session", "jobs", "job", "req", "coba4", "req2", "req3"));
         }
         
     }

@@ -163,5 +163,6 @@ class Key_BehaviourController extends AppBaseController
         Flash::success('Key  Behaviour deleted successfully.');
 
         return redirect(route('competencies.index'));
+        
     }
 }
