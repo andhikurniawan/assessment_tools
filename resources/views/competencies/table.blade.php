@@ -7,7 +7,7 @@
             <th>Grup Kompetensi</th>
             <th>Nama</th>
             <th>Tipe</th>
-            <th>Pertanyaan</th>
+            <th>Deskripsi</th>
             <th>Status</th>
             <th>Action</th>
             </tr>
@@ -21,7 +21,7 @@
             <td>{{ $competency->competencyGroup->name }}</td>
             <td width="100">{{ $competency->name }}</td>
             <td>{{ $competency->type }}</td>
-            <td>{{ $competency->question }}</td>
+            <td>{{ $competency->description }}</td>
             <td>{{ $competency->status }}</td>
                     <td>
                     {!! Form::open(['route' => ['competencies.destroy', $competency->id], 'method' => 'delete']) !!}

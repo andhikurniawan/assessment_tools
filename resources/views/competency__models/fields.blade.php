@@ -14,7 +14,7 @@
 <!-- Description Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('description', 'Deskripsi:') !!}
-    {!! Form::text('description', null, ['class' => 'form-control']) !!}
+    {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
 </div>
 
 

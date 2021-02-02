@@ -150,7 +150,11 @@ class Competency_ModelController extends AppBaseController
             return redirect(route('competencyModels.index'));
         }
 
+      
         $competencies = DB::table('competency')
+                        ->where('status', 'public')
+                        ->orWhere('status', '')
+                        ->orWhere('status', null)
                         ->select(array('id','code','name'))
                         ->get();
         $items = array();
