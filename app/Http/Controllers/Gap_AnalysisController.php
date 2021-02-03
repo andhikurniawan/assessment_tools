@@ -358,39 +358,37 @@ class Gap_AnalysisController extends AppBaseController
             "job_requirement.skill_level as req")
             ->distinct("competency.id")
             ->get();
+           
+           
+            $job_name = 'Project Manager';
+            $coba = DB::select('SELECT DISTINCT c.name as 
+            `kompetensi`, b.skill_level as `req`, 
+            a.modus_level as `hasil` FROM assessment_competency_result a, 
+            job_requirement b, competency c, job_target d WHERE 
+            a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.' 
+            AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
+            d.job_name = "'.$job_name.'" AND b.job_target_id = d.id');
 
-            $result2 = DB::table("assessment_competency_result")
-            ->join("competency", "competency.id", "=", "assessment_competency_result.competency_id")
-            ->join("job_target", "job_target.assessment_session_id", "=",
-            "assessment_competency_result.session_id")
-            ->join("job_requirement", "job_requirement.job_target_id", "=", "job_target.id")
-            ->where("session_id", $session_id)
-            ->where("userid_assessee", $assesse_id)
-            ->where("job_target.job_name", "Programmer")
-            ->select("competency.name as competency_name", "competency.id as competency_id",
-             "modus_level as hasil", "median_level",
-            "third_quartile", "job_target.job_name as job_name", "job_target.id as job_id",
-            "assessment_competency_result.competency_id as competency_id", "max_level",
-            "job_requirement.skill_level as req")
-            ->distinct("competency.id")
-            ->get();
+            $job_name = 'Programmer';
+            $coba2 = DB::select('SELECT DISTINCT c.name as 
+            `kompetensi`, b.skill_level as `req`, 
+            a.modus_level as `hasil` FROM assessment_competency_result a, 
+            job_requirement b, competency c, job_target d WHERE 
+            a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.' 
+            AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
+            d.job_name = "'.$job_name.'" AND b.job_target_id = d.id');
 
-            $result3 = DB::table("assessment_competency_result")
-            ->join("competency", "competency.id", "=", "assessment_competency_result.competency_id")
-            ->join("job_target", "job_target.assessment_session_id", "=",
-            "assessment_competency_result.session_id")
-            ->join("job_requirement", "job_requirement.job_target_id", "=", "job_target.id")
-            ->where("session_id", $session_id)
-            ->where("userid_assessee", $assesse_id)
-            ->where("job_target.job_name", "Analis")
-            ->select("competency.name as competency_name", "competency.id as competency_id",
-             "modus_level as hasil", "median_level",
-            "third_quartile", "job_target.job_name as job_name", "job_target.id as job_id",
-            "assessment_competency_result.competency_id as competency_id", "max_level",
-            "job_requirement.skill_level as req")
-            ->distinct("competency.id")
-            ->get();
+            $job_name = 'Analis';
+            $coba3 = DB::select('SELECT DISTINCT c.name as 
+            `kompetensi`, b.skill_level as `req`, 
+            a.modus_level as `hasil` FROM assessment_competency_result a, 
+            job_requirement b, competency c, job_target d WHERE 
+            a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.' 
+            AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
+            d.job_name = "'.$job_name.'" AND b.job_target_id = d.id');
+        
 
+          
           
             $session = DB::table("assessment_session")
                         ->where("id", $session_id)
@@ -463,7 +461,7 @@ class Gap_AnalysisController extends AppBaseController
             }
 
             return view('gap__analyses.gap', compact("result", "result2", "result3", "coba", "coba2",
-            "coba3", "assessee", "session", "jobs", "job", "req", "coba4", "req2", "req3"));
+            "coba3", "assessee", "session", "jobs", "job", "req", "coba4", "req2", "req3", "uwu"));
         }
         
     }

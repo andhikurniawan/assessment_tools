@@ -45,9 +45,6 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Job Target ID</th>
-                    <th>Job Target</th>
-                    <th>Kompetensi ID</th>
                     <th>Kompetensi</th>
                     <th>Job Requirement</th>
                     <th>Hasil Assessment</th>
@@ -67,14 +64,11 @@
                 @php $gap = 0; @endphp
                 @php $match = 0; @endphp
 
-                @foreach($result as $a)
+                @foreach($coba as $a)
                     <tr>    
                     
                     <td>{{ $no++ }}</td>
-                    <td>{{ $a->job_id }}</td> 
-                    <td>{{ $a->job_name }}</td> 
-                    <td>{{ $a->competency_id }}</td> 
-                    <td>{{ $a->competency_name }}</td> 
+                    <td>{{ $a->kompetensi }}</td> 
                     <td>{{ $a->req }}</td> 
                         <td>{{$a->hasil }}</td>
                         
@@ -115,7 +109,7 @@
             <tfoot>
                                    
                     <tr>
-                        <th colspan="5" style="text-align:center">Nilai Akhir</th>
+                        <th colspan="2" style="text-align:center">Nilai Akhir</th>
                         <th>{{$totalreq}}</th>
                         <th>{{$totalhasil}}</th>
                         <th>-</th>
@@ -129,7 +123,7 @@
                         $match = "Not Match";
                         }
                         @endphp
-                        <th colspan="8" style="text-align:center">Profile Matching</th>
+                        <th colspan="5" style="text-align:center">Profile Matching</th>
                         <th>{{$match}}</th>
                    </tr>
             </tfoot>
@@ -162,9 +156,6 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Job Target ID</th>
-                    <th>Job Target</th>
-                    <th>Kompetensi ID</th>
                     <th>Kompetensi</th>
                     <th>Job Requirement</th>
                     <th>Hasil Assessment</th>
@@ -184,14 +175,11 @@
                 @php $gap = 0; @endphp
                 @php $match = 0; @endphp
 
-                @foreach($result2 as $a)
+                @foreach($coba2 as $a)
                     <tr>    
                     
                     <td>{{ $no++ }}</td>
-                    <td>{{ $a->job_id }}</td> 
-                    <td>{{ $a->job_name }}</td> 
-                    <td>{{ $a->competency_id }}</td> 
-                    <td>{{ $a->competency_name }}</td> 
+                    <td>{{ $a->kompetensi }}</td> 
                     <td>{{ $a->req }}</td> 
                         <td>{{$a->hasil }}</td>
                         
@@ -232,7 +220,7 @@
             <tfoot>
                                    
                     <tr>
-                        <th colspan="5" style="text-align:center">Nilai Akhir</th>
+                        <th colspan="2" style="text-align:center">Nilai Akhir</th>
                         <th>{{$totalreq}}</th>
                         <th>{{$totalhasil}}</th>
                         <th>-</th>
@@ -246,7 +234,7 @@
                         $match = "Not Match";
                         }
                         @endphp
-                        <th colspan="8" style="text-align:center">Profile Matching</th>
+                        <th colspan="5" style="text-align:center">Profile Matching</th>
                         <th>{{$match}}</th>
                    </tr>
             </tfoot>
@@ -280,9 +268,6 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Job Target ID</th>
-                    <th>Job Target</th>
-                    <th>Kompetensi ID</th>
                     <th>Kompetensi</th>
                     <th>Job Requirement</th>
                     <th>Hasil Assessment</th>
@@ -302,14 +287,11 @@
                 @php $gap = 0; @endphp
                 @php $match = 0; @endphp
 
-                @foreach($result3 as $a)
+                @foreach($coba3 as $a)
                     <tr>    
                     
                     <td>{{ $no++ }}</td>
-                    <td>{{ $a->job_id }}</td> 
-                    <td>{{ $a->job_name }}</td> 
-                    <td>{{ $a->competency_id }}</td> 
-                    <td>{{ $a->competency_name }}</td> 
+                    <td>{{ $a->kompetensi }}</td> 
                     <td>{{ $a->req }}</td> 
                         <td>{{$a->hasil }}</td>
                         
@@ -350,7 +332,7 @@
             <tfoot>
                                    
                     <tr>
-                        <th colspan="5" style="text-align:center">Nilai Akhir</th>
+                        <th colspan="2" style="text-align:center">Nilai Akhir</th>
                         <th>{{$totalreq}}</th>
                         <th>{{$totalhasil}}</th>
                         <th>-</th>
@@ -364,7 +346,7 @@
                         $match = "Not Match";
                         }
                         @endphp
-                        <th colspan="8" style="text-align:center">Profile Matching</th>
+                        <th colspan="5" style="text-align:center">Profile Matching</th>
                         <th>{{$match}}</th>
                    </tr>
             </tfoot>
