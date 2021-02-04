@@ -361,34 +361,70 @@ class Gap_AnalysisController extends AppBaseController
            
            
             $job_name = 'Project Manager';
+            $kuadran = 'core';
             $coba = DB::select('SELECT DISTINCT c.name as 
-            `kompetensi`, b.skill_level as `req`, 
+            `kompetensi`, c.kuadran as `kuadran`, b.skill_level as `req`, 
             a.modus_level as `hasil` FROM assessment_competency_result a, 
             job_requirement b, competency c, job_target d WHERE 
             a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.' 
+            AND c.id = a.competency_id AND c.kuadran = "'.$kuadran.'" 
             AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
             d.job_name = "'.$job_name.'" AND b.job_target_id = d.id');
 
-            $job_name = 'Programmer';
+            $job_name = 'Project Manager';
+            $kuadran2 = 'secondary';
+            $cobaa = DB::select('SELECT DISTINCT c.name as 
+            `kompetensi`, c.kuadran as `kuadran`, b.skill_level as `req`, 
+            a.modus_level as `hasil` FROM assessment_competency_result a, 
+            job_requirement b, competency c, job_target d WHERE 
+            a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.' 
+            AND c.id = a.competency_id AND c.kuadran = "'.$kuadran2.'" 
+            AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
+            d.job_name = "'.$job_name.'" AND b.job_target_id = d.id');
+
+            $job_name2 = 'Programmer';
+            $kuadran = 'core';
             $coba2 = DB::select('SELECT DISTINCT c.name as 
-            `kompetensi`, b.skill_level as `req`, 
+            `kompetensi`, c.kuadran as `kuadran`, b.skill_level as `req`, 
             a.modus_level as `hasil` FROM assessment_competency_result a, 
             job_requirement b, competency c, job_target d WHERE 
             a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.' 
+            AND c.id = a.competency_id AND c.kuadran = "'.$kuadran.'" 
             AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
-            d.job_name = "'.$job_name.'" AND b.job_target_id = d.id');
+            d.job_name = "'.$job_name2.'" AND b.job_target_id = d.id');
 
-            $job_name = 'Analis';
+            $job_name2 = 'Programmer';
+            $kuadran2 = 'secondary';
+            $cobaa2 = DB::select('SELECT DISTINCT c.name as 
+            `kompetensi`, c.kuadran as `kuadran`, b.skill_level as `req`, 
+            a.modus_level as `hasil` FROM assessment_competency_result a, 
+            job_requirement b, competency c, job_target d WHERE 
+            a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.' 
+            AND c.id = a.competency_id AND c.kuadran = "'.$kuadran2.'" 
+            AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
+            d.job_name = "'.$job_name2.'" AND b.job_target_id = d.id');
+
+            $job_name3 = 'Analis';
+            $kuadran = 'core';
             $coba3 = DB::select('SELECT DISTINCT c.name as 
-            `kompetensi`, b.skill_level as `req`, 
+            `kompetensi`, c.kuadran as `kuadran`, b.skill_level as `req`, 
             a.modus_level as `hasil` FROM assessment_competency_result a, 
             job_requirement b, competency c, job_target d WHERE 
-            a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.' 
+            a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.'
+            AND c.id = a.competency_id AND c.kuadran = "'.$kuadran.'"  
             AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
-            d.job_name = "'.$job_name.'" AND b.job_target_id = d.id');
-        
+            d.job_name = "'.$job_name3.'" AND b.job_target_id = d.id');
 
-          
+            $job_name3 = 'Analis';
+            $kuadran2 = 'secondary';
+            $cobaa3 = DB::select('SELECT DISTINCT c.name as 
+            `kompetensi`, c.kuadran as `kuadran`, b.skill_level as `req`, 
+            a.modus_level as `hasil` FROM assessment_competency_result a, 
+            job_requirement b, competency c, job_target d WHERE 
+            a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.'
+            AND c.id = a.competency_id AND c.kuadran = "'.$kuadran2.'"  
+            AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
+            d.job_name = "'.$job_name3.'" AND b.job_target_id = d.id');
           
             $session = DB::table("assessment_session")
                         ->where("id", $session_id)
@@ -397,7 +433,7 @@ class Gap_AnalysisController extends AppBaseController
             
             $assessee = DB::table("user")
                         ->where("id", $assesse_id)
-                        ->select("name")
+                        ->select("name", "employee_id")
                         ->first();   
                         
           
@@ -423,21 +459,7 @@ class Gap_AnalysisController extends AppBaseController
                         ->distinct('job_target.job_name')
                         ->get();
 
-                        $req2 = DB::table("job_requirement")
-                        ->join("competency", "competency.id", "=", "job_requirement.competency_id")
-                        ->join("job_target", "job_target.id", "=", "job_requirement.job_target_id")
-                        ->where("job_target.job_name", "programmer")
-                        ->select("competency_id", "name", "skill_level as level", "job_target.job_name as job")
-                        ->distinct('job_target.job_name')
-                        ->get();
-
-                        $req3 = DB::table("job_requirement")
-                        ->join("competency", "competency.id", "=", "job_requirement.competency_id")
-                        ->join("job_target", "job_target.id", "=", "job_requirement.job_target_id")
-                        ->where("job_target.job_name", "analis")
-                        ->select("competency_id", "name", "skill_level as level", "job_target.job_name as job")
-                        ->distinct('job_target.job_name')
-                        ->get();
+                        
                 
                 $detail->req = $req;
                 $detail->result = [];
@@ -460,8 +482,8 @@ class Gap_AnalysisController extends AppBaseController
                 }
             }
 
-            return view('gap__analyses.gap', compact("result", "result2", "result3", "coba", "coba2",
-            "coba3", "assessee", "session", "jobs", "job", "req", "coba4", "req2", "req3", "uwu"));
+            return view('gap__analyses.gap', compact("result", "coba", "coba2",
+            "coba3", "assessee", "session", "jobs", "job", "req", "cobaa3", "cobaa2", "cobaa"));
         }
         
     }

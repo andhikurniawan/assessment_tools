@@ -20,7 +20,7 @@
 
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Gap Analysis / {{ $assessee->name }}</h1>
+        <h1 class="h3 mb-0 text-gray-800">Gap Analysis / {{ $assessee->name }} ({{ $assessee->employee_id }})</h1>
        
     </div>
 
@@ -40,14 +40,14 @@
             <div class="col text-center" style="width: 100%;">
            
         
-        <div class="card-body">
+            <div class="card-body">
         <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>No</th>
                     <th>Kompetensi</th>
-                    <th>Job Requirement</th>
-                    <th>Hasil Assessment</th>
+                    <th>Profil Karyawan</th>
+                    <th>Profil Jabatan</th>
                     <th>Gap</th>
                     <th>Bobot Nilai Gap</th>
                 </tr>
@@ -56,21 +56,25 @@
                 @php $no = 1; @endphp
                 <div style="display: none">
 	            {{ $total = 0 }}
+                {{ $total2 = 0 }}
                 {{ $totalreq = 0 }}
                 {{ $totalhasil = 0 }}
+                {{ $kuadran = 0 }}
                 </div>
                 
                 @php $bobot = 0; @endphp
                 @php $gap = 0; @endphp
                 @php $match = 0; @endphp
+                @php $core = 0; @endphp
 
                 @foreach($coba as $a)
                     <tr>    
                     
                     <td>{{ $no++ }}</td>
                     <td>{{ $a->kompetensi }}</td> 
+                    <td>{{$a->hasil }}</td>
                     <td>{{ $a->req }}</td> 
-                        <td>{{$a->hasil }}</td>
+                        
                         
                         @php $gap = (float)($a->hasil - $a->req); @endphp
                        
@@ -103,37 +107,128 @@
                         <div style="display: none">{{$total += ($bobot)}}</div>
                         <div style="display: none">{{$totalreq += ($a->req)}}</div>
                         <div style="display: none">{{$totalhasil += ($a->hasil)}}</div>
+                        <div style="display: none">{{$kuadran == ($a->kuadran)}}</div>
+                        <div style="display: none">{{$total2 += ($bobot) / 24}}</div>
                     </tr>   
                 @endforeach
             </tbody>
             <tfoot>
-                                   
-                    <tr>
-                        <th colspan="2" style="text-align:center">Nilai Akhir</th>
-                        <th>{{$totalreq}}</th>
-                        <th>{{$totalhasil}}</th>
-                        <th>-</th>
-                        <th>{{$total}}</th>
-                   </tr>
-                   <tr>
                    @php
-                        if($total >= $totalreq){
-                        $match = "Match";
-                        }else {
-                        $match = "Not Match";
+                        if($kuadran == 'core'){
+                        $core = 5;
+                        } else {
+                            $core = 0;
                         }
                         @endphp
-                        <th colspan="5" style="text-align:center">Profile Matching</th>
-                        <th>{{$match}}</th>
+                   <tr>
+                        <td colspan="5" style="text-align:center">Nilai Core Competencies</td>
+                        <td>{{$total2}}</td>
                    </tr>
             </tfoot>
         </table>
    
 </div>
+
+<div class="card-body">
+        <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kompetensi</th>
+                    <th>Profil Karyawan</th>
+                    <th>Profil Jabatan</th>
+                    <th>Gap</th>
+                    <th>Bobot Nilai Gap</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php $no = 1; @endphp
+                <div style="display: none">
+	            {{ $total = 0 }}
+                {{ $totalreq = 0 }}
+                {{ $totalhasil = 0 }}
+                {{ $kuadran = 0 }}
+                </div>
+                
+                @php $bobot = 0; @endphp
+                @php $gap = 0; @endphp
+                @php $match = 0; @endphp
+                @php $core = 0; @endphp
+
+                @foreach($cobaa as $a)
+                    <tr>    
+                    
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $a->kompetensi }}</td> 
+                    <td>{{$a->hasil }}</td>
+                    <td>{{ $a->req }}</td> 
+                        
+                        
+                        @php $gap = (float)($a->hasil - $a->req); @endphp
+                       
+                        <td>{{ $gap}}</td> 
+                        
+                        @php
+                        if($gap == '0'){
+                        $bobot = 5;
+                        } else if($gap == '1'){
+                        $bobot = 4.5;
+                        } else if($gap == '-1'){
+                        $bobot = 4;
+                        } else if($gap == '2'){
+                        $bobot = 3.5;
+                        } else if($gap == '-2'){
+                        $bobot = 3;
+                        }else if($gap == '3'){
+                        $bobot = 2.5;
+                        } else if($gap == '-3'){
+                        $bobot = 2;
+                        }else if($gap == '4'){
+                        $bobot = 1.5;
+                        } else if($gap == '-4'){
+                        $bobot = 1;
+                        }else {
+                        echo 'error';
+                        }
+                        @endphp
+                        <td>{{ $bobot}}</td> 
+                        <div style="display: none">{{$total += ($bobot) / 3}}</div>
+                        <div style="display: none">{{$totalreq += ($a->req)}}</div>
+                        <div style="display: none">{{$totalhasil += ($a->hasil)}}</div>
+                        <div style="display: none">{{$kuadran == ($a->kuadran)}}</div>
+                    </tr>   
+                @endforeach
+            </tbody>
+            <tfoot>
+                                
+                   @php
+                        if($kuadran == 'core'){
+                        $core = 5;
+                        } else {
+                            $core = 0;
+                        }
+                        @endphp
+                   
+                   <tr>
+                        <td colspan="5" style="text-align:center">Nilai Secondary Competencies</td>
+                        <td>{{$total}}</td>
+                   </tr>
+                   
+            </tfoot>
+        </table>
+        <br>
+        @php $totall = (60/100*$total2) + (40/100*$total); @endphp
+        <b> Hasil Akhir : {{ $totall }} </b> 
+        <br>
+        </div>
+       
+
             </div>  
                      </div>
             </div>
         </div>
+       
+
       
         <div class="content">
         <div class="clearfix"></div>
@@ -151,14 +246,14 @@
             <div class="col text-center" style="width: 100%;">
            
         
-        <div class="card-body">
+            <div class="card-body">
         <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>No</th>
                     <th>Kompetensi</th>
-                    <th>Job Requirement</th>
-                    <th>Hasil Assessment</th>
+                    <th>Profil Karyawan</th>
+                    <th>Profil Jabatan</th>
                     <th>Gap</th>
                     <th>Bobot Nilai Gap</th>
                 </tr>
@@ -167,21 +262,25 @@
                 @php $no = 1; @endphp
                 <div style="display: none">
 	            {{ $total = 0 }}
+                {{ $total2 = 0 }}
                 {{ $totalreq = 0 }}
                 {{ $totalhasil = 0 }}
+                {{ $kuadran = 0 }}
                 </div>
                 
                 @php $bobot = 0; @endphp
                 @php $gap = 0; @endphp
                 @php $match = 0; @endphp
+                @php $core = 0; @endphp
 
                 @foreach($coba2 as $a)
                     <tr>    
                     
                     <td>{{ $no++ }}</td>
                     <td>{{ $a->kompetensi }}</td> 
+                    <td>{{$a->hasil }}</td>
                     <td>{{ $a->req }}</td> 
-                        <td>{{$a->hasil }}</td>
+                        
                         
                         @php $gap = (float)($a->hasil - $a->req); @endphp
                        
@@ -214,37 +313,127 @@
                         <div style="display: none">{{$total += ($bobot)}}</div>
                         <div style="display: none">{{$totalreq += ($a->req)}}</div>
                         <div style="display: none">{{$totalhasil += ($a->hasil)}}</div>
+                        <div style="display: none">{{$kuadran == ($a->kuadran)}}</div>
+                        <div style="display: none">{{$total2 += ($bobot) / 24}}</div>
                     </tr>   
                 @endforeach
             </tbody>
             <tfoot>
-                                   
-                    <tr>
-                        <th colspan="2" style="text-align:center">Nilai Akhir</th>
-                        <th>{{$totalreq}}</th>
-                        <th>{{$totalhasil}}</th>
-                        <th>-</th>
-                        <th>{{$total}}</th>
-                   </tr>
-                   <tr>
                    @php
-                        if($total >= $totalreq){
-                        $match = "Match";
-                        }else {
-                        $match = "Not Match";
+                        if($kuadran == 'core'){
+                        $core = 5;
+                        } else {
+                            $core = 0;
                         }
                         @endphp
-                        <th colspan="5" style="text-align:center">Profile Matching</th>
-                        <th>{{$match}}</th>
+                   <tr>
+                        <td colspan="5" style="text-align:center">Nilai Core Competencies</td>
+                        <td>{{$total2}}</td>
                    </tr>
             </tfoot>
         </table>
    
 </div>
+
+<div class="card-body">
+        <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kompetensi</th>
+                    <th>Profil Karyawan</th>
+                    <th>Profil Jabatan</th>
+                    <th>Gap</th>
+                    <th>Bobot Nilai Gap</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php $no = 1; @endphp
+                <div style="display: none">
+	            {{ $total = 0 }}
+                {{ $totalreq = 0 }}
+                {{ $totalhasil = 0 }}
+                {{ $kuadran = 0 }}
+                </div>
+                
+                @php $bobot = 0; @endphp
+                @php $gap = 0; @endphp
+                @php $match = 0; @endphp
+                @php $core = 0; @endphp
+
+                @foreach($cobaa2 as $a)
+                    <tr>    
+                    
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $a->kompetensi }}</td> 
+                    <td>{{$a->hasil }}</td>
+                    <td>{{ $a->req }}</td> 
+                        
+                        
+                        @php $gap = (float)($a->hasil - $a->req); @endphp
+                       
+                        <td>{{ $gap}}</td> 
+                        
+                        @php
+                        if($gap == '0'){
+                        $bobot = 5;
+                        } else if($gap == '1'){
+                        $bobot = 4.5;
+                        } else if($gap == '-1'){
+                        $bobot = 4;
+                        } else if($gap == '2'){
+                        $bobot = 3.5;
+                        } else if($gap == '-2'){
+                        $bobot = 3;
+                        }else if($gap == '3'){
+                        $bobot = 2.5;
+                        } else if($gap == '-3'){
+                        $bobot = 2;
+                        }else if($gap == '4'){
+                        $bobot = 1.5;
+                        } else if($gap == '-4'){
+                        $bobot = 1;
+                        }else {
+                        echo 'error';
+                        }
+                        @endphp
+                        <td>{{ $bobot}}</td> 
+                        <div style="display: none">{{$total += ($bobot) / 3}}</div>
+                        <div style="display: none">{{$totalreq += ($a->req)}}</div>
+                        <div style="display: none">{{$totalhasil += ($a->hasil)}}</div>
+                        <div style="display: none">{{$kuadran == ($a->kuadran)}}</div>
+                    </tr>   
+                @endforeach
+            </tbody>
+            <tfoot>
+                                
+                   @php
+                        if($kuadran == 'core'){
+                        $core = 5;
+                        } else {
+                            $core = 0;
+                        }
+                        @endphp
+                   
+                   <tr>
+                        <td colspan="5" style="text-align:center">Nilai Secondary Competencies</td>
+                        <td>{{$total}}</td>
+                   </tr>
+                   
+            </tfoot>
+        </table>
+        <br>
+        @php $totall = (60/100*$total2) + (40/100*$total); @endphp
+        <b> Hasil Akhir : {{ $totall }} </b> 
+        <br>
+        </div>
+       
+
             </div>  
                      </div>
             </div>
         </div>
+       
 
 
         <div class="content">
@@ -269,8 +458,8 @@
                 <tr>
                     <th>No</th>
                     <th>Kompetensi</th>
-                    <th>Job Requirement</th>
-                    <th>Hasil Assessment</th>
+                    <th>Profil Karyawan</th>
+                    <th>Profil Jabatan</th>
                     <th>Gap</th>
                     <th>Bobot Nilai Gap</th>
                 </tr>
@@ -279,21 +468,25 @@
                 @php $no = 1; @endphp
                 <div style="display: none">
 	            {{ $total = 0 }}
+                {{ $total2 = 0 }}
                 {{ $totalreq = 0 }}
                 {{ $totalhasil = 0 }}
+                {{ $kuadran = 0 }}
                 </div>
                 
                 @php $bobot = 0; @endphp
                 @php $gap = 0; @endphp
                 @php $match = 0; @endphp
+                @php $core = 0; @endphp
 
                 @foreach($coba3 as $a)
                     <tr>    
                     
                     <td>{{ $no++ }}</td>
                     <td>{{ $a->kompetensi }}</td> 
+                    <td>{{$a->hasil }}</td>
                     <td>{{ $a->req }}</td> 
-                        <td>{{$a->hasil }}</td>
+                        
                         
                         @php $gap = (float)($a->hasil - $a->req); @endphp
                        
@@ -326,38 +519,129 @@
                         <div style="display: none">{{$total += ($bobot)}}</div>
                         <div style="display: none">{{$totalreq += ($a->req)}}</div>
                         <div style="display: none">{{$totalhasil += ($a->hasil)}}</div>
+                        <div style="display: none">{{$kuadran == ($a->kuadran)}}</div>
+                        <div style="display: none">{{$total2 += ($bobot) / 24}}</div>
                     </tr>   
                 @endforeach
             </tbody>
             <tfoot>
-                                   
-                    <tr>
-                        <th colspan="2" style="text-align:center">Nilai Akhir</th>
-                        <th>{{$totalreq}}</th>
-                        <th>{{$totalhasil}}</th>
-                        <th>-</th>
-                        <th>{{$total}}</th>
-                   </tr>
-                   <tr>
                    @php
-                        if($total >= $totalreq){
-                        $match = "Match";
-                        }else {
-                        $match = "Not Match";
+                        if($kuadran == 'core'){
+                        $core = 5;
+                        } else {
+                            $core = 0;
                         }
                         @endphp
-                        <th colspan="5" style="text-align:center">Profile Matching</th>
-                        <th>{{$match}}</th>
+                   <tr>
+                        <td colspan="5" style="text-align:center">Nilai Core Competencies</td>
+                        <td>{{$total2}}</td>
                    </tr>
             </tfoot>
         </table>
    
 </div>
+
+<div class="card-body">
+        <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Kompetensi</th>
+                    <th>Profil Karyawan</th>
+                    <th>Profil Jabatan</th>
+                    <th>Gap</th>
+                    <th>Bobot Nilai Gap</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php $no = 1; @endphp
+                <div style="display: none">
+	            {{ $total = 0 }}
+                {{ $totalreq = 0 }}
+                {{ $totalhasil = 0 }}
+                {{ $kuadran = 0 }}
+                </div>
+                
+                @php $bobot = 0; @endphp
+                @php $gap = 0; @endphp
+                @php $match = 0; @endphp
+                @php $core = 0; @endphp
+
+                @foreach($cobaa3 as $a)
+                    <tr>    
+                    
+                    <td>{{ $no++ }}</td>
+                    <td>{{ $a->kompetensi }}</td> 
+                    <td>{{$a->hasil }}</td>
+                    <td>{{ $a->req }}</td> 
+                        
+                        
+                        @php $gap = (float)($a->hasil - $a->req); @endphp
+                       
+                        <td>{{ $gap}}</td> 
+                        
+                        @php
+                        if($gap == '0'){
+                        $bobot = 5;
+                        } else if($gap == '1'){
+                        $bobot = 4.5;
+                        } else if($gap == '-1'){
+                        $bobot = 4;
+                        } else if($gap == '2'){
+                        $bobot = 3.5;
+                        } else if($gap == '-2'){
+                        $bobot = 3;
+                        }else if($gap == '3'){
+                        $bobot = 2.5;
+                        } else if($gap == '-3'){
+                        $bobot = 2;
+                        }else if($gap == '4'){
+                        $bobot = 1.5;
+                        } else if($gap == '-4'){
+                        $bobot = 1;
+                        }else {
+                        echo 'error';
+                        }
+                        @endphp
+                        <td>{{ $bobot}}</td> 
+                        <div style="display: none">{{$total += ($bobot) / 3}}</div>
+                        <div style="display: none">{{$totalreq += ($a->req)}}</div>
+                        <div style="display: none">{{$totalhasil += ($a->hasil)}}</div>
+                        <div style="display: none">{{$kuadran == ($a->kuadran)}}</div>
+                    </tr>   
+                @endforeach
+            </tbody>
+            <tfoot>
+                                
+                   @php
+                        if($kuadran == 'core'){
+                        $core = 5;
+                        } else {
+                            $core = 0;
+                        }
+                        @endphp
+                   
+                   <tr>
+                        <td colspan="5" style="text-align:center">Nilai Secondary Competencies</td>
+                        <td>{{$total}}</td>
+                   </tr>
+                   
+            </tfoot>
+        </table>
+        <br>
+        @php $totall = (60/100*$total2) + (40/100*$total); @endphp
+        <b> Hasil Akhir : {{ $totall }} </b> 
+        <br>
+        </div>
+       
+
             </div>  
                      </div>
             </div>
         </div>
        
+        
+
 @endsection
 
 @section('script')

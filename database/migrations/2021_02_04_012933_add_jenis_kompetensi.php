@@ -4,9 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDashboardPmsTable extends Migration
+class AddJenisKompetensi extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -14,9 +13,9 @@ class CreateDashboardPmsTable extends Migration
      */
     public function up()
     {
-        Schema::create('dashboard_pms', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+        Schema::table('competency', function($table) {
+            $table->string('kuadran')->after('code')->nullable();
+            
         });
     }
 
@@ -27,6 +26,8 @@ class CreateDashboardPmsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('dashboard_pms');
+        Schema::table('competency', function($table) {
+            $table->dropColumn('kuadran');
+        });
     }
 }
