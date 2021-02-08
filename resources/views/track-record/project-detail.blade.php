@@ -65,7 +65,7 @@
                         value="{{ $track_project->start_date }}" disabled >
                 </div>
 
-                @if ($track_project->status == "Selesai")
+                @if ($track_project->status == "Selesai" || $track_project->status == "Gagal")
                     <div class="form-group">
                     <label for="end_date">Tanggal Selesai</label>
                     <input type="text" name="end_date" id="end_date"

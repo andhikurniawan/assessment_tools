@@ -6,7 +6,11 @@
 
 @switch(session('permission'))
     @case('user')
-        @section('user', 'hidden')            
+        @section('user', 'hidden')
+        @section('superadmin', 'hidden')            
+        @section('admin', 'hidden')            
+        @section('admin_pm', 'hidden')            
+        @section('admin_ot', 'hidden')                   
         @break
     @case('admin_tnd')
     @section('superadmin', 'hidden')            

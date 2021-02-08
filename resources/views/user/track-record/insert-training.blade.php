@@ -102,7 +102,7 @@
                                          placeholder="Pilih File..." readonly>
                                     <input type="file" name="certificate" id="certificate" class="form-control" onchange="sub(this)"
                                         accept="image/png, image/jpeg" hidden>
-                                        @error('description')
+                                        @error('certificate')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                                 </div>
@@ -115,14 +115,14 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="link">Link Pelatihan</label>
-                                    <input type="url" name="link" id="link" class="form-control">
+                                    <input type="url" name="link" id="link" class="form-control" value="{{ old('link') }}">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="reason_associated_work">Keterkaitan Dengan Pekerjaan</label>
                             <textarea name="reason_associated_work" class="form-control @error('reason_associated_work') is-invalid @enderror" rows="5"
-                                placeholder="Alasan Pelatihan ini berkaitan dengan pekerjaan saat ini"></textarea>
+                                placeholder="Alasan Pelatihan ini berkaitan dengan pekerjaan saat ini">{{old('reason_associated_work')}}</textarea>
                                 @error('reason_associated_work')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
