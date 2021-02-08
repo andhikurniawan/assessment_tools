@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1721a5a54b626f074002a9e1d5e20d8a",
+    "content-hash": "d5af4566447841361af94c49e781329e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -7107,6 +7107,9 @@
             "autoload": {
                 "classmap": [
                     "src/"
+                ],
+                "files": [
+                    "src/Framework/Assert/Functions.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",

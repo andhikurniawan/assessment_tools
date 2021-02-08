@@ -57,4 +57,9 @@ class JobRequirement extends Model
     {
         return $this->belongsTo(JobTargets::class, 'job_target_id');
     }
+
+    public function Competency()
+    {
+        return $this->belongsTo(\App\Models\competency::class, 'competency_id');
+    }
 }

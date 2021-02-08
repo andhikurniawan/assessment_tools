@@ -19,11 +19,11 @@
             <table class="table table-striped">
                 <tr>
                     <th>Company</th>
-                    <td>Company Name</td>
+                    <td>{{ $jobRequirement->jobTarget->assessmentSession->company->name }}</td>
                 </tr>
                 <tr>
                     <th>Assessment Session</th>
-                    <td>Assessment</td>
+                    <td>{{ $jobRequirement->jobTarget->assessmentSession->name }}</td>
                 </tr>
                 <tr>
                     <th>Job Target</th>
@@ -31,7 +31,7 @@
                 </tr>
                 <tr>
                     <th>Competency Required</th>
-                    <td>Competency</td>
+                    <td>{{ $jobRequirement->competency->code }}</td>
                 </tr>
                 <tr>
                     <th>Skill Level</th>

@@ -157,6 +157,10 @@ class Assessment_SessionController extends AppBaseController
                         ->where("session_id", $id)
                         ->get();
         
+        $assignment = DB::table("assignment_headers")
+                        ->where("assessment_session_id", $id)
+                        ->get();
+
         $assesse = [];
 
         for($i = 0; $i < count($participant); $i++)
@@ -202,13 +206,17 @@ class Assessment_SessionController extends AppBaseController
             array_push($participants, $detail);
         }
 
+
+
         if (empty($session)) {
             Flash::error('Assessment Session not found');
 
             return redirect(route('assessmentSessions.index'));
         }
 
-        return view('assessment__sessions.show', compact("session", "models", "participants"));
+        
+
+        return view('assessment__sessions.show', compact("session", "models", "participants", "assignment"));
     }
 
     /**
@@ -440,5 +448,22 @@ class Assessment_SessionController extends AppBaseController
         $selected = Company::where('id', $id)->get()->first();
         $selected = $selected->id;
         return view('assessment__sessions.index', compact('assessmentSessions', 'company', 'selected', 'assessment_finished','assessment_notStarted','assessment_open','assessment_all'));
+    }
+
+    public function doAssignment($id)
+    {
+        $assessmentSession = $this->assessmentSessionRepository->find($id);
+
+        if (empty($assessmentSession)) {
+            Flash::error('Assessment Session not found');
+
+            return redirect(route('assessmentSessions.index'));
+        }
+        $headerId = $assessmentSession->doAssignment();
+        if ($headerId>0)
+            return redirect()->action(
+                'AssignmentHeaderController@show',['id'=>$headerId]
+            );
+        
     }
 }

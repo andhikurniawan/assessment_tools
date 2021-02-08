@@ -11,6 +11,8 @@ use Flash;
 use Response;
 use App\Models\JobTargets;
 use App\Models\JobRequirement;
+use App\Models\AssessmentSession;
+use App\Models\CompetencyModels;
 
 class JobRequirementController extends AppBaseController
 {
@@ -55,8 +57,17 @@ class JobRequirementController extends AppBaseController
     {
         $job_target_id = $request->get('job_target_id');
         $jobTarget = JobTargets::find($job_target_id);
+        $session_id = $jobTarget->assessmentSession->id;
+        $competencyModels = AssessmentSession::find($session_id)->competencyModels;
+        $items = array();
+        foreach ($competencyModels as $competencyModel) {
+            $competencies = CompetencyModels::find($competencyModel->id)->competencies;
+            foreach ($competencies as $competency) {
+                $items[$competency->id] = $competency->code.' - '.$competency->name;
+            }
+        }
 
-        return view('job_requirements.create', compact('job_target_id'));
+        return view('job_requirements.create', compact('job_target_id', 'items'));
     }
 
     /**
@@ -107,6 +118,15 @@ class JobRequirementController extends AppBaseController
     public function edit($id)
     {
         $jobRequirement = $this->jobRequirementRepository->find($id);
+        $session_id = $jobRequirement->jobTarget->assessmentSession->id;
+        $competencyModels = AssessmentSession::find($session_id)->competencyModels;
+        $items = array();
+        foreach ($competencyModels as $competencyModel) {
+            $competencies = CompetencyModels::find($competencyModel->id)->competencies;
+            foreach ($competencies as $competency) {
+                $items[$competency->id] = $competency->code.' - '.$competency->name;
+            }
+        }
 
         if (empty($jobRequirement)) {
             Flash::error('Job Requirement not found');
@@ -114,7 +134,7 @@ class JobRequirementController extends AppBaseController
             return redirect(route('jobRequirements.index'));
         }
 
-        return view('job_requirements.edit', compact('jobRequirement'));
+        return view('job_requirements.edit', compact('jobRequirement','items'));
     }
 
     /**

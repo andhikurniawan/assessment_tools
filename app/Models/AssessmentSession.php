@@ -129,7 +129,7 @@ class AssessmentSession extends Model
 
     public function competencyModels()
     {
-        return $this->belongsToMany('App\Models\CompetencyModel', 'assessment_relation', 'assessment_session_id', 'competency_models_id');
+        return $this->belongsToMany('App\Models\CompetencyModels', 'assessment_relation', 'assessment_session_id', 'competency_models_id');
     }
 
     public function getListStatus()
@@ -139,7 +139,7 @@ class AssessmentSession extends Model
 
     public function doAssignment($mode='')
     {
-        $ortoolsLib = "../or-tools_VisualStudio2019-64bit_v8.1.8487/lib";
+        $ortoolsLib = "../or-tools_Ubuntu-18.04-64bit_v7.4.7247/lib";
         $myId = $this->id;
         $classpath = $ortoolsLib."/com.google.ortools.jar".":".$ortoolsLib."/protobuf.jar".":../simpleOR";
         $params = "-cp $classpath -Djava.library.path=$ortoolsLib TeamAssignmentCase B ".$myId;

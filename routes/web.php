@@ -68,6 +68,8 @@ Route::get('result/company/{id}', 'resultController@empCompany');
 Route::post("result/detail", "resultController@detail")->name("result.detail")->middleware("auth");
 Route::post("result/detail/laporan", "resultController@laporan")->name("result/detail/laporan")->middleware("auth");
 Route::get('/logout', 'HomeController@logout')->middleware('verified');
+
+Route::get('/assessmentSessions/{id}/doAssignment', 'AssessmentSessionController@doAssignment')->name('assessmentSession.doAssignment');
 /*End Modul Assessment*/
 
 Route::get('/training/dashboard', 'TrainingController@dashboard');
@@ -127,6 +129,12 @@ Route::resource('competencies', 'CompetencyController');
 Route::resource('keyBehaviours', 'Key_BehaviourController');
 Route::resource('competencyModels', 'Competency_ModelController');
 Route::resource('gapAnalyses', 'Gap_AnalysisController');
+Route::resource('company', 'CompanyController');
+Route::resource('role', 'RoleController');
+
+Route::resource('assignmentResults', 'AssignmentResultController');
+
+Route::resource('assignmentHeaders', 'AssignmentHeaderController');
 Route::get('competencyGroups/company/{id}', 'Competency_GroupController@empCompany');
 Route::get('competency/company/{id}', 'CompetencyController@empCompany');
 Route::get('competencyModels/company/{id}', 'Competency_ModelController@empCompany');
