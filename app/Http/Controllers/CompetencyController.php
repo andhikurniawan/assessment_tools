@@ -67,7 +67,8 @@ class CompetencyController extends AppBaseController
                 $competencies = Competency::join('competency_group', 'competency.competency_group_id', 
                 '=', 'competency_group.id')
                 ->where('competency_group.company_id', Auth::user()->company_id)
-                ->select('competency.*')->get();
+                ->select('competency.*')
+                ->get();
     
                 $company_id = Auth::user()->company_id;
                 if ($company_id == null) {
