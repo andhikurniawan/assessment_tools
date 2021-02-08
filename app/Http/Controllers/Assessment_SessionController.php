@@ -14,6 +14,7 @@ use DB;
 use Session;
 use App\Models\Company;
 use App\Models\Assessment_Session;
+use App\Models\AssessmentSession;
 use Auth;
 use stdClass;
 use App\User;
@@ -452,7 +453,8 @@ class Assessment_SessionController extends AppBaseController
 
     public function doAssignment($id)
     {
-        $assessmentSession = $this->assessmentSessionRepository->find($id);
+        // $assessmentSession = $this->assessmentSessionRepository->find($id);
+        $assessmentSession = AssessmentSession::find($id);
 
         if (empty($assessmentSession)) {
             Flash::error('Assessment Session not found');

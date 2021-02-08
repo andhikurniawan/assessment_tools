@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Models\JobTarget;
-use App\Models\AssessmentCompetencyResults;
+use App\Models\JobTargets;
+use app\AssessmentCompetencyResults;
 /**
  * Class AssessmentSession
  * @package App\Models
@@ -100,7 +100,7 @@ class AssessmentSession extends Model
      **/
     public function assessmentCompetencyResults()
     {
-        return $this->hasMany(\App\Models\AssessmentCompetencyResult::class, 'session_id');
+        return $this->hasMany(\App\AssessmentCompetencyResults::class, 'session_id');
     }
 
     /**
@@ -139,9 +139,9 @@ class AssessmentSession extends Model
 
     public function doAssignment($mode='')
     {
-        $ortoolsLib = "../or-tools_Ubuntu-18.04-64bit_v7.4.7247/lib";
+        $ortoolsLib = "/or-tools/lib";
         $myId = $this->id;
-        $classpath = $ortoolsLib."/com.google.ortools.jar".":".$ortoolsLib."/protobuf.jar".":../simpleOR";
+        $classpath = $ortoolsLib."/com.google.ortools.jar".":".$ortoolsLib."/protobuf.jar";
         $params = "-cp $classpath -Djava.library.path=$ortoolsLib TeamAssignmentCase B ".$myId;
         $persons_handle = fopen($myId."_persons.in","w");
         $results = $this->assessmentCompetencyResults;
@@ -179,7 +179,7 @@ class AssessmentSession extends Model
 
         // Bagian Job Target
         $jobs_handle = fopen($myId."_jobs.in","w");
-        $jobTargets = JobTarget::where('assessment_session_id',$myId)->get();
+        $jobTargets = JobTargets::where('assessment_session_id',$myId)->get();
         fwrite($jobs_handle,count($jobTargets));
         fwrite($jobs_handle,"\n");
         $totalPos=0;
@@ -213,7 +213,9 @@ class AssessmentSession extends Model
         
         $outlines=array();
         $cmdline = "java $params";
-        dd($outlines);
+        // dd($outlines);
+        // $a = exec($cmdline);
+        // dd($a);
         exec($cmdline,$outlines);
         if (count($outlines)>=3)
         {
