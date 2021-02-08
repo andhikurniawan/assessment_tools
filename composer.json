@@ -61,8 +61,7 @@
         ]
     },
     "require-dev": {
-        "behat/mink": "dev-master",
         "laravel/dusk": "^6.11",
-        "phpunit/phpunit": "9"
+        "phpunit/phpunit": "^9"
     }
 }

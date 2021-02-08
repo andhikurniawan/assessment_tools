@@ -1,25 +1,28 @@
 <div>
-
-<h2> Detail Kompetensi / {{ $competency->name }} ({{ $competency->code }})</h2>
-<p>{{ $competency->description }}. Kompetensi {{ $competency->name }} adalah tipe <b>{{ $competency->type }}</b>
-yang termasuk kedalam grup <b>{{ $competency->competencyGroup['name'] }}</b></p>
-</div>
 <br>
-<h3>
-<img src="https://icon-library.com/images/notepad-icon-png/notepad-icon-png-27.jpg" width="30" height="30" class="d-inline-block align-top"
-class="user-image" alt="User Image"/>
-<span class="hidden-xs" style="margin-left: 5px">Job Target</span> </h3>
-{{ $job->job_name }} 
+<h2> Detail Kompetensi / {{ $competency->name }} ({{ $competency->code }})</h2>
+<p>{{ $competency->description }}. Kompetensi {{ $competency->name }} termasuk 
+kedalam <b>{{ $competency->jenis }} competency</b> dengan tipe <b>{{ $competency->type }}</b>
+dan termasuk kedalam grup <b>{{ $competency->competencyGroup['name'] }}.</b></p>
+</div>
+<hr><br>
+<h4><b>Job Target</b></h4>
+@foreach($req as $j)
+{{ $j->job }}, 
+@endforeach
+<hr><br>
 
-<br><br>
-<h3>
-<img src="https://www.materialui.co/materialIcons/communication/vpn_key_black_192x192.png" width="30" height="30" class="d-inline-block align-top" 
-class="user-image" alt="User Image"/>
-<span class="hidden-xs" style="margin-left: 5px">Key Behaviour</span> <span><a class="btn btn-success" style="margin-left: 5px" href="{{ route('keyBehaviours.create') }}">Add New</a></span></h3>
-@include('competencies.behaviour')                           
-
-<h3> Pertanyaan Assessment </h3>
+<h4> <b>Pertanyaan Assessment </b></h4>
 <p>{{ $competency->question }}</p>
+
+<hr><br>
+<h4>
+<img src="https://www.materialui.co/materialIcons/communication/vpn_key_black_192x192.png" width="24" height="24" class="d-inline-block align-top" 
+class="user-image" alt="User Image"/>
+<span class="hidden-xs" style="margin-left: 5px"><b>Key Behaviour</b></span> </h4>
+@include('competencies.behaviour')    
+                  
+
 
 <br>
 
@@ -30,3 +33,12 @@ class="user-image" alt="User Image"/>
 </div>
 
 
+@section('script')
+ <!-- Page level plugins -->
+ <script src="{{ asset('style/vendor/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('style/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="{{ asset('style/js/demo/datatables-demo.js') }}"></script>
+
+    @endsection
