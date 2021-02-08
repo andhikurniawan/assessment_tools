@@ -59,7 +59,7 @@
                 {{ $total2 = 0 }}
                 {{ $totalreq = 0 }}
                 {{ $totalhasil = 0 }}
-                {{ $kuadran = 0 }}
+                {{ $jenis = 0 }}
                 </div>
                 
                 @php $bobot = 0; @endphp
@@ -107,14 +107,14 @@
                         <div style="display: none">{{$total += ($bobot)}}</div>
                         <div style="display: none">{{$totalreq += ($a->req)}}</div>
                         <div style="display: none">{{$totalhasil += ($a->hasil)}}</div>
-                        <div style="display: none">{{$kuadran == ($a->kuadran)}}</div>
+                        <div style="display: none">{{$jenis == ($a->jenis)}}</div>
                         <div style="display: none">{{$total2 += ($bobot) / 24}}</div>
                     </tr>   
                 @endforeach
             </tbody>
             <tfoot>
                    @php
-                        if($kuadran == 'core'){
+                        if($jenis == 'core'){
                         $core = 5;
                         } else {
                             $core = 0;
@@ -147,7 +147,7 @@
 	            {{ $total = 0 }}
                 {{ $totalreq = 0 }}
                 {{ $totalhasil = 0 }}
-                {{ $kuadran = 0 }}
+                {{ $jenis = 0 }}
                 </div>
                 
                 @php $bobot = 0; @endphp
@@ -195,14 +195,14 @@
                         <div style="display: none">{{$total += ($bobot) / 3}}</div>
                         <div style="display: none">{{$totalreq += ($a->req)}}</div>
                         <div style="display: none">{{$totalhasil += ($a->hasil)}}</div>
-                        <div style="display: none">{{$kuadran == ($a->kuadran)}}</div>
+                        <div style="display: none">{{$jenis == ($a->jenis)}}</div>
                     </tr>   
                 @endforeach
             </tbody>
             <tfoot>
                                 
                    @php
-                        if($kuadran == 'core'){
+                        if($jenis == 'core'){
                         $core = 5;
                         } else {
                             $core = 0;
@@ -265,7 +265,7 @@
                 {{ $total2 = 0 }}
                 {{ $totalreq = 0 }}
                 {{ $totalhasil = 0 }}
-                {{ $kuadran = 0 }}
+                {{ $jenis = 0 }}
                 </div>
                 
                 @php $bobot = 0; @endphp
@@ -313,14 +313,14 @@
                         <div style="display: none">{{$total += ($bobot)}}</div>
                         <div style="display: none">{{$totalreq += ($a->req)}}</div>
                         <div style="display: none">{{$totalhasil += ($a->hasil)}}</div>
-                        <div style="display: none">{{$kuadran == ($a->kuadran)}}</div>
+                        <div style="display: none">{{$jenis == ($a->jenis)}}</div>
                         <div style="display: none">{{$total2 += ($bobot) / 24}}</div>
                     </tr>   
                 @endforeach
             </tbody>
             <tfoot>
                    @php
-                        if($kuadran == 'core'){
+                        if($jenis == 'core'){
                         $core = 5;
                         } else {
                             $core = 0;
@@ -353,7 +353,7 @@
 	            {{ $total = 0 }}
                 {{ $totalreq = 0 }}
                 {{ $totalhasil = 0 }}
-                {{ $kuadran = 0 }}
+                {{ $jenis = 0 }}
                 </div>
                 
                 @php $bobot = 0; @endphp
@@ -401,14 +401,14 @@
                         <div style="display: none">{{$total += ($bobot) / 3}}</div>
                         <div style="display: none">{{$totalreq += ($a->req)}}</div>
                         <div style="display: none">{{$totalhasil += ($a->hasil)}}</div>
-                        <div style="display: none">{{$kuadran == ($a->kuadran)}}</div>
+                        <div style="display: none">{{$jenis == ($a->jenis)}}</div>
                     </tr>   
                 @endforeach
             </tbody>
             <tfoot>
                                 
                    @php
-                        if($kuadran == 'core'){
+                        if($jenis == 'core'){
                         $core = 5;
                         } else {
                             $core = 0;
@@ -471,7 +471,7 @@
                 {{ $total2 = 0 }}
                 {{ $totalreq = 0 }}
                 {{ $totalhasil = 0 }}
-                {{ $kuadran = 0 }}
+                {{ $jenis = 0 }}
                 </div>
                 
                 @php $bobot = 0; @endphp
@@ -519,14 +519,14 @@
                         <div style="display: none">{{$total += ($bobot)}}</div>
                         <div style="display: none">{{$totalreq += ($a->req)}}</div>
                         <div style="display: none">{{$totalhasil += ($a->hasil)}}</div>
-                        <div style="display: none">{{$kuadran == ($a->kuadran)}}</div>
+                        <div style="display: none">{{$jenis == ($a->jenis)}}</div>
                         <div style="display: none">{{$total2 += ($bobot) / 24}}</div>
                     </tr>   
                 @endforeach
             </tbody>
             <tfoot>
                    @php
-                        if($kuadran == 'core'){
+                        if($jenis == 'core'){
                         $core = 5;
                         } else {
                             $core = 0;
@@ -559,7 +559,7 @@
 	            {{ $total = 0 }}
                 {{ $totalreq = 0 }}
                 {{ $totalhasil = 0 }}
-                {{ $kuadran = 0 }}
+                {{ $jenis = 0 }}
                 </div>
                 
                 @php $bobot = 0; @endphp
@@ -607,14 +607,14 @@
                         <div style="display: none">{{$total += ($bobot) / 3}}</div>
                         <div style="display: none">{{$totalreq += ($a->req)}}</div>
                         <div style="display: none">{{$totalhasil += ($a->hasil)}}</div>
-                        <div style="display: none">{{$kuadran == ($a->kuadran)}}</div>
+                        <div style="display: none">{{$jenis == ($a->jenis)}}</div>
                     </tr>   
                 @endforeach
             </tbody>
             <tfoot>
                                 
                    @php
-                        if($kuadran == 'core'){
+                        if($jenis == 'core'){
                         $core = 5;
                         } else {
                             $core = 0;

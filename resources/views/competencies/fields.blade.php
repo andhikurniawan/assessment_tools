@@ -25,6 +25,8 @@
     {!! Form::label('status', 'Status:') !!}
     {!! Form::select('status', array('public' => 'Public', 'private' => 'Private'), null, ['class' => 'form-control']) !!}
 </div>
+
+
             </div>
         </div>
         <div class="col-sm-auto">
@@ -56,6 +58,10 @@
     {!! Form::textarea('question', null, ['class' => 'form-control']) !!}
 </div>
 
+<div class="form-group col-sm-12">
+    {!! Form::label('jenis', 'Jenis:') !!}
+    {!! Form::select('jenis', array('core' => 'Kompetensi Utama', 'secondary' => 'Kompetensi Pendukung'), null, ['class' => 'form-control']) !!}
+</div>
 
                 
             </div>

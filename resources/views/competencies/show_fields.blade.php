@@ -1,8 +1,9 @@
 <div>
 <br>
 <h2> Detail Kompetensi / {{ $competency->name }} ({{ $competency->code }})</h2>
-<p>{{ $competency->description }}. Kompetensi {{ $competency->name }} adalah kompetensi dengan tipe <b>{{ $competency->type }}</b>
-yang termasuk kedalam grup <b>{{ $competency->competencyGroup['name'] }}.</b></p>
+<p>{{ $competency->description }}. Kompetensi {{ $competency->name }} termasuk 
+kedalam <b>{{ $competency->jenis }} competency</b> dengan tipe <b>{{ $competency->type }}</b>
+dan termasuk kedalam grup <b>{{ $competency->competencyGroup['name'] }}.</b></p>
 </div>
 <hr><br>
 <h4><b>Job Target</b></h4>

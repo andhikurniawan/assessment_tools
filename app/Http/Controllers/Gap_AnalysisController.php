@@ -361,68 +361,68 @@ class Gap_AnalysisController extends AppBaseController
            
            
             $job_name = 'Project Manager';
-            $kuadran = 'core';
+            $jenis = 'core';
             $coba = DB::select('SELECT DISTINCT c.name as 
-            `kompetensi`, c.kuadran as `kuadran`, b.skill_level as `req`, 
+            `kompetensi`, c.jenis as `jenis`, b.skill_level as `req`, 
             a.modus_level as `hasil` FROM assessment_competency_result a, 
             job_requirement b, competency c, job_target d WHERE 
             a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.' 
-            AND c.id = a.competency_id AND c.kuadran = "'.$kuadran.'" 
+            AND c.id = a.competency_id AND c.jenis = "'.$jenis.'" 
             AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
             d.job_name = "'.$job_name.'" AND b.job_target_id = d.id');
 
             $job_name = 'Project Manager';
-            $kuadran2 = 'secondary';
+            $jenis2 = 'secondary';
             $cobaa = DB::select('SELECT DISTINCT c.name as 
-            `kompetensi`, c.kuadran as `kuadran`, b.skill_level as `req`, 
+            `kompetensi`, c.jenis as `jenis`, b.skill_level as `req`, 
             a.modus_level as `hasil` FROM assessment_competency_result a, 
             job_requirement b, competency c, job_target d WHERE 
             a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.' 
-            AND c.id = a.competency_id AND c.kuadran = "'.$kuadran2.'" 
+            AND c.id = a.competency_id AND c.jenis = "'.$jenis2.'" 
             AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
             d.job_name = "'.$job_name.'" AND b.job_target_id = d.id');
 
             $job_name2 = 'Programmer';
-            $kuadran = 'core';
+            $jenis = 'core';
             $coba2 = DB::select('SELECT DISTINCT c.name as 
-            `kompetensi`, c.kuadran as `kuadran`, b.skill_level as `req`, 
+            `kompetensi`, c.jenis as `jenis`, b.skill_level as `req`, 
             a.modus_level as `hasil` FROM assessment_competency_result a, 
             job_requirement b, competency c, job_target d WHERE 
             a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.' 
-            AND c.id = a.competency_id AND c.kuadran = "'.$kuadran.'" 
+            AND c.id = a.competency_id AND c.jenis = "'.$jenis.'" 
             AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
             d.job_name = "'.$job_name2.'" AND b.job_target_id = d.id');
 
             $job_name2 = 'Programmer';
-            $kuadran2 = 'secondary';
+            $jenis2 = 'secondary';
             $cobaa2 = DB::select('SELECT DISTINCT c.name as 
-            `kompetensi`, c.kuadran as `kuadran`, b.skill_level as `req`, 
+            `kompetensi`, c.jenis as `jenis`, b.skill_level as `req`, 
             a.modus_level as `hasil` FROM assessment_competency_result a, 
             job_requirement b, competency c, job_target d WHERE 
             a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.' 
-            AND c.id = a.competency_id AND c.kuadran = "'.$kuadran2.'" 
+            AND c.id = a.competency_id AND c.jenis = "'.$jenis2.'" 
             AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
             d.job_name = "'.$job_name2.'" AND b.job_target_id = d.id');
 
             $job_name3 = 'Analis';
-            $kuadran = 'core';
+            $jenis = 'core';
             $coba3 = DB::select('SELECT DISTINCT c.name as 
-            `kompetensi`, c.kuadran as `kuadran`, b.skill_level as `req`, 
+            `kompetensi`, c.jenis as `jenis`, b.skill_level as `req`, 
             a.modus_level as `hasil` FROM assessment_competency_result a, 
             job_requirement b, competency c, job_target d WHERE 
             a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.'
-            AND c.id = a.competency_id AND c.kuadran = "'.$kuadran.'"  
+            AND c.id = a.competency_id AND c.jenis = "'.$jenis.'"  
             AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
             d.job_name = "'.$job_name3.'" AND b.job_target_id = d.id');
 
             $job_name3 = 'Analis';
-            $kuadran2 = 'secondary';
+            $jenis2 = 'secondary';
             $cobaa3 = DB::select('SELECT DISTINCT c.name as 
-            `kompetensi`, c.kuadran as `kuadran`, b.skill_level as `req`, 
+            `kompetensi`, c.jenis as `jenis`, b.skill_level as `req`, 
             a.modus_level as `hasil` FROM assessment_competency_result a, 
             job_requirement b, competency c, job_target d WHERE 
             a.competency_id = b.competency_id AND userid_assessee = '.$assesse_id.'
-            AND c.id = a.competency_id AND c.kuadran = "'.$kuadran2.'"  
+            AND c.id = a.competency_id AND c.jenis = "'.$jenis2.'"  
             AND c.id = a.competency_id AND a.session_id = '.$session_id.' AND 
             d.job_name = "'.$job_name3.'" AND b.job_target_id = d.id');
           
