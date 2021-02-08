@@ -37,15 +37,14 @@ class TrainingController extends Controller
     {
         $user_company = Auth::user()->company_id;
         if ($user_company == null) {
-            $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->distinct()->get();
+            $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id', 'assessment_session.id as session_id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->distinct()->get();
         $employee = DB::table('user')->join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->where('user_role.role_id', '=', 'user')->get();
             $training = Training::all();
         } else {
-            $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->where('user.company_id',$user_company)->distinct()->get();
+            $assessment_result = DB::table('assessment_competency_result')->select('user.name as user_name', 'assessment_session.name as assessment_name', 'user.id', 'assessment_session.id as session_id')->join('user', 'assessment_competency_result.userid_assessee', '=', 'user.id', 'inner')->join('assessment_session', 'assessment_competency_result.session_id', '=', 'assessment_session.id')->where('user.company_id',$user_company)->distinct()->get();
         $employee = DB::table('user')->join('user_role', 'user.id', '=', 'user_role.user_id', 'inner')->where('user_role.role_id', '=', 'user')->where('user.company_id',$user_company)->get();
             $training = Training::where('company_id',$user_company)->get();
         }
-        
         return view('training.create')->with('assessment_result', $assessment_result)->with('employee', $employee)->with('training', $training);
     }
 
@@ -201,11 +200,19 @@ class TrainingController extends Controller
     public function dashboard()
     {
         $company_id = Auth::user()->company_id;
-        $assessment_session_count = DB::table('assessment_session')->select('status')->where('status','finished')->where('company_id',$company_id)->count();
-        $training_recommnedation_count = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->where('user.company_id', $company_id)->count();
-        $track_record_count = Track_training_emp::where('status', '=', 'Menunggu')->count();
-        $success_count = Track_project_emp::where('status', '=', 'Selesai')->count();
-        $failed_count = Track_project_emp::where('status', '=', 'Gagal')->count();
+        if($company_id == null){
+            $assessment_session_count = DB::table('assessment_session')->select('status')->where('status','finished')->count();
+            $training_recommnedation_count = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->count();
+            $track_record_count = Track_training_emp::where('status', '=', 'Menunggu')->count();
+            $success_count = Track_project_emp::where('status', '=', 'Selesai')->count();
+            $failed_count = Track_project_emp::where('status', '=', 'Gagal')->count();
+        } else {
+            $assessment_session_count = DB::table('assessment_session')->select('status')->where('status','finished')->where('company_id',$company_id)->count();
+            $training_recommnedation_count = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->where('user.company_id', $company_id)->count();
+            $track_record_count = Track_training_emp::join('user', 'user.id', '=', 'track_training_emps.user_id')->where('status', '=', 'Menunggu')->where('user.company_id','=',$company_id)->count();
+            $success_count = Track_project_emp::join('user', 'user.id', '=', 'track_project_emps.user_id')->where('status', '=', 'Selesai')->where('user.company_id','=',$company_id)->count();
+            $failed_count = Track_project_emp::join('user', 'user.id', '=', 'track_project_emps.user_id')->where('status', '=', 'Gagal')->where('user.company_id','=',$company_id)->count();
+        }
 
         return view('training.index')->with([
             'assessment_count' => $assessment_session_count,
@@ -255,7 +262,12 @@ class TrainingController extends Controller
             $competency = Competency::all();
         } else {
             $company = Company::where('id', $user_company)->get();
-            $competency = Competency::join('competency_group', 'competency.competency_group_id', '=', 'competency_group.id')->where('competency_group.company_id', $user_company)->select('competency.*')->get();
+            $competency = DB::table('assessment_relation')->join('assessment_session', 'assessment_relation.assessment_session_id', '=', 'assessment_session.id')
+            ->join('competency_relation', 'assessment_relation.competency_models_id', '=', 'competency_relation.competency_models_id')
+            ->rightJoin('competency', 'competency.id', '=', 'competency_relation.competency_id')
+            ->rightJoin('competency_group', 'competency.competency_group_id', '=', 'competency_group.id')
+            ->where('competency_group.company_id', '=', $user_company)->orWhere('assessment_session.company_id', '=', $user_company)
+            ->select('competency.id', 'competency.name')->distinct()->get();
         }
         return view('training.create_master', compact('competency', 'company'));
     }

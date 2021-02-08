@@ -21,6 +21,7 @@ class CompetencyRepository extends BaseRepository
         'code',
         'question',
         'competencygroup_id',
+        'status',
         'type',
         'number_keybehaviour'
     ];

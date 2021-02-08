@@ -32,7 +32,7 @@ class Key_Behaviour extends Model
         'level',
         'description',
         'competency_id',
-        'indicator'
+     
     ];
 
     /**
@@ -42,10 +42,10 @@ class Key_Behaviour extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'level' => 'string',
+        'level' => 'integer',
         'description' => 'string',
         'competency_id' => 'integer',
-        'indicator' => 'string'
+       
     ];
 
     /**

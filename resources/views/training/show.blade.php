@@ -38,7 +38,7 @@
                <table class="table table-borderless">
                    <tbody>
                        <tr>
-                           <th>Perusahaan Pegawai</th>
+                           <th>Perusahaan</th>
                            <td>{{ $company->name}}</td>
                        </tr>
                        <tr>
