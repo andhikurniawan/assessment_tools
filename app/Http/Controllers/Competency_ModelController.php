@@ -12,6 +12,9 @@ use Response;
 use App\Models\Competency_Relation;
 use App\Models\Competency;
 use App\Models\Company;
+use App\Models\Competency_Model;
+use DB;
+use Auth;
 
 class Competency_ModelController extends AppBaseController
 {
@@ -32,10 +35,58 @@ class Competency_ModelController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $competencyModels = $this->competencyModelRepository->all();
+        $id = Auth::user()->id;
+        $role = DB::table("user_role")
+        ->where("user_id", $id)
+        ->select("role_id")
+        ->first();
+     
 
-        return view('competency__models.index')
-            ->with('competencyModels', $competencyModels);
+        if($role->role_id == "superadmin" )
+        {
+            $competencyModels = $this->competencyModelRepository->all();
+
+            $company_id = Auth::user()->company_id;
+            if ($company_id == null) {
+                $company = Company::all();
+                $selected = "";
+            } else {
+                $company = Company::where('id', $company_id)->get()->first();
+                $selected = $company->id;
+            }
+            return view('competency__models.index', compact("competencyModels","company","selected"));
+      
+        }
+        else if($role->role_id == "admin_pm" || $role->role_id == "admin")
+        {   
+            $competencyModels = Competency_Model::where('company_id', Auth::user()->company_id)
+            ->get();
+
+            $company_id = Auth::user()->company_id;
+            if ($company_id == null) {
+                $company = Company::all();
+                $selected = "";
+            } else {
+                $company = Company::where('id', $company_id)->get()->first();
+                $selected = $company->id;
+            }
+            return view('competency__models.index', compact("competencyModels","company","selected"));
+      
+        }
+      
+      
+
+      
+       
+    }
+
+    public function empCompany($id)
+    {
+        $competencyModels = Competency_Model::where('company_id', $id)->get();
+        $company = Company::all();
+        $selected = Company::where('id', $id)->get()->first();
+        $selected = $selected->id;
+        return view('competency__models.index', compact('competencyModels', 'company', 'selected'));
     }
 
 
@@ -46,9 +97,21 @@ class Competency_ModelController extends AppBaseController
      */
     public function create()
     {
-        $companies = Company::all()->pluck('name','id');
-        $competencies = Competency::all()->pluck('name','id');
-        return view('competency__models.create', compact('companies', 'competencies'));
+
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $company = Company::all()->pluck('name', 'id');
+            $competency = Competency::all();
+        } else {
+            $company = Company::where('id', $user_company)->pluck('name', 'id');
+            $competency = Competency::join('competency_group', 'competency.competency_group_id', '=', 'competency_group.id')
+            ->where('competency_group.company_id', $user_company)->select('competency.*')->get();
+        }
+        return view('competency__models.create', compact('competency', 'company'));
+
+     
+
+       
     }
 
     /**
@@ -80,7 +143,6 @@ class Competency_ModelController extends AppBaseController
     public function show($id)
     {
         $competencyModel = $this->competencyModelRepository->find($id);
-        $competencyRelation = Competency_Relation::all()->where('competency_models_id', $id);
 
         if (empty($competencyModel)) {
             Flash::error('Competency Model not found');
@@ -88,8 +150,20 @@ class Competency_ModelController extends AppBaseController
             return redirect(route('competencyModels.index'));
         }
 
-        return view('competency__models.show', compact('competencyModel','competencyRelation'));
+      
+        $competencies = DB::table('competency')
+                        ->where('status', 'public')
+                        ->orWhere('status', '')
+                        ->orWhere('status', null)
+                        ->select(array('id','code','name'))
+                        ->get();
+        $items = array();
 
+        foreach ($competencies as $competency) {
+            $items[$competency->id] = $competency->code.' - '.$competency->name;
+        }
+
+        return view('competency__models.show', compact('competencyModel','items', 'competencies'));
     }
 
 
@@ -102,20 +176,20 @@ class Competency_ModelController extends AppBaseController
      */
     public function edit($id)
     {
-        $companies = Company::all()->pluck('name','id');
-        $competencies = Competency::all()->pluck('name','id');
         $competencyModel = $this->competencyModelRepository->find($id);
-
-        if (empty($competencyModel)) {
-            Flash::error('Competency  Model not found');
-
-            return redirect(route('competencyModels.index'));
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $company = Company::all()->pluck('name', 'id');
+            $competency = Competency::all();
+        } else {
+            $company = Company::where('id', $user_company)->pluck('name', 'id');
+            $competency = Competency::join('competency_group', 'competency.competency_group_id', 
+            '=', 'competency_group.id')->where('competency_group.company_id', $user_company)
+            ->select('competency.*')->get();
         }
-
-       
-        return view('competency__models.edit', compact('competencyModel', 'companies', 'competencies'));
+      
+        return view('competency__models.edit', compact('competencyModel', 'company', 'competency'));
         
-       
     }
 
     /**
@@ -168,4 +242,10 @@ class Competency_ModelController extends AppBaseController
 
         return redirect(route('competencyModels.index'));
     }
+
+ 
+  
+
+
+
 }

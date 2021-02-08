@@ -1,18 +1,33 @@
-@extends('layouts.app')
+@extends('main')
+
+@section('title', 'Tambah Key Behaviour')
+@section('kompetensi', 'active')
+@switch(session('permission'))
+    @case('admin_pm')           
+        @section('admin', 'hidden')            
+        @section('admin_tnd', 'hidden')            
+        @section('admin_ap', 'hidden')            
+        @section('admin_ot', 'hidden')            
+        @break
+    @case('admin')
+        @section('superadmin', 'hidden')                
+            @break
+    @default
+
+@endswitch
 
 @section('content')
     <section class="content-header">
-    <div class ="container">
-        <h3>
+  
+        <h4>
             Edit Key Behaviour <br>  
-        </h3>
-   </section>
+        </h4>
+    </section>
    <div class="content">
        @include('adminlte-templates::common.errors')
-       <div class="form-group col-sm-12">
        <div class="box box-success">
-           <div class="box-body">
-               <div class="row">
+        <div class="card shadow mb-4">
+        <div class="card-body">
                    {!! Form::model($keyBehaviour, ['route' => ['keyBehaviours.update', $keyBehaviour->id], 'method' => 'patch']) !!}
 
                         @include('key__behaviours.fields')
@@ -22,6 +37,5 @@
             </div>
         </div>
         </div>
-    </div>
-    </div>
+    
 @endsection

@@ -74,6 +74,11 @@ class Company extends Model
     {
         return $this->hasMany(Competency_Group::class);
     }
+
+    public function competencyModels()
+    {
+        return $this->hasMany(Competency_Model::class);
+    }
         
     
 }

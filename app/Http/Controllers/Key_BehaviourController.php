@@ -10,6 +10,11 @@ use Illuminate\Http\Request;
 use App\Models\Key_Behaviour;
 use Flash;
 use Response;
+use App\Models\Competency;
+use App\Models\Company;
+use App\Models\Competency_Model;
+use DB;
+use Auth;
 
 class Key_BehaviourController extends AppBaseController
 {
@@ -44,7 +49,8 @@ class Key_BehaviourController extends AppBaseController
     public function create()
     {
         $levels = Key_Behaviour::$levels;
-        return view('key__behaviours.create', compact('levels'));
+        $competencies = Competency::all()->pluck('name','id');
+        return view('key__behaviours.create', compact('levels', 'competencies'));
     }
 
     /**
@@ -62,7 +68,7 @@ class Key_BehaviourController extends AppBaseController
 
         Flash::success('Key  Behaviour saved successfully.');
 
-        return redirect(route('keyBehaviours.index'));
+        return redirect(route('competencies.index'));
     }
 
     /**
@@ -95,6 +101,8 @@ class Key_BehaviourController extends AppBaseController
     public function edit($id)
     {
         $keyBehaviour = $this->keyBehaviourRepository->find($id);
+        $levels = Key_Behaviour::$levels;
+        $competencies = Competency::all()->pluck('name','id');
 
         if (empty($keyBehaviour)) {
             Flash::error('Key  Behaviour not found');
@@ -102,7 +110,8 @@ class Key_BehaviourController extends AppBaseController
             return redirect(route('keyBehaviours.index'));
         }
 
-        return view('key__behaviours.edit')->with('keyBehaviour', $keyBehaviour);
+        return view('key__behaviours.edit', compact('keyBehaviour', 'levels', 'competencies'));
+      
     }
 
     /**
@@ -120,14 +129,14 @@ class Key_BehaviourController extends AppBaseController
         if (empty($keyBehaviour)) {
             Flash::error('Key  Behaviour not found');
 
-            return redirect(route('keyBehaviours.index'));
+            return redirect(route('competencies.index'));
         }
 
         $keyBehaviour = $this->keyBehaviourRepository->update($request->all(), $id);
 
         Flash::success('Key  Behaviour updated successfully.');
 
-        return redirect(route('keyBehaviours.index'));
+        return redirect(route('competencies.index'));
     }
 
     /**
@@ -146,13 +155,14 @@ class Key_BehaviourController extends AppBaseController
         if (empty($keyBehaviour)) {
             Flash::error('Key  Behaviour not found');
 
-            return redirect(route('keyBehaviours.index'));
+            return redirect(route('competencies.index'));
         }
 
         $this->keyBehaviourRepository->delete($id);
 
         Flash::success('Key  Behaviour deleted successfully.');
 
-        return redirect(route('keyBehaviours.index'));
+        return redirect(route('competencies.index'));
+        
     }
 }
