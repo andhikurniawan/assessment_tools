@@ -83,6 +83,12 @@
 
         <div @yield('admin')>
 
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">
+                Optimasi Tim
+            </div>
+
             <!-- Nav Item  -->
             <li class="nav-item @yield('DataPegawai')">
                 <a class="nav-link" href="{{ url('employee')}}">
@@ -94,6 +100,11 @@
                 <a class="nav-link" href="{{ url('jobTargets') }}">
                     <span class="iconify" data-icon="bx:bx-target-lock" data-inline="false"></span>
                     <span>Job Target</span></a>
+            </li>
+            <li class="nav-item @yield('JobTarget')">
+                <a class="nav-link" href="{{ url('teams') }}">
+                    <span class="iconify" data-icon="bx:bx-target-lock" data-inline="false"></span>
+                    <span>Teams</span></a>
             </li>
         </div>
 

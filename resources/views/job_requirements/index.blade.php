@@ -18,11 +18,11 @@
             <table class="table table-striped">
                 <tr>
                     <th>Company</th>
-                    <td>Company Name</td>
+                    <td>{{ $jobTarget->assessmentSession->company->name }}</td>
                 </tr>
                 <tr>
                     <th>Assessment Session</th>
-                    <td>Assessment Session Name</td>
+                    <td>{{ $jobTarget->assessmentSession->name }}</td>
                 </tr>
                 <tr>
                     <th>Job Target</th>

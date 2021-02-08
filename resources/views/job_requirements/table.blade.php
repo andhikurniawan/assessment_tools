@@ -12,7 +12,7 @@
                 <tbody>
                 @foreach($jobRequirements as $jobRequirement)
                     <tr>
-                        <td>{{ $jobRequirement->competency_id }}</td>
+                        <td>{{ $jobRequirement->Competency->code }}</td>
                         <td>{{ $jobRequirement->skill_level }}</td>
                         <td>
                             {!! Form::open(['route' => ['jobRequirements.destroy', $jobRequirement->id], 'method' => 'delete']) !!}

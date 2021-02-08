@@ -78,4 +78,5 @@ class Competency extends Model
     {
         return $this->hasMany(Competency_Relation::class);
     }
+    
 }

@@ -55,5 +55,8 @@ class CompetencyModels extends Model
         
     ];
 
-    
+    public function competencies()
+    {
+    	return $this->belongsToMany('App\Models\Competency', 'competency_relation', 'competency_models_id', 'competency_id');
+    }
 }

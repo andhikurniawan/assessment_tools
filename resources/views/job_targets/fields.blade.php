@@ -4,8 +4,7 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('team_id', 'Team:') !!}
-    {!! Form::select('team_id', $teams, null, ['class' => 'form-control', 'placeholder' => '- Select Team -']) !!}
+    {!! Form::hidden('team_id', 1, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Job Name Field -->

@@ -4,7 +4,7 @@
 <!-- Competency Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('competency_id', 'Competency Id:') !!}
-    {!! Form::number('competency_id', null, ['class' => 'form-control']) !!}
+    {!! Form::select('competency_id', $items, null, ['class' => array('form-control','select2-single')]) !!}
 </div>
 
 <!-- Skill Level Field -->
