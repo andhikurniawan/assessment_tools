@@ -230,7 +230,7 @@ class TrainingController extends Controller
         if (session('permission') == "admin" || session('permission') == "admin_tnd" || session('permission') == "superadmin") {
             $company_id = Auth::user()->company_id;
             if ($company_id == null) {
-                $training_emp = Training_emp::all();
+                $training_emp = Training_emp::select('training_emps.*', 'training_emps.id as training_rec_id')->get();
             } else {
             $training_emp = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->where('user.company_id', $company_id)->select('training_emps.*', 'user.*', 'training_emps.id as training_rec_id')->get();
             }
