@@ -60,12 +60,12 @@
                     <tbody>
                         @foreach ($training_emp as $item)
                             <tr>
-                                <td>{{ $item->user->name }}</td>
-                                <td>{{ $item->training->name }}</td>
-                                <td>{{ $item->training->host }}</td>
-                                <td>{{ $item->training->duration }} hari</td>
-                                <td>{{ $item->training->start_date }}</td>
-                                <td>{{ $item->training->end_date }}</td>
+                                <td>{{ $item->user_name }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->host }}</td>
+                                <td>{{ $item->duration }} hari</td>
+                                <td>{{ $item->start_date }}</td>
+                                <td>{{ $item->end_date }}</td>
                                 <td>
                                     @switch($item->status)
                                         @case("Disetujui")

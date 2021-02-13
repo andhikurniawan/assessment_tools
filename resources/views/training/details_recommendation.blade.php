@@ -48,17 +48,17 @@
                         
                     <label for="name">Nama Karyawan</label>
                     <input type="text" name="name" id="name" class="form-control"
-                        value="{{ $training_emp->user->name }}" disabled>
+                        value="{{ $training_emp->user_name }}" disabled>
                 </div>
                 <div class="form-group">
                     <label for="training_name">Nama Pelatihan</label>
                     <input type="text" name="training_name" id="training_name" class="form-control"
-                        value="{{ $training_emp->training->name }}" disabled>
+                        value="{{ $training_emp->name }}" disabled>
                 </div>
                 <div class="form-group">
                     <label for="host">Nama Pelaksana</label>
                     <input type="text" name="host" id="host" class="form-control"
-                        value="{{  $training_emp->training->host }}" disabled>
+                        value="{{  $training_emp->host }}" disabled>
                 </div>
                 <div class="form-group">
                     <label for="duration">Durasi Pelatihan</label>
@@ -66,7 +66,7 @@
                         <div class="col-sm-2">
                             <input type="number" name="duration" id="duration"
                                 class="form-control"
-                                value="{{ $training_emp->training->duration }}" disabled>
+                                value="{{ $training_emp->duration }}" disabled>
                         </div>
                         <div class="col form-control-plaintext">
                             Hari
@@ -77,7 +77,7 @@
                     <label for="start_date">Tanggal Mulai</label>
                     <input type="text" name="start_date" id="start_date"
                         class="date form-control"
-                        value="{{ $training_emp->training->start_date }}" disabled >
+                        value="{{ $training_emp->start_date }}" disabled >
                     @error('start_date')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -86,17 +86,17 @@
                     <label for="end_date">Tanggal Selesai</label>
                     <input type="text" name="end_date" id="end_date"
                         class="date form-control "
-                        value="{{ $training_emp->training->end_date }}" disabled>
+                        value="{{ $training_emp->end_date }}" disabled>
                 </div>
                 <div class="form-group">
                     <label for="description">Deskripsi Pelatihan</label>
                     <textarea name="description" class="form-control" rows="5" disabled
-                        >{{ $training_emp->training->description }}</textarea>
+                        >{{ $training_emp->description }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="link">Link Pelatihan</label>
                     <input type="url" name="link" id="link" class="form-control"
-                        value="{{ $training_emp->training->link }}" disabled>
+                        value="{{ $training_emp->link }}" disabled>
                 </div>
                 <div class="form-group">
                     <label for="recommended_by">Direkomendasi dari</label>
@@ -147,7 +147,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($training_emp->training->training_competencies as $item)
+                        @foreach ($training_competency as $item)
                         <tr>
                             <td>{{ $item->competency->name }}</td>
                         </tr>

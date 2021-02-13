@@ -42,11 +42,11 @@
                     <tbody>
                         @foreach ($training_emp as $item)
                             <tr>
-                                <td>{{ $item->training->name }}</td>
-                                <td>{{ $item->training->host }}</td>
-                                <td>{{ $item->training->duration }} hari</td>
-                                <td>{{ $item->training->start_date }}</td>
-                                <td>{{ $item->training->end_date }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->host }}</td>
+                                <td>{{ $item->duration }} hari</td>
+                                <td>{{ $item->start_date }}</td>
+                                <td>{{ $item->end_date }}</td>
                                 <td>
                                     @switch($item->status)
                                         @case("Disetujui")
@@ -69,7 +69,7 @@
                                     @endswitch
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ url('training/recommendation/details/'. $item->id)}}" class="btn btn-primary tr-{{$item->status}}">Detail</a>                               
+                                    <a href="{{ url('training/recommendation/details/'. $item->training_rec_id)}}" class="btn btn-primary tr-{{$item->status}}">Detail</a>                               
                                 </td>
                             </tr>
                         @endforeach
