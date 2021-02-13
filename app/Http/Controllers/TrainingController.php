@@ -9,6 +9,7 @@ use App\Mail\TrainingRecommendationMail;
 use App\Track_project_emp;
 use App\Track_training_emp;
 use App\Training;
+use App\Training_competencies;
 use App\Training_emp;
 use App\User;
 use Illuminate\Http\Request;
@@ -230,15 +231,16 @@ class TrainingController extends Controller
         if (session('permission') == "admin" || session('permission') == "admin_tnd" || session('permission') == "superadmin") {
             $company_id = Auth::user()->company_id;
             if ($company_id == null) {
-                $training_emp = Training_emp::select('training_emps.*', 'training_emps.id as training_rec_id')->get();
+                $training_emp = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->join('training', 'training.id', '=', 'training_emps.id_training')->select('training_emps.status as status', 'user.name as user_name', 'training.*', 'training_emps.id as training_rec_id')->get();
             } else {
-            $training_emp = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->where('user.company_id', $company_id)->select('training_emps.*', 'user.*', 'training_emps.id as training_rec_id')->get();
+            $training_emp = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->join('training', 'training.id', '=', 'training_emps.id_training')->where('user.company_id', $company_id)->select('training_emps.status as status', 'user.name as user_name', 'training.*', 'training_emps.id as training_rec_id')->get();
             }
         // dd($training_emp);
 
             return view('training.recommendation')->with('training_emp', $training_emp);
         } else {
-            $training_emp = Training_emp::all()->where('user_id', Auth::id());
+            $training_emp = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->join('training', 'training.id', '=', 'training_emps.id_training')->select('training_emps.status as status', 'user.name as user_name', 'training.*', 'training_emps.id as training_rec_id')->where('training_emps.user_id', Auth::user()->id)->get();
+            // dd($training_emp);
             return view('user.training-recommendation.index')->with('training_emp', $training_emp);
         }
     }
@@ -359,9 +361,14 @@ class TrainingController extends Controller
 
     public function detailRecommendation($id)
     {
-        $training_emp = Training_emp::where('id', $id)->get();
-        // dd($training_emp);
-        return view('training.details_recommendation')->with('training_emp', $training_emp);
+        $training_emp = Training_emp::join('user', 'user.id', '=', 'training_emps.user_id')->join('training', 'training.id', '=', 'training_emps.id_training')->where('training_emps.id', $id)->select('training_emps.status as status', 'user.name as user_name', 'training.*', 'training_emps.id as training_rec_id', 'training_emps.*', 'training.id as id_training')->get();
+        foreach ($training_emp as $b){
+            $training_id = $b->id_training;
+        }
+        // dd($training_id);
+        $training_competency = Training_competencies::where('id_training','=', $training_id)->get();
+        // dd($training_competency);
+        return view('training.details_recommendation')->with(['training_emp' => $training_emp, 'training_competency' => $training_competency]);
     }
 
     public function editRecommedation($id)
