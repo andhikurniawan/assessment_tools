@@ -463,9 +463,7 @@ class Assessment_SessionController extends AppBaseController
         }
         $headerId = $assessmentSession->doAssignment();
         if ($headerId>0)
-            return redirect()->action(
-                'AssignmentHeaderController@show',['id'=>$headerId]
-            );
+            return redirect('/assignmentHeaders/'.$headerId);
         
     }
 }
