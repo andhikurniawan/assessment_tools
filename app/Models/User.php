@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model as Model;
 class User extends Model
 {
 
-    public $table = 'users';
+    public $table = 'user';
     
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
