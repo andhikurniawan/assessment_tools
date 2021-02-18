@@ -48,13 +48,13 @@
 <div class="row">
 <div class="form-group col-sm-6">
     <label>Start Date : </label>
-    <input id="start_date" class="form-control" value="{{ $assessmentSession->start_date }}" id="start_date" name="start_date" type="text">
+    <input id="start_date" class="form-control" value="{{ $assessmentSession->start_date }}" id="start_date" name="start_date" type="date">
 </div>
 
 <!-- End Date Field -->
 <div class="form-group col-sm-6">
     <label>End Date : </label>
-    <input id="end_date" class="form-control" value="{{ $assessmentSession->end_date }}" id="end_date" name="end_date" type="text">
+    <input id="end_date" class="form-control" value="{{ $assessmentSession->end_date }}" id="end_date" name="end_date" type="date">
 </div>
     </div>
 </div>
@@ -81,13 +81,13 @@
                 <tr class="models">
                     <td>{{ $key + 1 }}</td>
                     <td>{{ $model->name }}</td>
-                    <td><a class="btn btn-sm btn-danger deletes" data="original" id="{{ $model->competency_models_id }}">DELETE</a></td>
+                    <td><a class="btn btn-sm btn-danger deletes" data="original" id="{{ $model->competency_models_id }}">Delete</a></td>
                 </tr>   
             @endforeach
         </tbody>
     </table>
     <label>Add Competency Model</label>
-    <select id ="model" class="form-control" style="height: 40px; width: 300px; margin-top: 10px;">
+    <select id ="model" name="model" class="form-control" style="height: 40px; width: 300px; margin-top: 10px;">
         @foreach($modelss as $model)
             <option value="{{ $model->id }}">{{ $model->name }}</option>
         @endforeach
@@ -131,7 +131,7 @@
                     <td>{{ $participant->email }}</td>
                     <td><span class='badge' style="background-color: #4fd6a2;color:#ffffff">{{ count($participant->assessor) }}</span></td>
                     <td><a href="#" data="original" class="deleteAssesse" id="{{ $key }}"><i class="fa fa-minus-circle" style="color: red; font-size: 20px;"></i></a></td>
-                    <td><a data-toggle="collapse" href="#collapse{{ $key }}"><i class="fa fa-angle-double-down" style="font-size: 20px;"></i></a></td>
+                    <td><a data-toggle="collapse" class="detail" href="#collapse{{ $key }}"><i class="fa fa-angle-double-down" style="font-size: 20px;"></i></a></td>
                 </tr>
                 <tr class="row_tbody">
                     <td colspan="3" style="padding: 0;">
@@ -656,6 +656,7 @@ $(document).ready(function(){
 
         swal({
             title: "Berhasil",
+            className: "SweatAlert",
             text: "Berhasil Mengedit Assessment Session", 
             icon: "success"
         })
@@ -674,26 +675,6 @@ $(document).ready(function(){
 }); 
 
 </script>
-
-@push('scripts')
-    <script type="text/javascript">
-        $('#start_date').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            useCurrent: true,
-            sideBySide: true
-        })
-    </script>
-@endpush
-
-@push('scripts')
-    <script type="text/javascript">
-        $('#end_date').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            useCurrent: true,
-            sideBySide: true
-        })
-    </script>
-@endpush
 
 
 

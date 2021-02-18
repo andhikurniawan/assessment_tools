@@ -45,7 +45,7 @@ class HomeController extends Controller
             
             case 'admin_ap':
                 session(['permission' => 'admin_ap']);
-                return view('home');
+                return redirect('/assessment');
                 break;
             
             case 'admin_ot':
