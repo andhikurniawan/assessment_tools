@@ -44,7 +44,7 @@ class Assessment_SessionController extends AppBaseController
                 ->select("role_id")
                 ->first();
 
-        if($role->role_id == "superadmin" || $role->role_id == "admin")
+        if($role->role_id == "superadmin" || $role->role_id == "admin" || $role->role_id == "admin_ap")
         {
             $assessmentSessions = DB::table("assessment_session")
             ->join('company', 'assessment_session.company_id', '=', 'company.id')->select('assessment_session.name', 'assessment_session.category', 'assessment_session.status','assessment_session.expired','assessment_session.start_date','assessment_session.end_date','company.name as company_name', 'assessment_session.id as id')->get(); 
@@ -420,10 +420,6 @@ class Assessment_SessionController extends AppBaseController
         DB::table("assessment_session")->where("id", $id)->delete();
 
         return redirect(route('assessmentSessions.index'));
-    }
-
-    public function addCompetencyModel(){
-        return view('assessment__sessions.addcompetencymodel');
     }
 
     public function asCompany($id)

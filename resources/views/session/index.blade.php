@@ -81,7 +81,7 @@
             <ul class="list-group">
             <h6 class="text-primary" style="margin-top: 10px">Pilih salah satu jawaban yang terbaik :</h6>
              @foreach($question->key_behaviour as $key_behaviour)
-                <li class="list-group-item" style="margin-top:10px"><input type="radio" name="{{ $key }}" value="{{ $question->id . '-' . $key_behaviour->level }}">&nbsp;{{ $key_behaviour->key_behaviour }}</li> 
+                <li class="list-group-item" style="margin-top:10px"><input type="radio" id="answer" name="{{ $key }}" value="{{ $question->id . '-' . $key_behaviour->level }}">&nbsp;{{ $key_behaviour->key_behaviour }}</li> 
              @endforeach
             </ul>
             
@@ -183,6 +183,7 @@ $(document).ready(function(){
         {
             swal({
                 title: "Error",
+                className: "Swalalert",
                 text: "Ada Pertanyaan Yang Belum Terisi", 
                 icon: "warning"
             })
