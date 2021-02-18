@@ -68,4 +68,10 @@ class Assessment_Session extends Model
     {
         return $this->belongsToMany('App\Models\CompetencyModels', 'assessment_relation', 'assessment_session_id', 'competency_models_id');
     }
+
+    public function assignmentHeaders()
+    {
+        return $this->hasMany(\App\Models\AssignmentHeader::class);
+    }
+    
 }

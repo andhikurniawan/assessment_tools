@@ -7,5 +7,5 @@
 @section('admin_pm', 'hidden')            
 @section('admin_ot', 'hidden')   
 @section('content')
-<p>Halo user!</p>
+<h1>Halo, {{ Auth::user()->name }}</h1>
 @endsection

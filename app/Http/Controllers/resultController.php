@@ -229,11 +229,10 @@ class resultController extends Controller
                 ->select("role_id")
                 ->first();
 
-        if($role->role_id == "superadmin" || $role->role_id == "admin" || $role->role_id == "admin_ap")
+        if($role->role_id == "superadmin" || $role->role_id == "admin" || $role->role_id == "admin_ap" || $role->role_id == "admin_tnd")
         {
             $id = request("id");
             $id = explode("-", $id);
-
             $assesse_id = $id[0];
             $session_id = $id[1];
 
@@ -309,7 +308,12 @@ class resultController extends Controller
         }
         else if($role->role_id == "user")
         {
+            if ($request->track_user != null) {
+            $session_id = explode('-', $request->id);
+            $session_id = $session_id[1];
+            } else {
             $session_id = request("id");
+            }
 
             $result = DB::table("assessment_competency_result")
                         ->join("competency", "competency.id", "=", "assessment_competency_result.competency_id")

@@ -115,4 +115,47 @@
         </table>
         </div>
     </div>
+
+        <!-- Competency Model  -->
+        <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Minimum-Gap Assignment</h6>
+        </div>
+        <div class="card-body">  
+            <div class="block-options">
+                <a class="nav-link" href="{!! route('assessmentSession.doAssignment', ['id' => $session->id]) !!}">
+                    <i class="fa fa-fw fa-upload mr-5"></i> Run Optimization Assignment
+                </a>
+            </div>  
+            <table class="table text-center">
+            <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Run Date</th>
+                        <th>Is Effective</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($assignment as $key => $assignment)
+                        <tr class="assignment">
+                            <td>{{ $key + 1 }}</td>
+                            <td>{{ $assignment->run_date }}</td>
+                            <td>{{ $assignment->is_effective }}</td>
+                            <td>
+                                {!! Form::open(['route' => ['assignmentHeaders.destroy', $assignment->id], 'method' => 'delete']) !!}
+                                <div class='btn-group'>
+                                    <a href="{{ route('assignmentHeaders.show', [$assignment->id]) }}" class='btn btn-primary'><span class="iconify" data-icon="bi:eye-fill" data-inline="false"></span></a>
+                                    <a href="{{ route('assignmentHeaders.edit', [$assignment->id]) }}" class='btn btn-warning'><span class="iconify" data-icon="bx:bx-edit" data-inline="false"></span></a>
+                                    {!! Form::button('<span class="iconify" data-icon="bi:trash" data-inline="false"></span>', ['type' => 'submit', 'class' => 'btn btn-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                                </div>
+                                {!! Form::close() !!}
+                            </td>
+                        </tr>   
+                    @endforeach
+                </tbody>
+            </table>
+            </div>
+         </div>
+
     

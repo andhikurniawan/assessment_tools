@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateCompetency_GroupRequest;
 use App\Http\Requests\UpdateCompetency_GroupRequest;
 use App\Repositories\Competency_GroupRepository;
+use App\Models\Competency_Relation;
 use App\Models\Competency_Group;
 use App\Models\Company;
+use App\Models\Competency;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use DB;
+use Auth;
 
 class Competency_GroupController extends AppBaseController
 {
@@ -31,10 +35,59 @@ class Competency_GroupController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $competencyGroups = $this->competencyGroupRepository->all();
 
-        return view('competency__groups.index')
-            ->with('competencyGroups', $competencyGroups);
+        $id = Auth::user()->id;
+        $role = DB::table("user_role")
+        ->where("user_id", $id)
+        ->select("role_id")
+        ->first();
+     
+
+        if($role->role_id == "superadmin")
+        {
+            $competencyGroups = $this->competencyGroupRepository->all();
+           
+
+            $company_id = Auth::user()->company_id;
+            if ($company_id == null) {
+                $company = Company::all();
+                $selected = "";
+            } else {
+                $company = Company::where('id', $company_id)->get()->first();
+                $selected = $company->id;
+            }
+            return view('competency__groups.index', compact("competencyGroups","company","selected"));
+    
+        }
+        else if($role->role_id == "admin_pm" || $role->role_id == "admin")
+        {   
+            $competencyGroups = Competency_Group::where('company_id', Auth::user()->company_id)
+            ->get();
+
+            $company_id = Auth::user()->company_id;
+            if ($company_id == null) {
+                $company = Company::all();
+                $selected = "";
+            } else {
+                $company = Company::where('id', $company_id)->get()->first();
+                $selected = $company->id;
+            }
+            return view('competency__groups.index', compact("competencyGroups","company","selected"));
+    
+        }
+      
+    
+        
+         
+    }
+
+    public function empCompany($id)
+    {
+        $competencyGroups = Competency_Group::where('company_id', $id)->get();
+        $company = Company::all();
+        $selected = Company::where('id', $id)->get()->first();
+        $selected = $selected->id;
+        return view('competency__groups.index', compact('competencyGroups', 'company', 'selected'));
     }
 
     /**
@@ -44,8 +97,26 @@ class Competency_GroupController extends AppBaseController
      */
     public function create()
     {
-        $companies = Company::all()->pluck('name','id');
-        return view('competency__groups.create', compact('companies'));
+
+        $id = Auth::user()->id;
+        $role = DB::table("user_role")
+        ->where("user_id", $id)
+        ->select("role_id")
+        ->first();
+     
+        if($role->role_id == "superadmin" )
+        {
+            $companies = Company::all()->pluck('name','id');
+            return view('competency__groups.create', compact('companies'));
+        }
+        else if($role->role_id == "admin_pm" || $role->role_id == "admin")
+        {   
+            $companies = Company::where('id', Auth::user()->company_id)
+            ->pluck('name','id');
+            return view('competency__groups.create', compact('companies'));
+        }
+
+     
     }
 
     /**
@@ -76,6 +147,7 @@ class Competency_GroupController extends AppBaseController
     public function show($id)
     {
         $competencyGroup = $this->competencyGroupRepository->find($id);
+        $competencies = Competency::all()->where('competency_group_id', $id);
 
         if (empty($competencyGroup)) {
             Flash::error('Competency  Group not found');
@@ -83,7 +155,7 @@ class Competency_GroupController extends AppBaseController
             return redirect(route('competencyGroups.index'));
         }
 
-        return view('competency__groups.show')->with('competencyGroup', $competencyGroup);
+        return view('competency__groups.show', compact('competencyGroup','competencies'));
     }
 
     /**
@@ -95,7 +167,14 @@ class Competency_GroupController extends AppBaseController
      */
     public function edit($id)
     {
-        $companies = Company::all()->pluck('name','id');
+
+        $user_company = Auth::user()->company_id;
+        if ($user_company == null) {
+            $companies = Company::all()->pluck('name','id');
+        } else {
+            $companies = Company::where('id', $user_company)->pluck('name','id');
+        }
+       
         $competencyGroup = $this->competencyGroupRepository->find($id);
 
         if (empty($competencyGroup)) {

@@ -79,9 +79,16 @@
                     <span class="iconify" data-icon="ic:round-admin-panel-settings" data-inline="false"></span>
                     <span>Role</span></a>
             </li>
-        </div>
+            </div>
+       
 
         <div @yield('admin')>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-heading">
+                Optimasi Tim
+            </div>
 
             <!-- Nav Item  -->
             <li class="nav-item @yield('DataPegawai')">
@@ -91,9 +98,14 @@
             </li>
             <!-- Nav Item  -->
             <li class="nav-item @yield('JobTarget')">
-                <a class="nav-link" href="#">
-                    <i class="far fa-calendar-check"></i>
+                <a class="nav-link" href="{{ url('jobTargets') }}">
+                    <span class="iconify" data-icon="bx:bx-target-lock" data-inline="false"></span>
                     <span>Job Target</span></a>
+            </li>
+            <li class="nav-item @yield('JobTarget')">
+                <a class="nav-link" href="{{ url('teams') }}">
+                    <span class="iconify" data-icon="bx:bx-target-lock" data-inline="false"></span>
+                    <span>Teams</span></a>
             </li>
         </div>
 
@@ -107,11 +119,11 @@
                 Profile Matching
             </div>
 
-            <!-- Nav Item  -->
-            <li class="nav-item @yield('kompetensi')">
-                <a class="nav-link" href="/competencies">
+            <!-- Nav Item - Charts -->
+            <li class="nav-item @yield('Dashboard')">
+                <a class="nav-link" href="/dashboardPms">
                     <i class="fas fa-tasks"></i>
-                    <span>Kompetensi</span></a>
+                    <span>Dashboard</span></a>
             </li>
 
             <!-- Nav Item - Charts -->
@@ -120,6 +132,14 @@
                     <i class="fas fa-tasks"></i>
                     <span>Grup Kompetensi</span></a>
             </li>
+
+            <!-- Nav Item  -->
+            <li class="nav-item @yield('kompetensi')">
+                <a class="nav-link" href="/competencies">
+                    <i class="fas fa-tasks"></i>
+                    <span>Kompetensi</span></a>
+            </li>
+
 
             <!-- Nav Item - Tables -->
             <li class="nav-item @yield('ModelKompetensi')">

@@ -9,21 +9,22 @@ use Tests\DuskTestCase;
 class LoginTest extends DuskTestCase
 {
     /**
-     * A Dusk test example.
-     *
+     * Menguji Login
+     * @test
      * @return void
      */
     public function testLogin()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/')
-                    ->clickLink('Login')
-                    ->click('#email')
-                    ->type('email', 'superadmin@mail.com')
-                    ->type('password', 'test123456')
-                    ->press('Login')
-                    ->assertSee('Welcome, Super Admin !')
-                    ->script('console.log("Done Test : Login")');
+            $browser->visit('/') // mengakses home page
+                ->clickLink('Login') // menekan tombol Login
+                ->click('#email') // menekan selector dengan id = email
+                ->type('email', 'admintnd@mail.com') // mengisikan email
+                ->type('password', '123456') // mengisikan password
+                ->press('Login') // menekan tombol Login
+                ->assertSee('Halo, Admin Training and Development') // mengecek apakah ada tulisan ini
+                ->script('console.log("Done Test : Login")') // console log
+            ;
         });
     }
 }

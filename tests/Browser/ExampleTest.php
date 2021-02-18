@@ -17,7 +17,9 @@ class ExampleTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/')
-                    ->assertSee('Web Assessment');
+                    ->assertSee('Web Assessment')
+                    ->script('console.log("Done Test : Akses Homepage")')
+                    ;
         });
     }
 }

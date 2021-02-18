@@ -36,6 +36,9 @@
             <h6 class="m-0 font-weight-bold text-primary">Daftar Karyawan dari Hasil Assessment</h6>
         </div>
         <div class="card-body">
+            <form action="{{ route('result/detail/laporan') }}" method="post">
+                <input type="hidden" name="id" id="id">
+                <input type="hidden" name="_token" value="{!! csrf_token() !!}">
             <div class="table-responsive">
                 <table class="table table-bordered dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -52,7 +55,7 @@
                             <tr>
                                 <td>{{ $item->user_name }}</td>
                                 <td>{{ $item->assessment_name }}</td>
-                                <td class="text-center"><a href="#" class="btn btn-primary">Lihat Detail</a></td>
+                                <td class="text-center"><button id="{{ $item->id . '-' . $item->session_id }}"  class="btn btn-primary btn-submit">Lihat Detail</button></td>
                                 <td class="text-center"><a href="#" data-toggle="modal" data-target-id = "{{ $item->id }}" data-target-type= "assessment"
                                         data-target="#addTrainingAssessmentModal" class="btn btn-success">Ajukan Rekomendasi
                                         Pelatihan</a></td>
@@ -60,6 +63,7 @@
 
                     </tbody>
                 </table>
+            </form>
             </div>
         </div>
     </div>
@@ -308,5 +312,18 @@ $('.modalTraining').on('show.bs.modal', function(e) {
             });
             }
         });
+    </script>
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+    
+            $(document).on("click", "button.btn-submit", function(){
+    
+                $("#id").val(this.id);
+    
+            });
+    
+        });
+    
     </script>
 @endsection

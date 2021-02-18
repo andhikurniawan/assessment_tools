@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model as Model;
  * @property string $question
  * @property integer $competencygroup_id
  * @property string $type
+ * @property string $status
  * @property integer $number_keybehaviour
  */
 class Competency extends Model
@@ -29,9 +30,12 @@ class Competency extends Model
         'code',
         'question',
         'competency_group_id',
+        'jenis',
+        'status',
         'type',
         'description',
-        'number_keybehaviour'
+        'number_keybehaviour',
+      
     ];
 
     /**
@@ -43,11 +47,14 @@ class Competency extends Model
         'id' => 'integer',
         'name' => 'string',
         'code' => 'string',
+        'jenis' => 'string',
         'question' => 'string',
         'competency_group_id' => 'integer',
+        'status' => 'string',
         'type' => 'string',
         'description' => 'string',
-        'number_keybehaviour' => 'integer'
+        'number_keybehaviour' => 'integer',
+        
     ];
 
     /**
@@ -77,5 +84,13 @@ class Competency extends Model
     public function competencyRelation()
     {
         return $this->hasMany(Competency_Relation::class);
+    }
+    
+    public function scopeSearch($query, $q)
+    {
+        if($q == null)
+            return $query;
+        else
+            return $query->where('competency_group_id','=',$q);
     }
 }

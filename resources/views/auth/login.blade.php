@@ -77,9 +77,9 @@
                                     <div class="text-center">
                                         <a class="small" href="{{ url('/password/reset') }}">Forgot Password?</a>
                                     </div>
-                                    <div class="text-center">
+                                    {{-- <div class="text-center">
                                         <a class="small" href="{{ url('/register') }}">Registrasi</a>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>

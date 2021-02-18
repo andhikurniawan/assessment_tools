@@ -137,7 +137,7 @@
                                             @endswitch
                                         </td>
                                         <td class="text-center"><a href="{{ url('track-record/training/' . $item->id) }}"
-                                                class="btn btn-primary">Lihat</a>
+                                                class="btn btn-primary tr-{{$item->status}}">Lihat</a>
                                             @if (session('permission') == 'user')
                                                 @if ($item->status == 'Menunggu' || $item->status == "Ditolak")
                                                     <a href="{{ url('track-record/training/edit/' . $item->id) }}"
@@ -172,7 +172,7 @@
                         <table class="table table-bordered dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>Nama Karyawan</th>
+                                    <th>Nama Project</th>
                                     <th>Platform</th>
                                     <th>Posisi</th>
                                     <th>Tanggal Mulai</th>
@@ -233,6 +233,12 @@
                     <h6 class="m-0 font-weight-bold text-primary">Riwayat Assessment</h6>
                 </div>
                 <div class="card-body">
+                    <form method="post" action="{{ route('result/detail/laporan') }}">
+                        <input type="hidden" name="id" id="id">
+                        @if (session('permission') == "user")
+                            <input type="hidden" name="track_user" value="user">
+                        @endif
+                        <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                     <div class="table-responsive">
                         <table class="table table-bordered dataTable" width="100%" cellspacing="0">
                             <thead>
@@ -250,7 +256,7 @@
                                         <td>{{ $item->assessment_name }}</td>
                                         <td>{{ $item->start_date }}</td>
                                         <td>{{ $item->end_date }}</td>
-                                        <td class="text-center"><a href="#" class="btn btn-primary">Detail</a></td>
+                                        <td class="text-center"><button id="{{ $item->id . '-' . $item->session_id }}"  class="btn btn-primary btn-submit">Detail</button></td>
                                     </tr>
                                 @endforeach
 
@@ -273,7 +279,9 @@
             <!-- Page level custom scripts -->
             <script type="text/javascript">
                 $(document).ready(function() {
-                    $('.dataTable').DataTable();
+                    $('.dataTable').DataTable({
+                        order: [[2, 'asc']]
+                    });
                     // var data = table;
                     // var table = $('#dataTable').DataTable();
                     // var data = table.column(0).data().sort().reverse();
@@ -311,4 +319,17 @@
                 });
 
             </script>
+                <script type="text/javascript">
+
+                    $(document).ready(function(){
+                
+                        $(document).on("click", "button.btn-submit", function(){
+                
+                            $("#id").val(this.id);
+                
+                        });
+                
+                    });
+                
+                </script>
         @endsection
