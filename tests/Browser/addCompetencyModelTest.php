@@ -27,8 +27,6 @@ class addCompetencyModelTest extends DuskTestCase
             $browser->visit('/competencyModels');
             $browser->clickLink('Tambah Model Kompetensi');
             $browser->visit('/competencyModels/create');
-            $browser->type('name', 'Software Developer');
-            $browser->type('description', 'Software dev');
             $browser->type('name', 'Software Development');
             $browser->type('description', 'Software Development adalah model 
             kompetensi yang berhubungan dengan pengembangan aplikasi');
