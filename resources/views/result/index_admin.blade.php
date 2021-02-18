@@ -18,6 +18,13 @@
         @section('admin_ap', 'hidden')            
         @section('admin_ot', 'hidden')            
         @break
+    @case('admin_ap')
+    @section('superadmin', 'hidden')            
+    @section('admin', 'hidden')            
+    @section('admin_pm', 'hidden')            
+    @section('admin_tnd', 'hidden')            
+    @section('admin_ot', 'hidden')  
+    @break
     @case('admin')
         @section('superadmin', 'hidden')                
             @break

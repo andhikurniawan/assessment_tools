@@ -46,6 +46,7 @@
 
             swal({
                 title: "",
+                className: "sweartalert",
                 text: "Apakah kamu yakin untuk menghapus session ini?",
                 icon: "warning",
                 buttons: [

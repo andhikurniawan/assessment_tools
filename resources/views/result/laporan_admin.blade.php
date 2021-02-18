@@ -18,6 +18,13 @@
         @section('admin_ap', 'hidden')            
         @section('admin_ot', 'hidden')            
         @break
+    @case('admin_ap')
+    @section('superadmin', 'hidden')            
+    @section('admin', 'hidden')            
+    @section('admin_pm', 'hidden')            
+    @section('admin_tnd', 'hidden')            
+    @section('admin_ot', 'hidden')  
+    @break
     @case('admin')
         @section('superadmin', 'hidden')                
             @break
@@ -45,7 +52,7 @@
                         <td>{{ date('M d, Y', strtotime($session->start_date)) }}</td>
                     </tr>
                     <tr>   
-                        <td>&nbsp;&nbsp;&nbsp;Assesse Name :</td>
+                        <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;Assesse Name :</td>
                         <td>{{ $assessee->name }}</td>
                     </tr>
                 </tbody>
@@ -87,7 +94,6 @@
             </div>
     
             @endforeach
-       
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>

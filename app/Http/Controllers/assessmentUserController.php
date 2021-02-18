@@ -114,7 +114,7 @@ class assessmentUserController extends Controller
             $id = Auth::user()->id;
 
             $assessee = [];
-
+                   
             for($i = 0; $i < count($participants); $i++)
             {
                 array_push($assessee, $participants[$i]->userid_assessee);
