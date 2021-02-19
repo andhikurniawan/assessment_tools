@@ -369,11 +369,13 @@ class Assessment_SessionController extends AppBaseController
         $id = $request->id;
         $ids = $request->ids;
         $idss = $request->idss;
+        $company_id = $request->company_id;
 
-        $insert = DB::table("assessor_map")->insert(["session_id" => $id, "userid_assessor" => $ids, "userid_assessee" => $idss, "status" => $add_participants["status"], "relation" => $add_participants["relation"]]);
+        $insert = DB::table("assessor_map")->insert(["session_id" => $id, "userid_assessor" => $ids, "userid_assessee" => $idss, "status" => $add_participants["status"], "company_id" => $company_id, "relation" => $add_participants["relation"]]);
 
         return response()->json("0");
     }
+
 
     /**
      * Update the specified Assessment_Session in storage.

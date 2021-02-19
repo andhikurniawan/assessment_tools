@@ -208,6 +208,7 @@ class sessionController extends Controller
                     {
                         $assessor = new stdClass();
                         $assessor->id = $temp_participants[$j]->id;
+                        $assessor->bobot = $temp_participants[$j]->bobot;
                         $assessor->assessor = $temp_participants[$j]->userid_assessor;
 
                         array_push($participant->assessor, $assessor);
@@ -217,38 +218,56 @@ class sessionController extends Controller
                 array_push($participants, $participant);
             }
 
+            //dd($participants);
+
+            $answers_final = [];
+            $test = "";
+
+            // dd($participants);
+
+            //dd(count($participants[0]->assessor));
+
+
             for($i = 0; $i < count($participants); $i++)
             {
+            
                 $levels = new stdClass();
                 $levels->assessor = [];
 
-                for($j = 0; $j < count($participants[$i]->assessor); $j++)
+                for($y = 0; $y < count($participants[$i]->assessor); $y++)
                 {
                     $level = DB::table("assessor_answer")
-                            ->where("map_id", $participants[$i]->assessor[$j]->id)
-                            ->select("competency_id", "behaviour_level")
+                            ->join("assessor_map", "assessor_map.id", "=", "assessor_answer.map_id")
+                            ->where("assessor_map.id", $participants[$i]->assessor[$y]->id)
+                            ->select("competency_id", "behaviour_level", "bobot")
                             ->get();
 
                     array_push($levels->assessor, $level);
+                                                                   
                 }
 
-                $answers_final = [];
-                $count = count($levels->assessor[0]);
+                //$count = count($levels->assessor[0]);
+
+                // dd($participants);     
 
                 for($j = 0; $j < count($levels->assessor); $j++)
                 {   
+                    //dd($levels->assessor);
+
                     for($k = 0; $k < count($levels->assessor[$j]); $k++)
                     {    
                         $answers = [];
+                        $answers_bobot = [];
                         $id = "";
                         
                         for($l = 0; $l < count($levels->assessor); $l++)
                         {   
                             $id = $levels->assessor[$l][$k]->competency_id;
                             array_push($answers, $levels->assessor[$l][$k]->behaviour_level);
+                            array_push($answers_bobot, $levels->assessor[$l][$k]->behaviour_level);
                         }
                         
-                        $mean = array_sum($answers) / count($answers);
+                        $mean = array_sum($answers_bobot) / count($answers_bobot);
                         $max = max($answers);
                         $min = min($answers);
                         $median = 0;
@@ -256,20 +275,20 @@ class sessionController extends Controller
                         $firstq = 0;
                         $thirdq = 0;
 
-                        if(count($answers) % 2 == 0)
+                        if(count($answers_bobot) % 2 == 0)
                         {
-                            $median = ($answers[(count($answers) / 2) - 1] + $answers[(count($answers) / 2)]) / 2; 
+                            $median = ($answers_bobot[(count($answers_bobot) / 2) - 1] + $answers_bobot[(count($answers_bobot) / 2)]) / 2; 
                         }
-                        else if(count($answers) != 0)
+                        else if(count($answers_bobot) != 0)
                         {
-                            $median = $answers[intval(floor(count($answers) / 2))];
+                            $median = $answers[intval(floor(count($answers_bobot) / 2))];
                         }
 
                         $multiDArr = [];
 
-                        for ($x = 0; $x < count($answers); $x++) 
+                        for ($x = 0; $x < count($answers_bobot); $x++) 
                         {
-                            $key = $answers[$x];
+                            $key = $answers_bobot[$x];
 
                             if (isset($multiDArr[$key])) 
                             {
@@ -292,6 +311,8 @@ class sessionController extends Controller
 
                         }
 
+                        
+
                         $modus = $highestOccuringKey;
 
                         $variance = 0.0;
@@ -305,11 +326,11 @@ class sessionController extends Controller
 
                         //dd(count($participants));
 
-                        if(count($participants) > 2)
-                        {
-                            $firstq = $this->Quartile_75($answers);
-                            $thirdq = $this->Quartile_25($answers);
-                        }   
+                        // if(count($participants) > 2)
+                        // {
+                        //     $firstq = $this->Quartile_75($answers);
+                        //     $thirdq = $this->Quartile_25($answers);
+                        // }   
 
                         $assessee = $participants[$i]->assesse;
 
@@ -326,62 +347,74 @@ class sessionController extends Controller
                         $answer->session = $session;
                         $answer->competency = $id;
 
+                        $test .= "-" . $assessee;
+
                         array_push($answers_final, $answer);
                     }
                 }
 
-                //dd($answers_final);
-
-                for($i = 0; $i < $count; $i++)
+                for($q = 0; $q < $count; $q++)
                 {
                     DB::table("assessment_competency_result")
-                            ->insert(["session_id" => $answers_final[$i]->session, "userid_assessee" => $answers_final[$i]->assesse, "competency_id" => $answers_final[$i]->competency, "average_level" => $answers_final[$i]->mean, "min_level" => $answers_final[$i]->min, "max_level" => $answers_final[$i]->max, "std_dev" => $answers_final[$i]->stdev, "third_quartile" => $answers_final[$i]->thirdq, "first_quartile" => $answers_final[$i]->firstq, "modus_level" => $answers_final[$i]->modus, "median_level" => $answers_final[$i]->median]);        
+                        ->insert(["session_id" => $answers_final[$q]->session, 
+                                "userid_assessee" => $answers_final[$q]->assesse, 
+                                "competency_id" => $answers_final[$q]->competency, 
+                                "average_level" => $answers_final[$q]->mean, 
+                                "min_level" => $answers_final[$q]->min, 
+                                "max_level" => $answers_final[$q]->max, 
+                                "std_dev" => $answers_final[$q]->stdev, 
+                                "third_quartile" => $answers_final[$q]->thirdq,
+                                "first_quartile" => $answers_final[$q]->firstq, 
+                                "modus_level" => $answers_final[$q]->modus, 
+                                "median_level" => $answers_final[$q]->median]);        
                 }
+
+                $answers_final = [];
             }
         }
 
         return redirect("/assessmentUser");
     }
 
-    public function Quartile($Array, $Quartile) {
+    // public function Quartile($Array, $Quartile) {
     
-        // quartile position is number in array + 1 multiplied by the quartile i.e. 0.25, 0.5, 0.75
-        $pos = (count($Array) + 1) * $Quartile;
+    //     // quartile position is number in array + 1 multiplied by the quartile i.e. 0.25, 0.5, 0.75
+    //     $pos = (count($Array) + 1) * $Quartile;
 
-        // if the position is a whole number
-        // return that number as the quarile placing
+    //     // if the position is a whole number
+    //     // return that number as the quarile placing
 
-        if ( fmod($pos, 1) == 0)
-        {   
-            return $Array[$pos - 1];
-        }
-        else
-        {
-            // get the decimal i.e. 5.25 = .25
-            $fraction = $pos - floor($pos);
+    //     if ( fmod($pos, 1) == 0)
+    //     {   
+    //         return $Array[$pos - 1];
+    //     }
+    //     else
+    //     {
+    //         // get the decimal i.e. 5.25 = .25
+    //         $fraction = $pos - floor($pos);
     
-            // get the values in the array before and after position
-            $lower_num = $Array[intval(floor($pos)-1)];
-            $upper_num = $Array[ceil($pos)-2];
+    //         // get the values in the array before and after position
+    //         $lower_num = $Array[intval(floor($pos)-1)];
+    //         $upper_num = $Array[ceil($pos)-2];
     
-            // get the difference between the two
-            $difference = $upper_num - $lower_num;
+    //         // get the difference between the two
+    //         $difference = $upper_num - $lower_num;
         
-            // the quartile value is then the difference multipled by the decimal
-            // add to the lower number
-            return $lower_num + ($difference * $fraction);
-        }
-    }
+    //         // the quartile value is then the difference multipled by the decimal
+    //         // add to the lower number
+    //         return $lower_num + ($difference * $fraction);
+    //     }
+    // }
 
-    public function Quartile_25($Array) {
-        return $this->Quartile($Array, 0.25);
-    }
+    // public function Quartile_25($Array) {
+    //     return $this->Quartile($Array, 0.25);
+    // }
     
-    public function Quartile_50($Array) {
-        return $this->Quartile($Array, 0.5);
-    }
+    // public function Quartile_50($Array) {
+    //     return $this->Quartile($Array, 0.5);
+    // }
     
-    public function Quartile_75($Array) {
-        return $this->Quartile($Array, 0.75);
-    }
+    // public function Quartile_75($Array) {
+    //     return $this->Quartile($Array, 0.75);
+    // }
 }

@@ -5,9 +5,9 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') - Web Assessment</title>
@@ -326,6 +326,7 @@
     </div>
     <script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
 
+
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('style/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('style/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -337,7 +338,7 @@
     <script src="{{ asset('style/js/sb-admin-2.min.js') }}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     @yield('script')
-
+   
 
 </body>
 
