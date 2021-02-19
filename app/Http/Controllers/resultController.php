@@ -304,7 +304,7 @@ class resultController extends Controller
                 }
             }
 
-            return view('result.laporan_admin', compact("result", "assessee", "session", "group", "jobs", "req"));
+            return view('result.laporan_admin', compact("result", "assessee", "session", "group", "jobs"));
         }
         else if($role->role_id == "user")
         {

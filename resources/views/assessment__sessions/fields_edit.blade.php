@@ -169,7 +169,7 @@
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12" style="margin-left: 40%;margin-top:70px">
-    <a class="btn btn-primary mt-4" id="saveEdit" style="width: 75px; height: 40px; margin-right:20px">Save</a>    
+    <a class="btn btn-primary mt-4" name="saveUpdateAll" id="saveUpdateAll" style="width: 75px; height: 40px; margin-right:20px">Save</a>    
     <a href="{{ route('assessmentSessions.index') }}" class="btn btn-danger mt-4">Cancel</a>
 </div>
 </div>
@@ -535,7 +535,7 @@ $(document).ready(function(){
         td.find("span").html(count); 
     });
 
-    $("#saveEdit").on("click", function(){
+    $("#saveUpdateAll").on("click", function(){
 
         function setHeader(data){
             $.ajaxSetup({
@@ -555,7 +555,7 @@ $(document).ready(function(){
         setHeader($('meta[name="csrf-token"]').attr('content'));
 
         $.ajax({
-            url: "{{ route('assessmentSession/update') }}",
+            url: "{{ route('updatesesi') }}",
             method: "post",
             data: {
                 id: assessmentId,  
@@ -570,7 +570,7 @@ $(document).ready(function(){
         if(deleted_models.length > 0)
         {
             $.ajax({
-                url: "{{ route('assessmentSession/deleteModel') }}",
+                url: "{{ route('updatedeleteModel') }}",
                 method: "post",
                 data: {
                     id: assessmentId,  
@@ -586,7 +586,7 @@ $(document).ready(function(){
         if(deleted_participants.length > 0)
         {
             $.ajax({
-                url: "{{ route('assessmentSession/deleteParticipant') }}",
+                url: "{{ route('updatedeleteParticipant') }}",
                 method: "post",
                 data: {
                     id: assessmentId,  
@@ -602,7 +602,7 @@ $(document).ready(function(){
         if(add_models.length > 0)
         {
             $.ajax({
-                url: "{{ route('assessmentSession/insertModel') }}",
+                url: "{{ route('updateinsertModel') }}",
                 method: "post",
                 data: {
                     id: assessmentId,  
@@ -634,7 +634,7 @@ $(document).ready(function(){
                     success: function(data)
                     {    
                        $.ajax({
-                            url: "{{ route('assessmentSession/insertParticipant') }}",
+                            url: "{{ route('updateinsertParticipant') }}",
                             method: "post",
                             data: {
                                 id: assessmentId,  
@@ -666,8 +666,7 @@ $(document).ready(function(){
             } 
         });
 
-        
-      
+
 
     });
 
