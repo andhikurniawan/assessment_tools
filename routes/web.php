@@ -57,7 +57,7 @@ Route::post("participant/detail", 'participantController@detail')->name("partici
 Route::get("participant/detail/cari", 'participantController@cari')->name("participant.cari")->middleware("auth");
 Route::get("participant/detail/cariId", 'participantController@cariId')->name("participant.cariId")->middleware("auth");
 Route::post("finalize/save", "FinalizeController@save")->name("finalize.save");
-Route::get("finalize/finalize", "FinalizeController@finalize")->name("finalize.finalize");
+Route::post("finalize/finalize", "FinalizeController@finalize")->name("finalize.finalize");
 Route::get("finalize", "FinalizeController@index")->name("finalize");
 Route::get("assessmentUser", "assessmentUserController@index")->name("assessmentUser")->middleware("auth");
 Route::post("session", "sessionController@index")->name("session");

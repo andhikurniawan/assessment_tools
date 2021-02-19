@@ -493,7 +493,7 @@
 
             $.ajax({
                 url: "{{ route('finalize.finalize') }}",
-                method: "GET",
+                method: "POST",
                 data: {
                     session: assessmentSession,
                     model: competencyModel,
