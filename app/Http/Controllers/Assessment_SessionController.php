@@ -45,7 +45,7 @@ class Assessment_SessionController extends AppBaseController
                 ->select("role_id")
                 ->first();
 
-        if($role->role_id == "superadmin" || $role->role_id == "admin")
+        if($role->role_id == "superadmin" || $role->role_id == "admin" || $role->role_id == "admin_ap")
         {
             $assessmentSessions = DB::table("assessment_session")
             ->join('company', 'assessment_session.company_id', '=', 'company.id')->select('assessment_session.name', 'assessment_session.category', 'assessment_session.status','assessment_session.expired','assessment_session.start_date','assessment_session.end_date','company.name as company_name', 'assessment_session.id as id')->get(); 
@@ -369,11 +369,13 @@ class Assessment_SessionController extends AppBaseController
         $id = $request->id;
         $ids = $request->ids;
         $idss = $request->idss;
+        $company_id = $request->company_id;
 
-        $insert = DB::table("assessor_map")->insert(["session_id" => $id, "userid_assessor" => $ids, "userid_assessee" => $idss, "status" => $add_participants["status"], "relation" => $add_participants["relation"]]);
+        $insert = DB::table("assessor_map")->insert(["session_id" => $id, "userid_assessor" => $ids, "userid_assessee" => $idss, "status" => $add_participants["status"], "company_id" => $company_id, "relation" => $add_participants["relation"]]);
 
         return response()->json("0");
     }
+
 
     /**
      * Update the specified Assessment_Session in storage.
@@ -431,10 +433,6 @@ class Assessment_SessionController extends AppBaseController
         return redirect(route('assessmentSessions.index'));
     }
 
-    public function addCompetencyModel(){
-        return view('assessment__sessions.addcompetencymodel');
-    }
-
     public function asCompany($id)
     {
         $assessmentSessions = DB::table("assessment_session")
@@ -463,8 +461,7 @@ class Assessment_SessionController extends AppBaseController
         }
         $headerId = $assessmentSession->doAssignment();
         if ($headerId>0)
-            return redirect()->action(
-                'AssignmentHeaderController@show',['id'=>$headerId]
-            );
+            return redirect('/assignmentHeaders/'.$headerId);
+        
     }
 }

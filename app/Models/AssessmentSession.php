@@ -139,9 +139,9 @@ class AssessmentSession extends Model
 
     public function doAssignment($mode='')
     {
-        $ortoolsLib = "/or-tools/lib";
+        $ortoolsLib = "../or-tools/lib";
         $myId = $this->id;
-        $classpath = $ortoolsLib."/com.google.ortools.jar".":".$ortoolsLib."/protobuf.jar";
+        $classpath = $ortoolsLib."/com.google.ortools.jar".":".$ortoolsLib."/protobuf.jar".":../simpleOR";
         $params = "-cp $classpath -Djava.library.path=$ortoolsLib TeamAssignmentCase B ".$myId;
         $persons_handle = fopen($myId."_persons.in","w");
         $results = $this->assessmentCompetencyResults;
@@ -214,7 +214,7 @@ class AssessmentSession extends Model
         $outlines=array();
         $cmdline = "java $params";
         // dd($outlines);
-        // $a = exec($cmdline);
+        // $a = exec($cmdline, $outlines);
         // dd($a);
         exec($cmdline,$outlines);
         if (count($outlines)>=3)

@@ -6,8 +6,12 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>Web Assessment</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <meta content="Web Assessment adalah platform assessment tools yang membantu perusahaan dalam mengembangkan sumber daya manusia." name="description">
+  <meta content="Platform Assessment Tools, Assessment Tools, Profile Matching, Appraisal, Optimization Team, Training and Development" name="keywords">
+  <meta property="og:title" content="Web Assessment">
+  <meta property="og:description" content="Web Assessment adalah platform assessment tools yang membantu perusahaan dalam mengembangkan sumber daya manusia.">
+  <meta property="og:image" content="https://assessment.virtualfri.id/landing_page/assets/img/favicon.png">
+  <meta property="og:url" content="https://assessment.virtualfri.id">
 
   <link href="{{asset('landing_page/assets/img/favicon.png')}}" rel="icon">
 
@@ -85,7 +89,7 @@
           <div class="icon-box">
             <div class="icon"><span class="iconify" data-icon="icomoon-free:profile" data-inline="false"></span></div>
             <h4 class="title"><a href="">Profile Matching</a></h4>
-            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+            <p class="description">Memetakan peran karyawan sesuai dengan kompetensi yang dimiliki.</p>
           </div>
         </div>
 
@@ -93,7 +97,7 @@
           <div class="icon-box">
             <div class="icon"><span class="iconify" data-icon="bx:bx-task" data-inline="false"></span></div>
             <h4 class="title"><a href="">Appraisal</a></h4>
-            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+            <p class="description">Mengetahui kompetensi individu dari berbagai sumber seperti penilaian atasan, bawahan, rekan kerja, dan diri sendiri.</p>
           </div>
         </div>
 
@@ -101,7 +105,7 @@
           <div class="icon-box">
             <div class="icon"><span class="iconify" data-icon="mdi:account-multiple-check-outline" data-inline="false"></span></div>
             <h4 class="title"><a href="">Optimasi Tim</a></h4>
-            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
+            <p class="description">Membentuk tim secara optimal.</p>
           </div>
         </div>
 
@@ -109,7 +113,7 @@
           <div class="icon-box">
             <div class="icon"><span class="iconify" data-icon="uil:arrow-growth" data-inline="false"></span></div>
             <h4 class="title"><a href="">Training and Development</a></h4>
-            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+            <p class="description">Mengajukan pelatihan dan melihat rekam jejak karyawan untuk pengembangan karier karyawan.</p>
           </div>
         </div>
 
@@ -125,29 +129,13 @@
 
         <div class="section-title">
           <h2>Tentang Kami</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. </p>
+          <p></p>
         </div>
 
-        <div class="row content">
-          <div class="col-lg-6">
+        <div class="row justify-content-center content">
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
+              Sebuah platform assessment tools berbasis web yang bertujuan untuk melakukan pengukuran kompetensi dan pengelolaan karyawan sehingga dapat meminimalisir resiko kegagalan proyek di perusahaan.
             </p>
-            <ul>
-              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
-              <li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate velit</li>
-              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
-            </ul>
-          </div>
-          <div class="col-lg-6 pt-4 pt-lg-0">
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-            <a href="#" class="btn-learn-more">Learn More</a>
-          </div>
         </div>
 
       </div>
@@ -212,9 +200,9 @@
                 <img src="{{asset('landing_page/assets/img/team/team-1.png')}}" class="img-fluid" alt="">
                 <div class="social">
                   <a href=""><i class="icofont-twitter"></i></a>
-                  <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
-                  <a href=""><i class="icofont-linkedin"></i></a>
+                  <a href="https://www.facebook.com/syfanr"><i class="icofont-facebook"></i></a>
+                  <a href="https://www.instagram.com/syfanr/"><i class="icofont-instagram"></i></a>
+                  <a href="https://www.linkedin.com/in/syfanur/"><i class="icofont-linkedin"></i></a>
                 </div>
               </div>
               <div class="member-info">
@@ -230,8 +218,8 @@
                 <img src="{{asset('landing_page/assets/img/team/team-2.jpg')}}" class="img-fluid" alt="">
                 <div class="social">
                   <a href=""><i class="icofont-twitter"></i></a>
-                  <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
+                  <a href="https://www.facebook.com/andhi.kurniawan.399041"><i class="icofont-facebook"></i></a>
+                  <a href="https://www.instagram.com/andhikurniawannn/"><i class="icofont-instagram"></i></a>
                   <a href=""><i class="icofont-linkedin"></i></a>
                 </div>
               </div>
@@ -247,10 +235,10 @@
               <div class="member-img">
                 <img src="{{asset('landing_page/assets/img/team/team-3.png')}}" class="img-fluid" alt="">
                 <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
+                  <a href="https://twitter.com/arrasyidrkh"><i class="icofont-twitter"></i></a>
                   <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
-                  <a href=""><i class="icofont-linkedin"></i></a>
+                  <a href="https://www.instagram.com/arrasyidrkh/"><i class="icofont-instagram"></i></a>
+                  <a href="https://www.linkedin.com/in/arrasyidrkh/"><i class="icofont-linkedin"></i></a>
                 </div>
               </div>
               <div class="member-info">
@@ -265,10 +253,10 @@
               <div class="member-img">
                 <img src="{{asset('landing_page/assets/img/team/team-4.jpeg')}}" class="img-fluid" alt="">
                 <div class="social">
-                  <a href=""><i class="icofont-twitter"></i></a>
-                  <a href=""><i class="icofont-facebook"></i></a>
-                  <a href=""><i class="icofont-instagram"></i></a>
-                  <a href=""><i class="icofont-linkedin"></i></a>
+                  <a href="https://twitter.com/adhityapaf"><i class="icofont-twitter"></i></a>
+                  <a href="https://www.facebook.com/adhitya.santika/"><i class="icofont-facebook"></i></a>
+                  <a href="https://www.instagram.com/adhityapaf/"><i class="icofont-instagram"></i></a>
+                  <a href="https://www.linkedin.com/in/adhityakusumadinatha/"><i class="icofont-linkedin"></i></a>
                 </div>
               </div>
               <div class="member-info">
@@ -295,7 +283,7 @@
 
         <div class="section-title">
           <h2>Kontak Kami</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p></p>
         </div>
 
         <div>

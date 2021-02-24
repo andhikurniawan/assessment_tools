@@ -18,7 +18,7 @@ class resultController extends Controller
                 ->select("role_id")
                 ->first();
         
-        if($role->role_id == "superadmin" || $role->role_id == "admin")
+        if($role->role_id == "superadmin" || $role->role_id == "admin" || $role->role_id == "admin_ap")
         {
             $assessments = DB::table("assessment_session")->get();  
 
@@ -170,7 +170,7 @@ class resultController extends Controller
                 ->select("role_id")
                 ->first();
 
-        if($role->role_id == "superadmin" || $role->role_id == "admin")
+        if($role->role_id == "superadmin" || $role->role_id == "admin" || $role->role_id == "admin_ap")
         {
             $session_id = $request->id;
 
@@ -214,6 +214,7 @@ class resultController extends Controller
 
                 array_push($assessees, $detail);
             }
+          
 
             return view('result.detail_admin', compact("assessment", "assessees", "session_id"));
         }
@@ -228,7 +229,7 @@ class resultController extends Controller
                 ->select("role_id")
                 ->first();
 
-        if($role->role_id == "superadmin" || $role->role_id == "admin" || $role->role_id == "admin_tnd")
+        if($role->role_id == "superadmin" || $role->role_id == "admin" || $role->role_id == "admin_ap" || $role->role_id == "admin_tnd")
         {
             $id = request("id");
             $id = explode("-", $id);
@@ -277,8 +278,9 @@ class resultController extends Controller
                 
                 $req = DB::table("job_requirement")
                         ->join("competency", "competency.id", "=", "job_requirement.competency_id")
+                        ->join("job_target", "job_target.id", "=", "job_requirement.job_target_id")
                         ->where("job_requirement.job_target_id", $job[$i]->id)
-                        ->select("competency_id", "name", "skill_level as level")
+                        ->select("competency_id", "name", "skill_level as level", "job_name")
                         ->get();
                 
                 $detail->req = $req;

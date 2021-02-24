@@ -5,22 +5,18 @@
 @section('SesiAssessment', 'active')
 @switch(session('permission'))
     @case('user')
-        @section('user', 'hidden')
-        @section('superadmin', 'hidden')            
-        @section('admin', 'hidden')            
-        @section('admin_pm', 'hidden')            
-        @section('admin_ot', 'hidden')                   
+        @section('user', 'hidden')            
         @break
-    @case('admin_tnd')
-        @section('superadmin', 'hidden')            
-        @section('admin', 'hidden')            
-        @section('admin_pm', 'hidden')            
-        @section('admin_ap', 'hidden')            
-        @section('admin_ot', 'hidden')            
-        @break
+    @case('admin_ap')
+    @section('superadmin', 'hidden')            
+    @section('admin', 'hidden')            
+    @section('admin_pm', 'hidden')            
+    @section('admin_tnd', 'hidden')            
+    @section('admin_ot', 'hidden')  
+    @break
     @case('admin')
-        @section('superadmin', 'hidden')                
-            @break
+    @section('superadmin', 'hidden')                
+        @break
     @default
 
 @endswitch
@@ -497,7 +493,7 @@
 
             $.ajax({
                 url: "{{ route('finalize.finalize') }}",
-                method: "GET",
+                method: "POST",
                 data: {
                     session: assessmentSession,
                     model: competencyModel,
@@ -508,6 +504,7 @@
                     if(data == "0")
                     {
                         swal({
+                            className: "swal-back",
                             title: "Berhasil",
                             text: "Berhasil Menambah Assessment Session", 
                             icon: "success"
