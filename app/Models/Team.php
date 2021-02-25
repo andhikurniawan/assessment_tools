@@ -56,6 +56,6 @@ class Team extends Model
 
     public function jobTargets()
     {
-        return $this->hasMany(\App\Models\JobTarget::class, 'team_id');
+        return $this->hasMany(\App\Models\JobTargets::class, 'team_id');
     }
 }

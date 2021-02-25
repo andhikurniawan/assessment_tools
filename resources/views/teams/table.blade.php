@@ -20,7 +20,7 @@
                             <td>
                                 {!! Form::open(['route' => ['teams.destroy', $team->id], 'method' => 'delete']) !!}
                                 <div class='btn-group'>
-                                    <a href="" class='btn btn-success btn-xs'><span class="iconify" data-icon="ant-design:copy-outlined" data-inline="false"></span></a>
+                                    <a href="{!! route('teams.duplicate', [$team->id]) !!}" class='btn btn-success btn-xs'><span class="iconify" data-icon="ant-design:copy-outlined" data-inline="false"></span></a>
                                     <a href="{{ route('teams.show', [$team->id]) }}" class='btn btn-success btn-xs'><span class="iconify" data-icon="bx:bx-show" data-inline="false"></span></a>
                                     <a href="{{ route('teams.edit', [$team->id]) }}" class='btn btn-secondary btn-xs'><span class="iconify" data-icon="ant-design:edit-outlined" data-inline="false"></span></a>
                                     {!! Form::button('<span class="iconify" data-icon="ant-design:delete-outlined" data-inline="false"></span>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
