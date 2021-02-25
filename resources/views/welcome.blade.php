@@ -195,8 +195,7 @@
             <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
               <div class="member">
                 <div class="member-img">
-                  <img src="{{asset('landing_page/assets/img/team/researcher-1.png')}}" class="img-fluid" alt="">
-                  
+                  <img src="{{asset('landing_page/assets/img/team/researcher-1.png')}}" class="img-fluid" alt=""> 
                 </div>
                 <div class="member-info">
                   <h4>Dr. Tien Fabrianti Kusumasari</h4>
@@ -209,12 +208,6 @@
               <div class="member">
                 <div class="member-img">
                   <img src="{{asset('landing_page/assets/img/team/researcher-2.jpg')}}" class="img-fluid" alt="">
-                  <div class="social">
-                    <a href=""><i class="icofont-twitter"></i></a>
-                    <a href="https://www.facebook.com/andhi.kurniawan.399041"><i class="icofont-facebook"></i></a>
-                    <a href="https://www.instagram.com/andhikurniawannn/"><i class="icofont-instagram"></i></a>
-                    <a href=""><i class="icofont-linkedin"></i></a>
-                  </div>
                 </div>
                 <div class="member-info">
                   <h4>Ekky Novriza Alam, S.Kom, M.T</h4>
