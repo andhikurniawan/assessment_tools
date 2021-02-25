@@ -145,3 +145,4 @@ Route::post("gap/partisipan/detail", "Gap_AnalysisController@gap")->name("gap/pa
 Route::delete('/competencyModels/{competencyModel}/competencies/{competency}', 'CompetencyRelationController@destroy');
 Route::post("/competencyModels/{Competency_id}/competency", "CompetencyRelationController@addCompetency")->name("addCompetency");
 
+Route::get('/teams/duplicate/{id}', 'TeamController@duplicate')->name('teams.duplicate');

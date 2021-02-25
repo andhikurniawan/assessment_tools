@@ -9,7 +9,11 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use DB;
 use App\Models\AssessmentSession;
+use App\Models\Team;
+use App\Models\JobTargets;
+use App\Models\JobRequirement;
 
 class TeamController extends AppBaseController
 {
@@ -155,5 +159,60 @@ class TeamController extends AppBaseController
         Flash::success('Team deleted successfully.');
 
         return redirect(route('teams.index'));
+    }
+
+    public function duplicate($id)
+    {
+        $team = $this->teamRepository->find($id);
+
+        $jobTargets = $team->jobTargets;
+
+        if (empty($team)) {
+            Flash::error('Team not found');
+
+            return redirect(route('teams.index'));
+        }
+
+        DB::beginTransaction();
+        try
+        {
+            $insertTeam = [
+                    'name' => $team->name."(copy)",
+                    'assessment_session_id' => $team->assessment_session_id
+            ];
+            $resultTeam = Team::create($insertTeam);
+            foreach ($jobTargets as $jobTarget) {
+                //getAll Requirement
+                $jobRequirements = $jobTarget->jobTargets;
+
+                $insertJT = [
+                    'assessment_session_id' => $resultTeam->assessment_session_id,
+                    'number_position' => $jobTarget->number_position,
+                    'job_name' => $jobTarget->job_name."_copy",
+                    'job_code' => $jobTarget->job_code,
+                    'team_id' => $resultTeam->id
+                ];
+                $resultJT = JobTargets::create($insertJT);
+
+                // $insertJobReqs = array();
+                foreach ($jobRequirements as $jobRequirement) {
+                    $insertJobReq = [
+                        'job_target_id' => $resultJT->id,
+                        'competency_id' => $jobRequirement->competency_id,
+                        'skill_level' => $jobRequirement->skill_level,
+                    ];
+                    JobRequirement::create($insertJobReq);
+                }
+
+            }
+
+            DB::commit();
+            Flash::success('Team, Job Target, and Job Requirement duplicate successfully.');
+        } catch (\Exception $e){
+            DB::rollback();
+            Flash::error('Team, Job Target, and Job Requirement duplicate fail.'.$e);
+        }
+
+        return redirect(route('jobTargets.index'));
     }
 }
