@@ -60,6 +60,6 @@ class JobRequirement extends Model
 
     public function Competency()
     {
-        return $this->belongsTo(\App\Models\competency::class, 'competency_id');
+        return $this->belongsTo(\App\Models\Competency::class, 'competency_id');
     }
 }
