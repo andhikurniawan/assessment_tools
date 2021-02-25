@@ -186,9 +186,47 @@
     <!-- ======= Team Section ======= -->
     <section id="team" class="team portfolio">
       <div class="container" data-aos="fade-up">
-
+        
         <div class="section-title">
-          <h2>Tim Kami</h2>
+          <h2>Researchers</h2>
+          <br>
+          <div class="row justify-content-center">
+
+            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+              <div class="member">
+                <div class="member-img">
+                  <img src="{{asset('landing_page/assets/img/team/researcher-1.png')}}" class="img-fluid" alt="">
+                  
+                </div>
+                <div class="member-info">
+                  <h4>Dr. Tien Fabrianti Kusumasari</h4>
+                  <span></span>
+                </div>
+              </div>
+            </div>
+  
+            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+              <div class="member">
+                <div class="member-img">
+                  <img src="{{asset('landing_page/assets/img/team/researcher-2.jpg')}}" class="img-fluid" alt="">
+                  <div class="social">
+                    <a href=""><i class="icofont-twitter"></i></a>
+                    <a href="https://www.facebook.com/andhi.kurniawan.399041"><i class="icofont-facebook"></i></a>
+                    <a href="https://www.instagram.com/andhikurniawannn/"><i class="icofont-instagram"></i></a>
+                    <a href=""><i class="icofont-linkedin"></i></a>
+                  </div>
+                </div>
+                <div class="member-info">
+                  <h4>Ekky Novriza Alam, S.Kom, M.T</h4>
+                  <span></span>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+        <div class="section-title">
+          <h2>Developers</h2>
           <p>Empat orang mahasiswa jurusan S1 Sistem Informasi dengan peminatan EISD (Enterprise Intelligent System Developer).</p>
         </div>
 
@@ -197,7 +235,7 @@
           <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
             <div class="member">
               <div class="member-img">
-                <img src="{{asset('landing_page/assets/img/team/team-1.png')}}" class="img-fluid" alt="">
+                <img src="{{asset('landing_page/assets/img/team/developer-1.png')}}" class="img-fluid" alt="">
                 <div class="social">
                   <a href=""><i class="icofont-twitter"></i></a>
                   <a href="https://www.facebook.com/syfanr"><i class="icofont-facebook"></i></a>
@@ -206,7 +244,7 @@
                 </div>
               </div>
               <div class="member-info">
-                <h4>Syfa Nur Lathifa</h4>
+                <h4>Syfa Nur Lathifah</h4>
                 <span>Modul Profile Matching</span>
               </div>
             </div>
