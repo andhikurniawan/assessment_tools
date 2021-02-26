@@ -410,11 +410,11 @@ class Assessment_SessionController extends AppBaseController
     }
 
 
-    public function calculateAssessment($id)
+    public function calculateAssessment($id_session,$id_assessee)
     {
         //getAmount of Users Assessee
-        $getAssessees = DB::table('assessor_map')->select('userid_assessee')->where('session_id','=',$id)
-        ->where('userid_assessee','=', '616')
+        $getAssessees = DB::table('assessor_map')->select('userid_assessee')->where('session_id','=',$id_session)
+        ->where('userid_assessee','=', $id_assessee)
         ->distinct()->get();
         foreach ($getAssessees as $assessee) {
             //getAnswer all competency
