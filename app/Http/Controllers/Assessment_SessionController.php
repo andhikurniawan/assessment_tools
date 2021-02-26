@@ -470,7 +470,7 @@ class Assessment_SessionController extends AppBaseController
                 
                 //insert competency result
                 DB::table('assessment_competency_result')->insert([
-                        'session_id' => $id,
+                        'session_id' => $id_session,
                         'userid_assessee' => $assessee->userid_assessee,
                         'competency_id' => $competency->competency_id,
                         'min_level' => $min,
