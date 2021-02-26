@@ -25,6 +25,9 @@
                         <a href="{{ route('assessmentSessions.show', [$assessmentSession->id]) }}" class="badge badge-info">Detail</a>
                         <a href="{{ route('assessmentSessions.edit', [$assessmentSession->id]) }}" class="badge badge-warning">Edit</a>
                         {!! Form::button('Hapus', ['type' => 'submit', 'class' => 'badge badge-danger btn-delete', 'id' => $assessmentSession->id]) !!}
+                        @if($assessmentSession->status == 'finished')
+                        <a href="{!! route('assessmentSessions.calculate', [$assessmentSession->id]) !!}"  class="badge badge-success">Hitung</a>
+                        @endif
                     </div>
                     {!! Form::close() !!}
                 </td>

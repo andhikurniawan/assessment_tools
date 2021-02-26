@@ -376,6 +376,118 @@ class Assessment_SessionController extends AppBaseController
         return response()->json("0");
     }
 
+    function standardDeviasi($arr) 
+    { 
+        $num_of_elements = count($arr); 
+          
+        $variance = 0.0; 
+          
+                // calculating mean using array_sum() method 
+        $average = array_sum($arr)/$num_of_elements; 
+          
+        foreach($arr as $i) 
+        { 
+            // sum of squares of differences between  
+                        // all numbers and means. 
+            $variance += pow(($i - $average), 2); 
+        } 
+          
+        return (float)sqrt($variance/$num_of_elements); 
+    }
+
+    function median($arr,$count,$index){
+        if($count>0){
+            if($count & 1){
+                $median = $arr[$index];
+            }else{
+                $median = (($arr[$index-1]+$arr[$index])/2);
+            }
+        }else{
+            $median = 0;
+        }
+
+        return $median;
+    }
+
+
+    public function calculateAssessment($id)
+    {
+        //getAmount of Users Assessee
+        $getAssessees = DB::table('assessor_map')->select('userid_assessee')->where('session_id','=',$id)
+        ->where('userid_assessee','=', '616')
+        ->distinct()->get();
+        foreach ($getAssessees as $assessee) {
+            //getAnswer all competency
+            $getAnswers = DB::table('assessor_map')
+                            ->join('assessor_answer','assessor_map.id','=','assessor_answer.map_id')
+                            ->select('assessor_answer.behaviour_level','assessor_answer.competency_id')
+                            ->where('assessor_answer.userid_assessee','=',$assessee->userid_assessee)
+                            ->orderBy('behaviour_level','asc')
+                            ->get();
+            //getCompetencies
+            $getCompetencies = DB::table('assessor_map')
+                            ->join('assessor_answer','assessor_map.id','=','assessor_answer.map_id')
+                            ->select('assessor_answer.competency_id')
+                            ->where('assessor_answer.userid_assessee','=',$assessee->userid_assessee)
+                            ->distinct()->get();
+
+            foreach ($getCompetencies as $competency) {
+                //filterAnswer by competency_id
+                $filterAnswers = $getAnswers->where('competency_id','=',$competency->competency_id)->pluck('behaviour_level')->all();
+                $count = count($filterAnswers);
+                $index = floor($count/2);
+
+                //getModus
+                $values = array_count_values($filterAnswers); 
+                $modus = array_search(max($values), $values);
+
+                //getAverage
+                $average = array_sum($filterAnswers)/$count;
+
+                //get Min & Max
+                $min = $filterAnswers[0];
+                $max = $filterAnswers[($count-1)];
+
+                //getMedian
+                $median = $this->median($filterAnswers,$count,$index);
+
+                //standart Deviasi
+                $std = $this->standardDeviasi($filterAnswers);
+
+                //get Q1 & Q3
+                if($count > 1){
+                    $q1Array = array_slice($filterAnswers, 0, $index);
+                    $q3Array = array_slice($filterAnswers, $index+1, $count-1);
+                    $q1 = $this->median($q1Array,count($q1Array),floor(count($q1Array)/2));
+                    $q3 = $this->median($q3Array,count($q3Array),floor(count($q3Array)/2));
+                }else if($count == 1){
+                    $q1 = $filterAnswers[$count-1];
+                    $q3 = $filterAnswers[$count-1];
+                }else{
+                    $q1 = null;
+                    $q3 = null;
+                }
+                
+                //insert competency result
+                DB::table('assessment_competency_result')->insert([
+                        'session_id' => $id,
+                        'userid_assessee' => $assessee->userid_assessee,
+                        'competency_id' => $competency->competency_id,
+                        'min_level' => $min,
+                        'max_level' => $max,
+                        'median_level' => $median,
+                        'average_level' => $average,
+                        'modus_level' => $modus,
+                        'std_dev' => $std,
+                        'third_quartile' => $q3,
+                        'first_quartile' => $q1
+                    ]);
+            }
+
+        }
+        Flash::success('Calculate Assessment successfully.');
+        return redirect(route('assessmentSessions.index'));
+    }
 
     /**
      * Update the specified Assessment_Session in storage.
