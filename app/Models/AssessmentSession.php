@@ -6,6 +6,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\JobTargets;
 use app\AssessmentCompetencyResults;
+use Log;
 /**
  * Class AssessmentSession
  * @package App\Models
@@ -155,6 +156,7 @@ class AssessmentSession extends Model
             $arr1[] = $r;
             $empmaster [$empId] = $arr1;
         }
+        Log::debug('Jumlah Person: '.count($empmaster);
         
         fwrite($persons_handle,count($empmaster));
         fwrite($persons_handle,"\n");
