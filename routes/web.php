@@ -69,6 +69,7 @@ Route::post("result/detail", "resultController@detail")->name("result.detail")->
 Route::post("result/detail/laporan", "resultController@laporan")->name("result/detail/laporan")->middleware("auth");
 Route::get('/logout', 'HomeController@logout')->middleware('verified');
 Route::get('assessmentSessions/calculate/{id_session}/{id_assessee}', 'Assessment_SessionController@calculateAssessment')->name('assessmentSessions.calculate');
+Route::get('assessmentSessions/calculateSession/{id_session}', 'Assessment_SessionController@calculateAssessmentSession')->name('assessmentSessions.calculate');
 Route::get('/assessmentSessions/{id}/doAssignment', 'Assessment_SessionController@doAssignment')->name('assessmentSession.doAssignment');
 /*End Modul Assessment*/
 
