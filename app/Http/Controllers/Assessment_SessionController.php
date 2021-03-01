@@ -492,7 +492,7 @@ class Assessment_SessionController extends AppBaseController
     public function calculateAssessmentSession($id_session)
     {
         //getAmount of Users Assessee
-        $getAssessees = AssessorMap::select('userid_assessee')->where('session_id','=',$id_session)->distinct()->get();
+        $getAssessees = DB::table('assessor_map')->select('userid_assessee')->where('session_id','=',$id_session)->distinct()->get();
         foreach ($getAssessees as $assessee) {
             //getAnswer all competency
             $getAnswers = DB::table('assessor_map')
